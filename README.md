@@ -1,6 +1,6 @@
-# Space-Themed Developer Portfolio
+# RGG Studio Portfolio
 
-A stunning space-themed developer portfolio built with Next.js, TypeScript, and Tailwind CSS.
+A stunning developer portfolio built with Next.js, TypeScript, and Tailwind CSS.
 
 ## Features
 
