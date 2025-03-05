@@ -18,6 +18,10 @@ const nextConfig = {
     return config;
   },
   reactStrictMode: true,
+  experimental: {
+    esmExternals: true
+  },
+  poweredByHeader: false
 }
 
-module.exports = nextConfig 
+module.exports = nextConfig

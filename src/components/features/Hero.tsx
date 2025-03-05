@@ -11,11 +11,13 @@ interface HeroProps {
 
 const Hero = ({ currentBg }: HeroProps) => {
   const [scrollOpacity, setScrollOpacity] = useState(0.3)
+  const [prevBg, setPrevBg] = useState(currentBg)
+  const [isTransitioning, setIsTransitioning] = useState(false)
+  const [imageError, setImageError] = useState(false)
   
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY
-      // Increase opacity from 0.3 to 0.8 as user scrolls first 500px
       const newOpacity = Math.min(0.8, 0.3 + (scrollPosition / 500) * 0.5)
       setScrollOpacity(newOpacity)
     }
@@ -24,6 +26,28 @@ const Hero = ({ currentBg }: HeroProps) => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  useEffect(() => {
+    if (currentBg !== prevBg) {
+      setIsTransitioning(true)
+      setPrevBg(currentBg)
+      const timer = setTimeout(() => {
+        setIsTransitioning(false)
+      }, 400)
+      return () => clearTimeout(timer)
+    }
+  }, [currentBg, prevBg])
+
+  // Preload both images
+  useEffect(() => {
+    const preloadImages = () => {
+      [1, 2].forEach((bgNum) => {
+        const img = document.createElement('img');
+        img.src = `/images/hero-bg-${bgNum}.png`;
+      });
+    };
+    preloadImages();
+  }, []);
+
   const socialLinks = [
     { icon: Github, href: 'https://github.com', label: 'GitHub' },
     { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
@@ -31,17 +55,34 @@ const Hero = ({ currentBg }: HeroProps) => {
   ]
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center" style={{ paddingTop: 'calc(50vh -400px)' }}>
+    <section id="home" className="relative min-h-screen flex items-center justify-center bg-black" style={{ paddingTop: 'calc(50vh -400px)' }}>
       {/* Background image */}
       <div className="absolute inset-0">
+        {/* Current background */}
         <Image
           src={`/images/hero-bg-${currentBg}.png`}
-          alt="Hero background"
+          alt={`Hero background ${currentBg}`}
           fill
           priority
-          className="object-cover object-center transition-opacity duration-400"
+          className={`object-cover object-center transition-all duration-500 ease-in-out ${
+            isTransitioning ? 'opacity-0' : 'opacity-100'
+          }`}
           quality={100}
+          onError={() => setImageError(true)}
         />
+        
+        {/* Previous background (for smooth transition) */}
+        {isTransitioning && (
+          <Image
+            src={`/images/hero-bg-${prevBg}.png`}
+            alt={`Hero background ${prevBg}`}
+            fill
+            priority
+            className="object-cover object-center opacity-100"
+            quality={100}
+          />
+        )}
+        
         <div 
           className="absolute inset-0 bg-gradient-to-b from-background/60 to-background/30 transition-opacity duration-300"
           style={{ opacity: scrollOpacity }}
@@ -82,6 +123,16 @@ const Hero = ({ currentBg }: HeroProps) => {
 
       {/* Bouncing Circle */}
       <BouncingCircle />
+
+      {/* Debug info */}
+      {process.env.NODE_ENV === 'development' && (
+        <div className="fixed bottom-4 right-4 bg-black/80 text-white p-2 rounded-md text-sm">
+          Current BG: {currentBg}<br />
+          Previous BG: {prevBg}<br />
+          Transitioning: {isTransitioning ? 'Yes' : 'No'}<br />
+          Image Error: {imageError ? 'Yes' : 'No'}
+        </div>
+      )}
     </section>
   )
 }

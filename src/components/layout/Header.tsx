@@ -11,7 +11,7 @@ interface HeaderProps {
   onBgToggle: (bg: number) => void;
 }
 
-const Header = ({ currentBg, onBgToggle }: HeaderProps) => {
+const Header = ({ currentBg, onBgToggle, isStarsEnabled, onStarsToggle }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
   const [activeDropdown, setActiveDropdown] = React.useState<string | null>(null)
 
