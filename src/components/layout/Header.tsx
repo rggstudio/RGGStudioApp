@@ -59,14 +59,29 @@ const Header = ({ currentBg, onBgToggle, isStarsEnabled, onStarsToggle }: Header
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#1a1f36]/40 backdrop-blur-sm border-b border-gray-800/50">
       <nav className="container mx-auto px-6 py-3">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between relative">
+          {/* Logo - Hidden on mobile */}
           <a 
             href="#home" 
             onClick={(e) => handleNavClick(e, '#home')}
-            className="text-2xl font-bold text-primary [text-shadow:_2px_2px_4px_rgba(0,0,0,0.3)]"
+            className="hidden md:block text-3xl font-bold text-primary [text-shadow:_2px_2px_4px_rgba(0,0,0,0.3)] z-50 relative"
           >
-            &lt;RGG Studio /&gt;
+            &lt;RGG /&gt;
           </a>
+
+          {/* Mobile Logo - Centered */}
+          <div className="md:hidden absolute left-0 right-0 mx-auto text-center">
+            <a 
+              href="#home" 
+              onClick={(e) => handleNavClick(e, '#home')}
+              className="text-2xl font-bold text-primary [text-shadow:_2px_2px_4px_rgba(0,0,0,0.3)] inline-block"
+            >
+              &lt;RGG Studio /&gt;
+            </a>
+          </div>
+
+          {/* Invisible spacer for mobile to ensure hamburger stays right */}
+          <div className="md:hidden w-8"></div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
@@ -149,7 +164,7 @@ const Header = ({ currentBg, onBgToggle, isStarsEnabled, onStarsToggle }: Header
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-text"
+            className="md:hidden text-text z-50"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
