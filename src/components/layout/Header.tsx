@@ -66,7 +66,7 @@ const Header = ({ currentBg, onBgToggle, isStarsEnabled, onStarsToggle }: Header
             onClick={(e) => handleNavClick(e, '#home')}
             className="hidden md:block text-3xl font-bold text-primary [text-shadow:_2px_2px_4px_rgba(0,0,0,0.3)] z-50 relative"
           >
-            &lt;RGG /&gt;
+            &lt;RGG Studio /&gt;
           </a>
 
           {/* Mobile Logo - Centered */}
