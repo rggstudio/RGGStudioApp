@@ -9,7 +9,7 @@ interface HeroProps {
   currentBg: number;
 }
 
-const Hero = ({ currentBg }: HeroProps) => {
+const Hero: React.FC<HeroProps> = ({ currentBg }) => {
   const [scrollOpacity, setScrollOpacity] = useState(0.3)
   const [prevBg, setPrevBg] = useState(currentBg)
   const [isTransitioning, setIsTransitioning] = useState(false)
@@ -49,7 +49,7 @@ const Hero = ({ currentBg }: HeroProps) => {
   }, []);
 
   const socialLinks = [
-    { icon: Github, href: 'https://github.com', label: 'GitHub' },
+    { icon: Github, href: 'https://github.com/rggstudio', label: 'GitHub' },
     { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
     { icon: Mail, href: '#contact', label: 'Contact' },
   ]

@@ -65,7 +65,7 @@ const Header = ({ currentBg, onBgToggle, isStarsEnabled, onStarsToggle }: Header
             onClick={(e) => handleNavClick(e, '#home')}
             className="text-2xl font-bold text-primary [text-shadow:_2px_2px_4px_rgba(0,0,0,0.3)]"
           >
-            &lt;RGG /&gt;
+            &lt;RGG Studio /&gt;
           </a>
 
           {/* Desktop Navigation */}
