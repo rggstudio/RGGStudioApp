@@ -50,7 +50,7 @@ const Hero: React.FC<HeroProps> = ({ currentBg }) => {
 
   const socialLinks = [
     { icon: Github, href: 'https://github.com/rggstudio', label: 'GitHub' },
-    { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/in/raymondgoode/', label: 'LinkedIn' },
     { icon: Mail, href: '#contact', label: 'Contact' },
   ]
 
