@@ -152,7 +152,7 @@ const Header = ({ currentBg, onBgToggle, isStarsEnabled, onStarsToggle }: Header
 
             {/* Resume Button */}
             <a
-              href="/RGG-RESUME-2P.pdf"
+              href="/RGG-APR-RESUME-2P.pdf"
               target="_blank"
               rel="noopener noreferrer"
               download="RGG-APR-RESUME-2P.pdf"
