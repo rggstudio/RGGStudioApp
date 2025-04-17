@@ -62,7 +62,7 @@ const Header = ({ currentBg, onBgToggle, isStarsEnabled, onStarsToggle }: Header
         <div className="flex items-center justify-between relative">
           {/* Logo - Hidden on mobile */}
           <a 
-            href="#home" 
+            href="https://rggstudio.com"
             onClick={(e) => handleNavClick(e, '#home')}
             className="hidden md:block text-3xl font-bold text-primary [text-shadow:_2px_2px_4px_rgba(0,0,0,0.3)] z-50 relative"
           >
