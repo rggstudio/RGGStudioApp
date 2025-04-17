@@ -84,7 +84,7 @@ const projects: Project[] = [
     images: ['/images/slim-1.webp'],
     tags: ['Wordpress', 'WP Plugin Customization', 'HTML5', 'CSS3', 'Javascript'],
     /* githubUrl: 'https://github.com', */
-    liveUrl: 'https://spearstudiotv.com/',
+    liveUrl: 'https://sl1mghost.com/',
     type: 'work',
   },
   {
