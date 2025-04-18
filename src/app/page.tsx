@@ -21,7 +21,7 @@ export default function Home() {
 
   return (
     <main>
-      <Hero currentBg={currentBg} />
+      <Hero />
       <About />
       <Projects />
       <Contact />
