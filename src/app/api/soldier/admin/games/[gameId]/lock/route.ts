@@ -25,17 +25,34 @@ export const POST = async (
 
   const supabase = createServiceRoleClient()
 
-  const { data, error } = await supabase.rpc('sl_set_game_lock', {
-    p_game_id: params.gameId,
-    p_lock: parsed.data.lock,
-  })
+  // First check if the game exists
+  const { data: gameCheck, error: checkError } = await supabase
+    .from('sl_games')
+    .select('id')
+    .eq('id', params.gameId)
+    .maybeSingle()
+
+  if (checkError) {
+    return NextResponse.json({ error: 'Unable to check game' }, { status: 500 })
+  }
+
+  if (!gameCheck) {
+    return NextResponse.json({ error: 'Game not found' }, { status: 404 })
+  }
+
+  // Update the game lock status
+  const { data, error } = await supabase
+    .from('sl_games')
+    .update({ 
+      is_locked: parsed.data.lock,
+      updated_at: new Date().toISOString()
+    })
+    .eq('id', params.gameId)
+    .select('id, is_locked')
+    .single()
 
   if (error) {
     return NextResponse.json({ error: 'Unable to update lock' }, { status: 500 })
-  }
-
-  if (!data?.id) {
-    return NextResponse.json({ error: 'Game not found' }, { status: 404 })
   }
 
   revalidatePath('/soldier/admin')

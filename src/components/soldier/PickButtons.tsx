@@ -7,12 +7,14 @@ type Props = {
   disabled?: boolean
   isSubmitting?: boolean
   onSelect: (selection: 'home' | 'away') => void
+  homePickCount?: number
+  awayPickCount?: number
 }
 
 const baseButton =
   'flex-1 rounded-lg border px-4 py-3 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500'
 
-const PickButtons = ({ selection, homeTeam, awayTeam, disabled, isSubmitting, onSelect }: Props) => {
+const PickButtons = ({ selection, homeTeam, awayTeam, disabled, isSubmitting, onSelect, homePickCount, awayPickCount }: Props) => {
   return (
     <div className="flex gap-4">
       <button
@@ -25,7 +27,12 @@ const PickButtons = ({ selection, homeTeam, awayTeam, disabled, isSubmitting, on
         disabled={disabled || isSubmitting}
         onClick={() => onSelect('home')}
       >
-        Home • {homeTeam}
+        <div className="flex flex-col items-center">
+          <span>Home • {homeTeam}</span>
+          {homePickCount !== undefined && (
+            <span className="text-xs text-slate-400 mt-1">({homePickCount})</span>
+          )}
+        </div>
       </button>
       <button
         type="button"
@@ -37,7 +44,12 @@ const PickButtons = ({ selection, homeTeam, awayTeam, disabled, isSubmitting, on
         disabled={disabled || isSubmitting}
         onClick={() => onSelect('away')}
       >
-        Away • {awayTeam}
+        <div className="flex flex-col items-center">
+          <span>Away • {awayTeam}</span>
+          {awayPickCount !== undefined && (
+            <span className="text-xs text-slate-400 mt-1">({awayPickCount})</span>
+          )}
+        </div>
       </button>
     </div>
   )

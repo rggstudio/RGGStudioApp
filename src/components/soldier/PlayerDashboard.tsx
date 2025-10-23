@@ -104,9 +104,9 @@ const PlayerDashboard = ({ dashboard }: { dashboard: DashboardData }) => {
       </section>
 
       <section>
-        <div className="mb-4 flex items-center justify-between">
+        <div className="mb-4">
           <h3 className="text-lg font-semibold text-slate-100">Current Game of the Week</h3>
-          <p className="text-xs text-slate-400">Select your winner before the commissioner locks it.</p>
+          <p className="mt-1 text-xs text-slate-400">Select your winner before the commissioner locks it.</p>
         </div>
         <div className="space-y-4">
           {dashboard.currentGames.length ? (

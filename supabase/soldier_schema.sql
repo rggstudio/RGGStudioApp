@@ -282,12 +282,27 @@ language plpgsql
 security definer
 set search_path = public
 as $$
+declare
+  v_game_id uuid;
+  v_is_locked boolean;
 begin
-  return query
-    update public.sl_games
-    set is_locked = p_lock, updated_at = timezone('utc'::text, now())
-    where id = p_game_id
-    returning id, is_locked;
+  -- First check if the game exists
+  select id into v_game_id
+  from public.sl_games
+  where id = p_game_id;
+  
+  if v_game_id is null then
+    raise exception 'Game not found';
+  end if;
+  
+  -- Update the game
+  update public.sl_games
+  set is_locked = p_lock, updated_at = timezone('utc'::text, now())
+  where id = p_game_id
+  returning id, is_locked into v_game_id, v_is_locked;
+  
+  -- Return the updated data
+  return query select v_game_id, v_is_locked;
 end;
 $$;
 
