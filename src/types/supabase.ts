@@ -256,6 +256,16 @@ export interface Database {
           short_code: string | null
         }
       }
+      sl_authenticate_admin: {
+        Args: {
+          p_email: string
+          p_pin: string
+        }
+        Returns: {
+          email: string
+          role: string
+        }[]
+      }
       sl_set_game_lock: {
         Args: {
           p_game_id: string
