@@ -44,13 +44,24 @@ export const POST = async (request: Request) => {
 
   const supabase = createServiceRoleClient()
 
+  // Get the admin ID from the email
+  const { data: adminData, error: adminError } = await supabase
+    .from('sl_admins')
+    .select('id')
+    .eq('email', admin.user.email)
+    .single()
+
+  if (adminError) {
+    return NextResponse.json({ error: 'Failed to get admin info' }, { status: 500 })
+  }
+
   const { error } = await supabase.from('sl_games').insert({
     title: parsed.data.title,
     week_number: parsed.data.weekNumber,
     home_team: parsed.data.homeTeam,
     away_team: parsed.data.awayTeam,
     kickoff_at: parsed.data.kickoffAt,
-    created_by: null,
+    created_by: adminData.id,
   })
 
   if (error) {

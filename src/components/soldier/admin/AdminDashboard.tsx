@@ -3,6 +3,7 @@
 import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import AdminTable from '@/components/soldier/AdminTable'
+import PointsLedger from '@/components/soldier/admin/PointsLedger'
 
 type AdminDashboardData = {
   games: {
@@ -22,6 +23,15 @@ type AdminDashboardData = {
     name: string
     short_code: string | null
     total_points: number
+  }[]
+  ledger: {
+    id: string
+    points: number
+    source: string
+    note: string | null
+    created_at: string
+    team_name: string
+    admin_email: string
   }[]
 }
 
@@ -268,6 +278,18 @@ const AdminDashboard = ({ dashboard }: { dashboard: AdminDashboardData }) => {
                     <p className="text-xs text-slate-400">
                       {game.home_team} vs {game.away_team}
                     </p>
+                    {game.kickoff_at && (
+                      <p className="mt-1 text-xs text-slate-500">
+                        Kickoff: {new Date(game.kickoff_at).toLocaleString('en-US', {
+                          weekday: 'short',
+                          month: 'short',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          hour12: true,
+                        })}
+                      </p>
+                    )}
                   </div>
                   <div className="text-right text-xs text-slate-400">
                     <div className="flex items-center justify-end gap-2 mb-1">
@@ -341,6 +363,7 @@ const AdminDashboard = ({ dashboard }: { dashboard: AdminDashboardData }) => {
           <p className="mt-1 text-sm text-slate-400">Award or deduct points with notes for audit history.</p>
         </div>
         <AdminTable teams={dashboard.teams} pendingAction={pendingAction} onAdjust={adjustPoints} />
+        <PointsLedger entries={dashboard.ledger} />
       </section>
 
       {message ? (
