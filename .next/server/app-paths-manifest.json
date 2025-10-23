@@ -1,3 +1,7 @@
 {
-  "/page": "app/page.js"
+  "/api/soldier/auth/logout/route": "app/api/soldier/auth/logout/route.js",
+  "/page": "app/page.js",
+  "/soldier/page": "app/soldier/page.js",
+  "/soldier/admin/page": "app/soldier/admin/page.js",
+  "/soldier/dashboard/page": "app/soldier/dashboard/page.js"
 }
