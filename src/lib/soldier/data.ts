@@ -118,7 +118,7 @@ export const getTeamDashboardData = async (teamId: string) => {
 export const getAdminDashboardData = async () => {
   const supabase = createServiceRoleClient()
 
-  const [{ data: games }, { data: teams }, { data: points }, { data: weeks }] = await Promise.all([
+  const [{ data: games }, { data: teams }, { data: points }, { data: weeks }, { data: ledger }] = await Promise.all([
     supabase
       .from('sl_games')
       .select('id, title, week_number, home_team, away_team, kickoff_at, is_locked, result, created_at')
@@ -126,7 +126,29 @@ export const getAdminDashboardData = async () => {
     supabase.from('sl_teams').select('id, name, short_code').order('name', { ascending: true }),
     supabase.from('sl_team_points').select('team_id, total_points'),
     supabase.from('sl_weeks').select('week_number, label'),
+    supabase
+      .from('sl_points_ledger')
+      .select(`
+        id,
+        points,
+        source,
+        note,
+        created_at,
+        created_by,
+        team:sl_teams(name)
+      `)
+      .order('created_at', { ascending: false }),
   ])
+
+  // Try to get admin data, but don't fail if it doesn't exist
+  let admins: any[] = []
+  try {
+    const { data: adminData } = await supabase.from('sl_admins').select('id, email')
+    admins = adminData || []
+  } catch {
+    // If admin table doesn't exist or has issues, continue without it
+    admins = []
+  }
 
   const totals = new Map<string, number>()
   points?.forEach((row) => {
@@ -140,6 +162,14 @@ export const getAdminDashboardData = async () => {
     adminWeekLabels.set(w.week_number as number, w.label as string)
   })
 
+  // Create admin lookup map
+  const adminMap = new Map<string, string>()
+  if (admins) {
+    admins.forEach((admin) => {
+      adminMap.set(admin.id, admin.email)
+    })
+  }
+
   return {
     games:
       (games ?? []).map((g) => ({
@@ -151,5 +181,14 @@ export const getAdminDashboardData = async () => {
         ...team,
         total_points: totals.get(team.id) ?? 0,
       })) ?? [],
+    ledger: ledger?.map((entry) => ({
+      id: entry.id,
+      points: entry.points,
+      source: entry.source,
+      note: entry.note,
+      created_at: entry.created_at,
+      team_name: entry.team?.name ?? 'Unknown Team',
+      admin_email: entry.created_by ? adminMap.get(entry.created_by) ?? 'Unknown Admin' : 'System',
+    })) ?? [],
   }
 }
