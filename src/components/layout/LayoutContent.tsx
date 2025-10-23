@@ -4,6 +4,7 @@ import React from 'react'
 import Header from './Header'
 import Footer from './Footer'
 import { CurrentBgProvider } from '@/context/CurrentBgContext'
+import { usePathname } from 'next/navigation'
 
 interface LayoutContentProps {
   children: React.ReactNode
@@ -11,20 +12,24 @@ interface LayoutContentProps {
 
 export default function LayoutContent({ children }: LayoutContentProps) {
   const [currentBg, setCurrentBg] = React.useState(1)
+  const pathname = usePathname()
+  const hideChrome = pathname?.startsWith('/soldier')
 
   return (
     <CurrentBgProvider value={{ currentBg, setCurrentBg }}>
       <div className="min-h-screen flex flex-col">
-        <Header 
-          currentBg={currentBg} 
-          onBgToggle={setCurrentBg}
-          isStarsEnabled={false}
-          onStarsToggle={() => {}}
-        />
+        {!hideChrome && (
+          <Header 
+            currentBg={currentBg} 
+            onBgToggle={setCurrentBg}
+            isStarsEnabled={false}
+            onStarsToggle={() => {}}
+          />
+        )}
         <div className="flex-grow">
           {children}
         </div>
-        <Footer />
+        {!hideChrome && <Footer />}
       </div>
     </CurrentBgProvider>
   )

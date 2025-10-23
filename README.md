@@ -53,3 +53,13 @@ src/
 ## License
 
 MIT 
+
+## Soldier Picks MVP
+
+The `/soldier` route hosts the Soldier Madden League pick’em experience described in `soldier-app.md`.
+
+- **Environment**: copy `.env.soldier.example` to `.env.local` and populate Supabase credentials plus `SOLDIER_SESSION_SECRET`.
+- **Database**: run `supabase/soldier_schema.sql` against your Supabase project; it creates tables, RLS policies, and RPC helpers.
+- **Packages**: install new dependencies (`@supabase/*`, `bcryptjs`, `jose`, `zod`) with `npm install`.
+- **Development**: start the dev server and open `/soldier` for the player portal or `/soldier/admin` for the commissioner console.
+- **Admin Auth**: commissioners sign in via Supabase magic link; add their user IDs to `soldier_admins` to grant access.
