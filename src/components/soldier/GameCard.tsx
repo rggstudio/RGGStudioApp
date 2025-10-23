@@ -12,6 +12,8 @@ type Game = {
   kickoffAt: string | null
   isLocked: boolean
   selection: 'home' | 'away' | null
+  homePickCount?: number
+  awayPickCount?: number
 }
 
 type Props = {
@@ -52,6 +54,8 @@ const GameCard = ({ game, isSubmitting, onSelect }: Props) => {
           disabled={game.isLocked}
           isSubmitting={isSubmitting}
           onSelect={(selection) => onSelect(game.id, selection)}
+          homePickCount={game.homePickCount}
+          awayPickCount={game.awayPickCount}
         />
       </div>
     </div>

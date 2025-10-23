@@ -65,17 +65,25 @@ export const getTeamDashboardData = async (teamId: string) => {
 
   const currentGames = games
     ?.filter((game) => !game.result)
-    .map((game) => ({
-      id: game.id,
-      title: game.title,
-      weekNumber: game.week_number,
-      weekLabel: weekLabels.get(game.week_number) ?? `Week ${game.week_number}`,
-      homeTeam: game.home_team,
-      awayTeam: game.away_team,
-      kickoffAt: game.kickoff_at,
-      isLocked: game.is_locked,
-      selection: (selections.get(game.id)?.selection as 'home' | 'away' | undefined) ?? null,
-    })) ?? []
+    .map((game) => {
+      // Count picks for each team
+      const homePicks = game.picks?.filter(pick => pick.selection === 'home').length ?? 0
+      const awayPicks = game.picks?.filter(pick => pick.selection === 'away').length ?? 0
+      
+      return {
+        id: game.id,
+        title: game.title,
+        weekNumber: game.week_number,
+        weekLabel: weekLabels.get(game.week_number) ?? `Week ${game.week_number}`,
+        homeTeam: game.home_team,
+        awayTeam: game.away_team,
+        kickoffAt: game.kickoff_at,
+        isLocked: game.is_locked,
+        selection: (selections.get(game.id)?.selection as 'home' | 'away' | undefined) ?? null,
+        homePickCount: homePicks,
+        awayPickCount: awayPicks,
+      }
+    }) ?? []
 
   const history = games
     ?.filter((game) => !!game.result)

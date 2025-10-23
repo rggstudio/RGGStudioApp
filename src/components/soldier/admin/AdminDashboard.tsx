@@ -37,6 +37,47 @@ const AdminDashboard = ({ dashboard }: { dashboard: AdminDashboardData }) => {
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
   const [pendingAction, setPendingAction] = useState<string | null>(null)
 
+  // Helper function to extract team short code from team name
+  const getTeamShortCode = (teamName: string): string => {
+    // Common NFL team abbreviations mapping
+    const teamAbbreviations: Record<string, string> = {
+      'Washington Commanders': 'WAS',
+      'Tennessee Titans': 'TEN',
+      'Kansas City Chiefs': 'KC',
+      'Los Angeles Chargers': 'LAC',
+      'Baltimore Ravens': 'BAL',
+      'San Francisco 49ers': 'SF',
+      'Buffalo Bills': 'BUF',
+      'Miami Dolphins': 'MIA',
+      'New England Patriots': 'NE',
+      'New York Jets': 'NYJ',
+      'Cincinnati Bengals': 'CIN',
+      'Cleveland Browns': 'CLE',
+      'Pittsburgh Steelers': 'PIT',
+      'Houston Texans': 'HOU',
+      'Indianapolis Colts': 'IND',
+      'Jacksonville Jaguars': 'JAX',
+      'Denver Broncos': 'DEN',
+      'Las Vegas Raiders': 'LV',
+      'Los Angeles Rams': 'LAR',
+      'Arizona Cardinals': 'ARI',
+      'Seattle Seahawks': 'SEA',
+      'Dallas Cowboys': 'DAL',
+      'New York Giants': 'NYG',
+      'Philadelphia Eagles': 'PHI',
+      'Chicago Bears': 'CHI',
+      'Detroit Lions': 'DET',
+      'Green Bay Packers': 'GB',
+      'Minnesota Vikings': 'MIN',
+      'Atlanta Falcons': 'ATL',
+      'Carolina Panthers': 'CAR',
+      'New Orleans Saints': 'NO',
+      'Tampa Bay Buccaneers': 'TB',
+    }
+    
+    return teamAbbreviations[teamName] || teamName.split(' ').map(word => word.charAt(0)).join('').substring(0, 3).toUpperCase()
+  }
+
   const postJson = async (url: string, payload: Record<string, unknown>, actionLabel: string) => {
     setPendingAction(actionLabel)
     setMessage(null)
@@ -229,7 +270,23 @@ const AdminDashboard = ({ dashboard }: { dashboard: AdminDashboardData }) => {
                     </p>
                   </div>
                   <div className="text-right text-xs text-slate-400">
-                    <p>Status: {game.is_locked ? 'Locked' : 'Open'}</p>
+                    <div className="flex items-center justify-end gap-2 mb-1">
+                      {game.is_locked ? (
+                        <div className="flex items-center gap-1">
+                          <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                          </svg>
+                          <span className="text-amber-400 font-semibold">Locked</span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-1">
+                          <svg className="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z" />
+                          </svg>
+                          <span className="text-emerald-400 font-semibold">Open</span>
+                        </div>
+                      )}
+                    </div>
                     <p>
                       Result:{' '}
                       <span className="font-semibold text-slate-200">
@@ -240,7 +297,11 @@ const AdminDashboard = ({ dashboard }: { dashboard: AdminDashboardData }) => {
                 </div>
                 <div className="mt-4 flex flex-wrap items-center gap-3">
                   <button
-                    className="rounded-lg border border-slate-700 px-3 py-2 text-sm font-semibold text-slate-200 transition hover:border-amber-400 hover:text-amber-300"
+                    className={`rounded-lg border px-3 py-2 text-sm font-semibold transition ${
+                      game.is_locked
+                        ? 'border-amber-400 bg-amber-500/10 text-amber-300 hover:border-amber-300 hover:text-amber-200'
+                        : 'border-emerald-400 bg-emerald-500/10 text-emerald-300 hover:border-emerald-300 hover:text-emerald-200'
+                    }`}
                     type="button"
                     disabled={pendingAction === `lock-${game.id}`}
                     onClick={() => toggleLock(game.id, !game.is_locked)}
@@ -253,7 +314,7 @@ const AdminDashboard = ({ dashboard }: { dashboard: AdminDashboardData }) => {
                     disabled={pendingAction === `result-${game.id}-home`}
                     onClick={() => setResult(game.id, 'home')}
                   >
-                    {pendingAction === `result-${game.id}-home` ? 'Scoring...' : 'Home wins'}
+                    {pendingAction === `result-${game.id}-home` ? 'Scoring...' : `${getTeamShortCode(game.home_team)} wins`}
                   </button>
                   <button
                     className="rounded-lg border border-slate-700 px-3 py-2 text-sm font-semibold text-slate-200 transition hover:border-emerald-400 hover:text-emerald-300"
@@ -261,7 +322,7 @@ const AdminDashboard = ({ dashboard }: { dashboard: AdminDashboardData }) => {
                     disabled={pendingAction === `result-${game.id}-away`}
                     onClick={() => setResult(game.id, 'away')}
                   >
-                    {pendingAction === `result-${game.id}-away` ? 'Scoring...' : 'Away wins'}
+                    {pendingAction === `result-${game.id}-away` ? 'Scoring...' : `${getTeamShortCode(game.away_team)} wins`}
                   </button>
                 </div>
               </div>
