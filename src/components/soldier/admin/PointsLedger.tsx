@@ -1,5 +1,7 @@
 'use client'
 
+import { useState, useMemo } from 'react'
+
 type LedgerEntry = {
   id: string
   points: number
@@ -15,6 +17,10 @@ type Props = {
 }
 
 const PointsLedger = ({ entries }: Props) => {
+  const [searchTerm, setSearchTerm] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 20
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleString('en-US', {
       month: 'short',
@@ -46,6 +52,30 @@ const PointsLedger = ({ entries }: Props) => {
     }
   }
 
+  // Filter entries based on search term
+  const filteredEntries = useMemo(() => {
+    if (!searchTerm.trim()) return entries
+    
+    const term = searchTerm.toLowerCase()
+    return entries.filter(entry => 
+      entry.team_name.toLowerCase().includes(term) ||
+      entry.admin_email.toLowerCase().includes(term) ||
+      (entry.note && entry.note.toLowerCase().includes(term))
+    )
+  }, [entries, searchTerm])
+
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredEntries.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+  const paginatedEntries = filteredEntries.slice(startIndex, endIndex)
+
+  // Reset to first page when search changes
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value)
+    setCurrentPage(1)
+  }
+
   if (entries.length === 0) {
     return (
       <div className="space-y-4">
@@ -72,39 +102,152 @@ const PointsLedger = ({ entries }: Props) => {
         <h3 className="text-lg font-semibold text-white">Points Ledger History</h3>
         <p className="mt-1 text-sm text-slate-400">Complete audit trail of all points adjustments</p>
       </div>
+
+      {/* Search Filter */}
+      <div className="flex items-center gap-4">
+        <div className="flex-1">
+          <input
+            type="text"
+            placeholder="Search by team name, email, or note..."
+            value={searchTerm}
+            onChange={(e) => handleSearchChange(e.target.value)}
+            className="w-full rounded-lg border border-slate-600 bg-slate-800 px-3 py-2 text-white placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          />
+        </div>
+        {searchTerm && (
+          <button
+            onClick={() => handleSearchChange('')}
+            className="px-3 py-2 text-sm text-slate-400 hover:text-slate-300 transition-colors"
+          >
+            Clear
+          </button>
+        )}
+      </div>
+
+      {/* Results Info */}
+      <div className="flex items-center justify-between text-sm text-slate-400">
+        <span>
+          Showing {startIndex + 1}-{Math.min(endIndex, filteredEntries.length)} of {filteredEntries.length} entries
+          {searchTerm && ` (filtered from ${entries.length} total)`}
+        </span>
+        {totalPages > 1 && (
+          <span>Page {currentPage} of {totalPages}</span>
+        )}
+      </div>
+
+      {/* Ledger Table */}
       <div className="rounded-lg border border-slate-700 bg-slate-800/50">
-        <div className="max-h-96 overflow-y-auto">
-          <div className="divide-y divide-slate-700">
-            {entries.map((entry) => (
-              <div key={entry.id} className="px-4 py-3 hover:bg-slate-700/30">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-3 mb-2">
-                      <span className="font-semibold text-slate-200 truncate">
-                        {entry.team_name}
-                      </span>
-                      <span className={`font-mono text-sm font-semibold ${getPointsColor(entry.points)}`}>
-                        {formatPoints(entry.points)}
-                      </span>
-                      <span className={`inline-flex items-center rounded-full border px-2 py-1 text-xs font-medium ${getSourceColor(entry.source)}`}>
-                        {entry.source.replace('_', ' ')}
-                      </span>
-                    </div>
-                    {entry.note && (
-                      <p className="text-sm text-slate-300 mb-2">{entry.note}</p>
-                    )}
-                    <div className="flex items-center gap-4 text-xs text-slate-400">
-                      <span>{formatDate(entry.created_at)}</span>
-                      <span>•</span>
-                      <span>{entry.admin_email}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-slate-700">
+            <thead className="bg-slate-800/80">
+              <tr>
+                <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Team</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Points</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Source</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Note</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Date</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Commissioner</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-700">
+              {paginatedEntries.map((entry) => (
+                <tr key={entry.id} className="hover:bg-slate-700/30">
+                  <td className="px-4 py-3 text-sm font-medium text-slate-200">
+                    {entry.team_name}
+                  </td>
+                  <td className="px-4 py-3 text-sm">
+                    <span className={`font-mono font-semibold ${getPointsColor(entry.points)}`}>
+                      {formatPoints(entry.points)}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 text-sm">
+                    <span className={`inline-flex items-center rounded-full border px-2 py-1 text-xs font-medium ${getSourceColor(entry.source)}`}>
+                      {entry.source.replace('_', ' ')}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 text-sm text-slate-300 max-w-xs truncate">
+                    {entry.note || '—'}
+                  </td>
+                  <td className="px-4 py-3 text-sm text-slate-400">
+                    {formatDate(entry.created_at)}
+                  </td>
+                  <td className="px-4 py-3 text-sm text-slate-400">
+                    {entry.admin_email}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setCurrentPage(1)}
+              disabled={currentPage === 1}
+              className="px-3 py-2 text-sm text-slate-400 hover:text-slate-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              First
+            </button>
+            <button
+              onClick={() => setCurrentPage(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="px-3 py-2 text-sm text-slate-400 hover:text-slate-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              Previous
+            </button>
+          </div>
+
+          <div className="flex items-center gap-1">
+            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+              let pageNum: number
+              if (totalPages <= 5) {
+                pageNum = i + 1
+              } else if (currentPage <= 3) {
+                pageNum = i + 1
+              } else if (currentPage >= totalPages - 2) {
+                pageNum = totalPages - 4 + i
+              } else {
+                pageNum = currentPage - 2 + i
+              }
+
+              return (
+                <button
+                  key={pageNum}
+                  onClick={() => setCurrentPage(pageNum)}
+                  className={`px-3 py-2 text-sm transition-colors ${
+                    currentPage === pageNum
+                      ? 'bg-blue-600 text-white'
+                      : 'text-slate-400 hover:text-slate-300 hover:bg-slate-700'
+                  }`}
+                >
+                  {pageNum}
+                </button>
+              )
+            })}
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setCurrentPage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="px-3 py-2 text-sm text-slate-400 hover:text-slate-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              Next
+            </button>
+            <button
+              onClick={() => setCurrentPage(totalPages)}
+              disabled={currentPage === totalPages}
+              className="px-3 py-2 text-sm text-slate-400 hover:text-slate-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              Last
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

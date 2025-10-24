@@ -30,12 +30,22 @@ export const POST = async (request: Request) => {
   }
 
   const payload = await request.json().catch(() => null)
-  const parsed = createGameSchema.safeParse({
+  
+  // Debug logging
+  console.log('Received payload:', JSON.stringify(payload, null, 2))
+  
+  const processedPayload = {
     ...payload,
     weekNumber: typeof payload?.weekNumber === 'string' ? Number(payload.weekNumber) : payload?.weekNumber,
-  })
+    kickoffAt: payload?.kickoffAt ? new Date(payload.kickoffAt).toISOString() : null,
+  }
+  
+  console.log('Processed payload:', JSON.stringify(processedPayload, null, 2))
+  
+  const parsed = createGameSchema.safeParse(processedPayload)
 
   if (!parsed.success) {
+    console.log('Validation errors:', JSON.stringify(parsed.error.flatten(), null, 2))
     return NextResponse.json(
       { error: 'Invalid payload', details: parsed.error.flatten() },
       { status: 400 },
