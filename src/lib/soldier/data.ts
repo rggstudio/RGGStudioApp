@@ -7,10 +7,26 @@ export const getTeamDashboardData = async (teamId: string) => {
     { data: team, error: teamError },
     { data: pointRow, error: pointsError },
     { data: weeks, error: weeksError },
+    { data: ledger, error: ledgerError },
   ] = await Promise.all([
     supabase.from('sl_teams').select('id, name, short_code').eq('id', teamId).single(),
     supabase.from('sl_team_points').select('team_id, total_points').eq('team_id', teamId).maybeSingle(),
     supabase.from('sl_weeks').select('week_number, label'),
+    supabase
+      .from('sl_points_ledger')
+      .select(`
+        id,
+        points,
+        source,
+        note,
+        created_at,
+        created_by,
+        game_id,
+        team:sl_teams(name),
+        game:sl_games(title, home_team, away_team, week_number)
+      `)
+      .eq('team_id', teamId)
+      .order('created_at', { ascending: false }),
   ])
 
   if (teamError) {
@@ -21,9 +37,52 @@ export const getTeamDashboardData = async (teamId: string) => {
     throw pointsError
   }
 
+  if (ledgerError) {
+    throw ledgerError
+  }
+
   if (!team) {
     throw new Error('Team not found')
   }
+
+  // Try to get admin data for ledger entries
+  let admins: any[] = []
+  try {
+    const { data: adminData } = await supabase.from('sl_admins').select('id, email')
+    admins = adminData || []
+  } catch {
+    // If admin table doesn't exist or has issues, continue without it
+    admins = []
+  }
+
+  // Map admin IDs to emails for ledger entries
+  const adminMap = new Map<string, string>()
+  if (admins) {
+    admins.forEach((admin) => {
+      adminMap.set(admin.id, admin.email)
+    })
+  }
+
+  // Process ledger entries with admin email mapping and game info
+  const processedLedger = (ledger || []).map((entry) => {
+    let displayNote = entry.note
+    
+    // For auto_win entries, add game information to the note
+    if (entry.source === 'auto_win' && entry.game) {
+      const gameInfo = `${entry.game.title} (Week ${entry.game.week_number})`
+      displayNote = entry.note ? `${entry.note} - ${gameInfo}` : gameInfo
+    }
+    
+    return {
+      id: entry.id,
+      points: entry.points,
+      source: entry.source,
+      note: displayNote,
+      created_at: entry.created_at,
+      admin_email: entry.created_by ? adminMap.get(entry.created_by) ?? 'Unknown Admin' : 'System',
+      team_name: entry.team?.name || 'Unknown Team',
+    }
+  })
 
   const { data: games, error: gamesError } = await supabase
     .from('sl_games')
@@ -85,11 +144,54 @@ export const getTeamDashboardData = async (teamId: string) => {
       }
     }) ?? []
 
+  // Helper function to get team shortcode
+  const getTeamShortCode = (teamName: string): string => {
+    const teamAbbreviations: Record<string, string> = {
+      'Washington Commanders': 'WAS',
+      'Tennessee Titans': 'TEN',
+      'Kansas City Chiefs': 'KC',
+      'Los Angeles Chargers': 'LAC',
+      'Baltimore Ravens': 'BAL',
+      'San Francisco 49ers': 'SF',
+      'Buffalo Bills': 'BUF',
+      'Miami Dolphins': 'MIA',
+      'New England Patriots': 'NE',
+      'New York Jets': 'NYJ',
+      'Cincinnati Bengals': 'CIN',
+      'Cleveland Browns': 'CLE',
+      'Pittsburgh Steelers': 'PIT',
+      'Houston Texans': 'HOU',
+      'Indianapolis Colts': 'IND',
+      'Jacksonville Jaguars': 'JAX',
+      'Denver Broncos': 'DEN',
+      'Las Vegas Raiders': 'LV',
+      'Los Angeles Rams': 'LAR',
+      'Arizona Cardinals': 'ARI',
+      'Seattle Seahawks': 'SEA',
+      'Dallas Cowboys': 'DAL',
+      'New York Giants': 'NYG',
+      'Philadelphia Eagles': 'PHI',
+      'Chicago Bears': 'CHI',
+      'Detroit Lions': 'DET',
+      'Green Bay Packers': 'GB',
+      'Minnesota Vikings': 'MIN',
+      'Atlanta Falcons': 'ATL',
+      'Carolina Panthers': 'CAR',
+      'New Orleans Saints': 'NO',
+      'Tampa Bay Buccaneers': 'TB',
+    }
+    
+    return teamAbbreviations[teamName] || teamName.split(' ').map(word => word.charAt(0)).join('').substring(0, 3).toUpperCase()
+  }
+
   const history = games
     ?.filter((game) => !!game.result)
     .map((game) => {
       const pick = selections.get(game.id)
       const wasCorrect = pick ? pick.selection === game.result : false
+      const winningTeam = game.result === 'home' ? game.home_team : game.away_team
+      const winningTeamShortCode = getTeamShortCode(winningTeam)
+      
       return {
         id: game.id,
         title: game.title,
@@ -97,9 +199,10 @@ export const getTeamDashboardData = async (teamId: string) => {
         weekLabel: weekLabels.get(game.week_number) ?? `Week ${game.week_number}`,
         homeTeam: game.home_team,
         awayTeam: game.away_team,
-        result: game.result,
-        selection: pick?.selection ?? null,
+        result: winningTeamShortCode, // Use shortcode instead of 'home'/'away'
+        selection: pick?.selection ? (pick.selection === 'home' ? getTeamShortCode(game.home_team) : getTeamShortCode(game.away_team)) : null,
         wasCorrect,
+        madePick: !!pick, // Track if player made a pick
       }
     }) ?? []
 
@@ -112,6 +215,7 @@ export const getTeamDashboardData = async (teamId: string) => {
     },
     currentGames,
     history,
+    ledger: processedLedger,
   }
 }
 
