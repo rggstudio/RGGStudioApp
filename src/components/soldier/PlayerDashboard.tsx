@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import GameCard from '@/components/soldier/GameCard'
 import HistoryTable from '@/components/soldier/HistoryTable'
 import PointsBadge from '@/components/soldier/PointsBadge'
+import SoldierFooter from '@/components/soldier/SoldierFooter'
 
 type DashboardData = {
   team: {
@@ -226,6 +227,8 @@ const PlayerDashboard = ({ dashboard }: { dashboard: DashboardData }) => {
           )}
         </div>
       </section>
+
+      <SoldierFooter />
     </div>
   )
 }

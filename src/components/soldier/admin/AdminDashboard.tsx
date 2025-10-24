@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import AdminTable from '@/components/soldier/AdminTable'
 import PointsLedger from '@/components/soldier/admin/PointsLedger'
 import GameCard from '@/components/soldier/admin/GameCard'
+import SoldierFooter from '@/components/soldier/SoldierFooter'
 
 type Game = {
   id: string
@@ -866,6 +867,8 @@ const AdminDashboard = ({ dashboard }: { dashboard: AdminDashboardData }) => {
           </div>
         </div>
       )}
+
+      <SoldierFooter />
     </div>
   )
 }
