@@ -329,14 +329,14 @@ begin
 
   return query
     with winners as (
-      select p.team_id
+      select p.team_id as winning_team_id
       from public.sl_picks p
       where p.game_id = p_game_id
         and p.selection = v_result
     ),
     inserted as (
       insert into public.sl_points_ledger (team_id, points, source, game_id)
-      select team_id, 3, 'auto_win', p_game_id
+      select winning_team_id, 3, 'auto_win', p_game_id
       from winners
       on conflict on constraint sl_points_auto_unique do nothing
       returning team_id, points

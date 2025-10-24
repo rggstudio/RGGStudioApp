@@ -4,20 +4,25 @@ import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import AdminTable from '@/components/soldier/AdminTable'
 import PointsLedger from '@/components/soldier/admin/PointsLedger'
+import GameCard from '@/components/soldier/admin/GameCard'
+
+type Game = {
+  id: string
+  title: string
+  week_number: number
+  week_label: string
+  home_team: string
+  away_team: string
+  kickoff_at: string | null
+  is_locked: boolean
+  result: string | null
+  created_at: string
+  updated_at: string
+}
 
 type AdminDashboardData = {
-  games: {
-    id: string
-    title: string
-    week_number: number
-    week_label: string
-    home_team: string
-    away_team: string
-    kickoff_at: string | null
-    is_locked: boolean
-    result: string | null
-    created_at: string
-  }[]
+  currentGames: Game[]
+  gameHistory: Game[]
   teams: {
     id: string
     name: string
@@ -262,100 +267,55 @@ const AdminDashboard = ({ dashboard }: { dashboard: AdminDashboardData }) => {
 
       <section className="space-y-4">
         <div>
-          <h2 className="text-lg font-semibold text-white">Games Management</h2>
+          <h2 className="text-lg font-semibold text-white">Current Games</h2>
           <p className="mt-1 text-sm text-slate-400">
             Lock picks before kickoff, set results, and award points automatically.
           </p>
         </div>
         <div className="space-y-4">
-          {dashboard.games.length ? (
-            dashboard.games.map((game) => (
-              <div key={game.id} className="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div>
-                    <p className="text-xs uppercase tracking-wide text-slate-400">{game.week_label}</p>
-                    <h3 className="text-lg font-semibold text-slate-100">{game.title}</h3>
-                    <p className="text-xs text-slate-400">
-                      {game.home_team} vs {game.away_team}
-                    </p>
-                    {game.kickoff_at && (
-                      <p className="mt-1 text-xs text-slate-500">
-                        Kickoff: {new Date(game.kickoff_at).toLocaleString('en-US', {
-                          weekday: 'short',
-                          month: 'short',
-                          day: 'numeric',
-                          hour: '2-digit',
-                          minute: '2-digit',
-                          hour12: true,
-                        })}
-                      </p>
-                    )}
-                  </div>
-                  <div className="text-right text-xs text-slate-400">
-                    <div className="flex items-center justify-end gap-2 mb-1">
-                      {game.is_locked ? (
-                        <div className="flex items-center gap-1">
-                          <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
-                          </svg>
-                          <span className="text-amber-400 font-semibold">Locked</span>
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-1">
-                          <svg className="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z" />
-                          </svg>
-                          <span className="text-emerald-400 font-semibold">Open</span>
-                        </div>
-                      )}
-                    </div>
-                    <p>
-                      Result:{' '}
-                      <span className="font-semibold text-slate-200">
-                        {game.result ? game.result.toUpperCase() : 'Pending'}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-                <div className="mt-4 flex flex-wrap items-center gap-3">
-                  <button
-                    className={`rounded-lg border px-3 py-2 text-sm font-semibold transition ${
-                      game.is_locked
-                        ? 'border-amber-400 bg-amber-500/10 text-amber-300 hover:border-amber-300 hover:text-amber-200'
-                        : 'border-emerald-400 bg-emerald-500/10 text-emerald-300 hover:border-emerald-300 hover:text-emerald-200'
-                    }`}
-                    type="button"
-                    disabled={pendingAction === `lock-${game.id}`}
-                    onClick={() => toggleLock(game.id, !game.is_locked)}
-                  >
-                    {pendingAction === `lock-${game.id}` ? 'Updating...' : game.is_locked ? 'Unlock picks' : 'Lock picks'}
-                  </button>
-                  <button
-                    className="rounded-lg border border-slate-700 px-3 py-2 text-sm font-semibold text-slate-200 transition hover:border-emerald-400 hover:text-emerald-300"
-                    type="button"
-                    disabled={pendingAction === `result-${game.id}-home`}
-                    onClick={() => setResult(game.id, 'home')}
-                  >
-                    {pendingAction === `result-${game.id}-home` ? 'Scoring...' : `${getTeamShortCode(game.home_team)} wins`}
-                  </button>
-                  <button
-                    className="rounded-lg border border-slate-700 px-3 py-2 text-sm font-semibold text-slate-200 transition hover:border-emerald-400 hover:text-emerald-300"
-                    type="button"
-                    disabled={pendingAction === `result-${game.id}-away`}
-                    onClick={() => setResult(game.id, 'away')}
-                  >
-                    {pendingAction === `result-${game.id}-away` ? 'Scoring...' : `${getTeamShortCode(game.away_team)} wins`}
-                  </button>
-                </div>
-              </div>
+          {dashboard.currentGames.length ? (
+            dashboard.currentGames.map((game) => (
+              <GameCard
+                key={game.id}
+                game={game}
+                isHistory={false}
+                pendingAction={pendingAction}
+                onToggleLock={toggleLock}
+                onSetResult={setResult}
+                getTeamShortCode={getTeamShortCode}
+              />
             ))
           ) : (
             <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-6 text-sm text-slate-400">
-              No games scheduled yet. Create one above to get started.
+              No active games. Create one above to get started.
             </div>
           )}
         </div>
       </section>
+
+      {dashboard.gameHistory.length > 0 && (
+        <section className="space-y-4">
+          <div>
+            <h2 className="text-lg font-semibold text-white">Game History</h2>
+            <p className="mt-1 text-sm text-slate-400">
+              Completed games with final results and points awarded.
+            </p>
+          </div>
+          <div className="space-y-4">
+            {dashboard.gameHistory.map((game) => (
+              <GameCard
+                key={game.id}
+                game={game}
+                isHistory={true}
+                pendingAction={pendingAction}
+                onToggleLock={toggleLock}
+                onSetResult={setResult}
+                getTeamShortCode={getTeamShortCode}
+              />
+            ))}
+          </div>
+        </section>
+      )}
 
       <section className="space-y-4">
         <div>
