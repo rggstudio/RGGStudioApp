@@ -19,7 +19,7 @@ export const createGameSchema = z.object({
   weekNumber: z.number().int().min(1).max(22),
   homeTeam: z.string().min(2),
   awayTeam: z.string().min(2),
-  kickoffAt: z.string().datetime().nullable().optional(),
+  kickoffAt: z.string().nullable().optional(),
 })
 
 export const updateGameResultSchema = z.object({
