@@ -7,6 +7,7 @@ type HistoryRow = {
   result: string | null
   selection: string | null
   wasCorrect: boolean
+  madePick: boolean
 }
 
 const HistoryTable = ({ history }: { history: HistoryRow[] }) => {
@@ -40,10 +41,18 @@ const HistoryTable = ({ history }: { history: HistoryRow[] }) => {
                   {row.homeTeam} vs {row.awayTeam}
                 </div>
               </td>
-              <td className="px-4 py-3">{row.selection ? row.selection.toUpperCase() : '—'}</td>
-              <td className="px-4 py-3">{row.result ? row.result.toUpperCase() : 'Pending'}</td>
               <td className="px-4 py-3">
-                {row.selection ? (
+                {row.madePick ? (
+                  <span className="font-medium text-slate-200">{row.selection}</span>
+                ) : (
+                  <span className="text-slate-500 italic">No Pick</span>
+                )}
+              </td>
+              <td className="px-4 py-3">
+                <span className="font-medium text-slate-200">{row.result}</span>
+              </td>
+              <td className="px-4 py-3">
+                {row.madePick ? (
                   <span
                     className={`inline-flex rounded-full px-2 py-1 text-xs font-semibold ${
                       row.wasCorrect ? 'bg-emerald-400/20 text-emerald-300' : 'bg-rose-500/20 text-rose-300'
@@ -52,7 +61,7 @@ const HistoryTable = ({ history }: { history: HistoryRow[] }) => {
                     {row.wasCorrect ? 'Correct' : 'Incorrect'}
                   </span>
                 ) : (
-                  '—'
+                  <span className="text-slate-500 italic">No Pick</span>
                 )}
               </td>
             </tr>

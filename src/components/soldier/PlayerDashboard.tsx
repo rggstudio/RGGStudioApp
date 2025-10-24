@@ -33,6 +33,16 @@ type DashboardData = {
     result: string | null
     selection: string | null
     wasCorrect: boolean
+    madePick: boolean
+  }[]
+  ledger: {
+    id: string
+    points: number
+    source: string
+    note: string | null
+    created_at: string
+    admin_email: string
+    team_name: string
   }[]
 }
 
@@ -144,6 +154,77 @@ const PlayerDashboard = ({ dashboard }: { dashboard: DashboardData }) => {
           <p className="text-xs text-slate-400">Lock in your picks weekly to climb the leaderboard.</p>
         </div>
         <HistoryTable history={dashboard.history} />
+      </section>
+
+      <section>
+        <div className="mb-4">
+          <h3 className="text-lg font-semibold text-slate-100">Points Ledger</h3>
+          <p className="mt-1 text-xs text-slate-400">Complete audit trail of all points earned by your team.</p>
+        </div>
+        <div className="rounded-lg border border-slate-700 bg-slate-800/50">
+          {dashboard.ledger.length > 0 ? (
+            <div className="overflow-hidden">
+              <table className="min-w-full divide-y divide-slate-700 text-sm">
+                <thead className="bg-slate-800/80 uppercase tracking-wide text-slate-400">
+                  <tr>
+                    <th className="px-4 py-3 text-left">Points</th>
+                    <th className="px-4 py-3 text-left">Source</th>
+                    <th className="px-4 py-3 text-left">Note</th>
+                    <th className="px-4 py-3 text-left">Date</th>
+                    <th className="px-4 py-3 text-left">Commissioner</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-700">
+                  {dashboard.ledger.map((entry) => (
+                    <tr key={entry.id} className="text-slate-200">
+                      <td className="px-4 py-3">
+                        <span
+                          className={`font-semibold ${
+                            entry.points > 0 ? 'text-emerald-400' : 'text-rose-400'
+                          }`}
+                        >
+                          {entry.points > 0 ? '+' : ''}{entry.points}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <span
+                          className={`inline-flex rounded-full px-2 py-1 text-xs font-semibold ${
+                            entry.source === 'auto_win'
+                              ? 'bg-emerald-400/20 text-emerald-300'
+                              : entry.source === 'manual'
+                              ? 'bg-blue-400/20 text-blue-300'
+                              : 'bg-slate-400/20 text-slate-300'
+                          }`}
+                        >
+                          {entry.source === 'auto_win' ? 'Game Win' : entry.source === 'manual' ? 'Manual' : entry.source}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-slate-300">
+                        {entry.note || '—'}
+                      </td>
+                      <td className="px-4 py-3 text-slate-400">
+                        {new Date(entry.created_at).toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
+                      </td>
+                      <td className="px-4 py-3 text-slate-400">
+                        {entry.admin_email}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="p-6 text-center text-sm text-slate-400">
+              No points earned yet. Make your picks and win games to earn points!
+            </div>
+          )}
+        </div>
       </section>
     </div>
   )
