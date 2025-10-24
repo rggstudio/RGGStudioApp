@@ -43,16 +43,48 @@ export const POST = async (
     return NextResponse.json({ error: 'Game not found' }, { status: 404 })
   }
 
-  const { data: awards, error: awardError } = await supabase.rpc('sl_award_points_for_game', {
-    p_game_id: params.gameId,
-  })
+  // Check if there are any picks for this game before awarding points
+  const { data: picks, error: picksError } = await supabase
+    .from('sl_picks')
+    .select('team_id, selection')
+    .eq('game_id', params.gameId)
+
+  if (picksError) {
+    console.error('Error fetching picks:', picksError)
+    return NextResponse.json({ error: 'Failed to check picks' }, { status: 500 })
+  }
+
+  console.log('Game result:', parsed.data.result)
+  console.log('Picks for this game:', picks)
+
+  // Award points directly instead of using the RPC function
+  const { data: awards, error: awardError } = await supabase
+    .from('sl_points_ledger')
+    .insert(
+      picks
+        ?.filter(pick => pick.selection === parsed.data.result)
+        .map(pick => ({
+          team_id: pick.team_id,
+          points: 3,
+          source: 'auto_win',
+          game_id: params.gameId,
+        })) || []
+    )
+    .select('team_id, points')
 
   if (awardError) {
+    console.error('Award points error:', awardError)
     return NextResponse.json({ error: 'Failed to award points' }, { status: 500 })
+  }
+
+  console.log('Points awarded:', awards)
+
+  if (!awards || awards.length === 0) {
+    console.log('No points were awarded - this might mean no teams picked the winning team')
   }
 
   revalidatePath('/soldier/admin')
   revalidatePath('/soldier/dashboard')
 
-  return NextResponse.json({ success: true, awards })
+  return NextResponse.json({ success: true, awards: awards || [] })
 }

@@ -121,7 +121,7 @@ export const getAdminDashboardData = async () => {
   const [{ data: games }, { data: teams }, { data: points }, { data: weeks }, { data: ledger }] = await Promise.all([
     supabase
       .from('sl_games')
-      .select('id, title, week_number, home_team, away_team, kickoff_at, is_locked, result, created_at')
+      .select('id, title, week_number, home_team, away_team, kickoff_at, is_locked, result, created_at, updated_at')
       .order('week_number', { ascending: true }),
     supabase.from('sl_teams').select('id, name, short_code').order('name', { ascending: true }),
     supabase.from('sl_team_points').select('team_id, total_points'),
@@ -170,12 +170,37 @@ export const getAdminDashboardData = async () => {
     })
   }
 
+  const allGames = (games ?? []).map((g) => ({
+    ...g,
+    week_label: adminWeekLabels.get(g.week_number) ?? `Week ${g.week_number}`,
+  }))
+
+  // Separate games by result status
+  const currentGames = allGames.filter(game => !game.result)
+  const gameHistory = allGames.filter(game => !!game.result)
+
+  // Sort current games by week number, then by kickoff time
+  currentGames.sort((a, b) => {
+    if (a.week_number !== b.week_number) {
+      return a.week_number - b.week_number
+    }
+    if (a.kickoff_at && b.kickoff_at) {
+      return new Date(a.kickoff_at).getTime() - new Date(b.kickoff_at).getTime()
+    }
+    return 0
+  })
+
+  // Sort game history by week number, then by updated_at (completion date)
+  gameHistory.sort((a, b) => {
+    if (a.week_number !== b.week_number) {
+      return a.week_number - b.week_number
+    }
+    return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+  })
+
   return {
-    games:
-      (games ?? []).map((g) => ({
-        ...g,
-        week_label: adminWeekLabels.get(g.week_number) ?? `Week ${g.week_number}`,
-      })),
+    currentGames,
+    gameHistory,
     teams:
       teams?.map((team) => ({
         ...team,
