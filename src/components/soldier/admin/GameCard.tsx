@@ -123,7 +123,7 @@ const GameCard = ({ game, isHistory = false, pendingAction, onToggleLock, onSetR
               }`}
               type="button"
               disabled={pendingAction === `lock-${game.id}`}
-              onClick={() => onToggleLock(game.id, !game.is_locked)}
+              onClick={() => onToggleLock(game.id, game.is_locked)}
             >
               {pendingAction === `lock-${game.id}` ? 'Updating...' : game.is_locked ? 'Unlock picks' : 'Lock picks'}
             </button>

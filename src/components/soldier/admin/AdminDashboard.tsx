@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import AdminTable from '@/components/soldier/AdminTable'
 import PointsLedger from '@/components/soldier/admin/PointsLedger'
@@ -70,6 +70,17 @@ const AdminDashboard = ({ dashboard }: { dashboard: AdminDashboardData }) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
+  // Auto-dismiss messages after 10 seconds
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage(null)
+      }, 10000) // 10 seconds
+
+      return () => clearTimeout(timer)
+    }
+  }, [message])
+
   // Helper function to extract team short code from team name
   const getTeamShortCode = (teamName: string): string => {
     const teamAbbreviations: Record<string, string> = {
@@ -122,13 +133,14 @@ const AdminDashboard = ({ dashboard }: { dashboard: AdminDashboardData }) => {
 
       if (!response.ok) {
         const payload = await response.json().catch(() => ({}))
-        console.error('Set result error:', payload)
+        setMessage({ type: 'error', text: payload?.error ?? 'Failed to set game result' })
         return
       }
 
+      setMessage({ type: 'success', text: 'Game result set successfully' })
       router.refresh()
     } catch (error) {
-      console.error('Set result error:', error)
+      setMessage({ type: 'error', text: 'Failed to set game result' })
     } finally {
       setPendingAction(null)
     }
@@ -146,13 +158,41 @@ const AdminDashboard = ({ dashboard }: { dashboard: AdminDashboardData }) => {
 
       if (!response.ok) {
         const payload = await response.json().catch(() => ({}))
-        console.error('Toggle lock error:', payload)
+        setMessage({ type: 'error', text: payload?.error ?? 'Failed to update lock status' })
         return
       }
 
+      setMessage({ type: 'success', text: isLocked ? 'Picks unlocked successfully' : 'Picks locked successfully' })
       router.refresh()
     } catch (error) {
-      console.error('Toggle lock error:', error)
+      setMessage({ type: 'error', text: 'Failed to update lock status' })
+    } finally {
+      setPendingAction(null)
+    }
+  }
+
+  const handleAdjustPoints = async (teamId: string, points: number, note?: string) => {
+    setPendingAction(`adjust-${teamId}`)
+    
+    try {
+      const response = await fetch('/api/soldier/admin/points', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ teamId, points, note }),
+      })
+
+      if (!response.ok) {
+        const payload = await response.json().catch(() => ({}))
+        setMessage({ type: 'error', text: payload?.error ?? 'Failed to adjust points' })
+        return false
+      }
+
+      setMessage({ type: 'success', text: `Points adjusted successfully (${points > 0 ? '+' : ''}${points})` })
+      router.refresh()
+      return true
+    } catch (error) {
+      setMessage({ type: 'error', text: 'Failed to adjust points' })
+      return false
     } finally {
       setPendingAction(null)
     }
@@ -342,6 +382,26 @@ const AdminDashboard = ({ dashboard }: { dashboard: AdminDashboardData }) => {
 
       {/* Tab Content */}
       <div className="space-y-6">
+        {/* Message Display */}
+        {message && (
+          <div
+            className={`rounded-lg border px-4 py-3 text-sm flex items-center justify-between ${
+              message.type === 'success'
+                ? 'border-emerald-400 bg-emerald-500/10 text-emerald-200'
+                : 'border-rose-400 bg-rose-500/10 text-rose-200'
+            }`}
+          >
+            <span>{message.text}</span>
+            <button
+              onClick={() => setMessage(null)}
+              className={`ml-3 text-xs font-medium hover:opacity-70 transition-opacity ${
+                message.type === 'success' ? 'text-emerald-300' : 'text-rose-300'
+              }`}
+            >
+              ✕
+            </button>
+          </div>
+        )}
         {/* Overview Tab */}
         {activeTab === 'overview' && (
           <div className="space-y-6">
@@ -398,8 +458,8 @@ const AdminDashboard = ({ dashboard }: { dashboard: AdminDashboardData }) => {
               </div>
               <AdminTable 
                 teams={dashboard.teams} 
-                pendingAction={null}
-                onAdjust={async () => false}
+                pendingAction={pendingAction}
+                onAdjust={handleAdjustPoints}
               />
             </section>
 
