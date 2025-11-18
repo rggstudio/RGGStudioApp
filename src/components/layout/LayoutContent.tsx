@@ -13,7 +13,7 @@ interface LayoutContentProps {
 export default function LayoutContent({ children }: LayoutContentProps) {
   const [currentBg, setCurrentBg] = React.useState(1)
   const pathname = usePathname()
-  const hideChrome = pathname?.startsWith('/soldier')
+  const hideChrome = pathname?.startsWith('/soldier') || pathname?.startsWith('/powerhouse')
 
   return (
     <CurrentBgProvider value={{ currentBg, setCurrentBg }}>
