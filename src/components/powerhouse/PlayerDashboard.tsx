@@ -6,6 +6,8 @@ import GameCard from '@/components/powerhouse/GameCard'
 import HistoryTable from '@/components/powerhouse/HistoryTable'
 import PointsBadge from '@/components/powerhouse/PointsBadge'
 import PowerhouseFooter from '@/components/powerhouse/PowerhouseFooter'
+import PlayerRequestForm from '@/components/powerhouse/PlayerRequestForm'
+import PlayerRequestsList from '@/components/powerhouse/PlayerRequestsList'
 
 type DashboardData = {
   team: {
@@ -51,6 +53,7 @@ const PlayerDashboard = ({ dashboard }: { dashboard: DashboardData }) => {
   const router = useRouter()
   const [pendingId, setPendingId] = useState<string | null>(null)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+  const [isRequestModalOpen, setIsRequestModalOpen] = useState(false)
 
   const handlePick = async (gameId: string, selection: 'home' | 'away') => {
     setPendingId(gameId)
@@ -105,6 +108,13 @@ const PlayerDashboard = ({ dashboard }: { dashboard: DashboardData }) => {
         <div className="flex items-center gap-4">
           <PointsBadge points={dashboard.team.totalPoints} />
           <button
+            className="rounded-lg border border-indigo-600 bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700"
+            type="button"
+            onClick={() => setIsRequestModalOpen(true)}
+          >
+            Player Upgrade Request
+          </button>
+          <button
             className="rounded-lg border border-slate-700 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:border-rose-400 hover:text-rose-300"
             type="button"
             onClick={handleLogout}
@@ -155,6 +165,14 @@ const PlayerDashboard = ({ dashboard }: { dashboard: DashboardData }) => {
           <p className="text-xs text-slate-400">Lock in your picks weekly to climb the leaderboard.</p>
         </div>
         <HistoryTable history={dashboard.history} />
+      </section>
+
+      <section>
+        <div className="mb-4">
+          <h3 className="text-lg font-semibold text-slate-100">Player Upgrade Requests</h3>
+          <p className="mt-1 text-xs text-slate-400">View and manage your player upgrade requests.</p>
+        </div>
+        <PlayerRequestsList />
       </section>
 
       <section>
@@ -227,6 +245,29 @@ const PlayerDashboard = ({ dashboard }: { dashboard: DashboardData }) => {
           )}
         </div>
       </section>
+
+      {isRequestModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="w-full max-w-md rounded-xl border border-slate-800 bg-slate-900 p-6 shadow-xl">
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="text-xl font-semibold text-white">Player Upgrade Request</h3>
+              <button
+                onClick={() => setIsRequestModalOpen(false)}
+                className="text-slate-400 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+            <PlayerRequestForm
+              onSuccess={() => {
+                setIsRequestModalOpen(false)
+                router.refresh()
+              }}
+              onCancel={() => setIsRequestModalOpen(false)}
+            />
+          </div>
+        </div>
+      )}
 
       <PowerhouseFooter />
     </div>

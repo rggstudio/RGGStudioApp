@@ -444,6 +444,58 @@ export interface Database {
         }
         Relationships: []
       }
+      phl_player_requests: {
+        Row: {
+          attribute: string
+          created_at: string
+          denial_reason: string | null
+          id: string
+          player_name: string
+          points: number
+          processed_at: string | null
+          processed_by: string | null
+          status: string
+          team_id: string
+        }
+        Insert: {
+          attribute: string
+          created_at?: string
+          denial_reason?: string | null
+          id?: string
+          player_name: string
+          points: number
+          processed_at?: string | null
+          processed_by?: string | null
+          status?: string
+          team_id: string
+        }
+        Update: {
+          attribute?: string
+          created_at?: string
+          denial_reason?: string | null
+          id?: string
+          player_name?: string
+          points?: number
+          processed_at?: string | null
+          processed_by?: string | null
+          status?: string
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'phl_player_requests_team_id_fkey'
+            columns: ['team_id']
+            referencedRelation: 'phl_teams'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'phl_player_requests_processed_by_fkey'
+            columns: ['processed_by']
+            referencedRelation: 'phl_admins'
+            referencedColumns: ['id']
+          }
+        ]
+      }
     }
     Views: {
       sl_team_points: {

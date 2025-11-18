@@ -68,6 +68,19 @@ create table if not exists public.phl_admins (
   created_by uuid
 );
 
+create table if not exists public.phl_player_requests (
+  id uuid primary key default gen_random_uuid(),
+  team_id uuid not null references public.phl_teams (id) on delete cascade,
+  player_name text not null,
+  attribute text not null,
+  points integer not null,
+  status text not null default 'pending' check (status in ('pending', 'approved', 'denied')),
+  denial_reason text,
+  created_at timestamptz not null default timezone('utc'::text, now()),
+  processed_by uuid references public.phl_admins (id) on delete set null,
+  processed_at timestamptz
+);
+
 create or replace view public.phl_team_points as
   select team_id, coalesce(sum(points), 0) as total_points
   from public.phl_points_ledger
@@ -81,6 +94,7 @@ alter table public.phl_games enable row level security;
 alter table public.phl_picks enable row level security;
 alter table public.phl_points_ledger enable row level security;
 alter table public.phl_admins enable row level security;
+alter table public.phl_player_requests enable row level security;
 
 -- Admin table is managed only by service role via API; no user-based policy needed
 -- Note: Function grants are done after function definitions below
@@ -92,6 +106,20 @@ begin
     where schemaname = 'public' and tablename = 'phl_admins' and policyname = 'phl_admins_manage'
   ) then
     create policy phl_admins_manage on public.phl_admins
+      for all
+      using (false)
+      with check (false);
+  end if;
+end
+$$;
+
+do $$
+begin
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'public' and tablename = 'phl_player_requests' and policyname = 'phl_player_requests_manage'
+  ) then
+    create policy phl_player_requests_manage on public.phl_player_requests
       for all
       using (false)
       with check (false);
