@@ -93,7 +93,7 @@ export const ATTRIBUTES = [
 
 export const playerRequestSchema = z.object({
   playerName: z.string().min(1, 'Player name is required'),
-  attribute: z.enum(ATTRIBUTES as [string, ...string[]], {
+  attribute: z.enum(ATTRIBUTES as unknown as [string, ...string[]], {
     errorMap: () => ({ message: 'Please select a valid attribute' }),
   }),
   points: z.number().int().positive('Points must be a positive number'),
