@@ -12,21 +12,19 @@ export default function InfoTabs() {
         <nav className="flex space-x-8">
           <button
             onClick={() => setActiveTab('info')}
-            className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
-              activeTab === 'info'
+            className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === 'info'
                 ? 'border-indigo-400 text-indigo-400'
                 : 'border-transparent text-slate-400 hover:text-slate-300 hover:border-slate-600'
-            }`}
+              }`}
           >
             What is Power House Picks?
           </button>
           <button
             onClick={() => setActiveTab('cap')}
-            className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
-              activeTab === 'cap'
+            className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === 'cap'
                 ? 'border-indigo-400 text-indigo-400'
                 : 'border-transparent text-slate-400 hover:text-slate-300 hover:border-slate-600'
-            }`}
+              }`}
           >
             CAP XP Position Points
           </button>
@@ -38,7 +36,7 @@ export default function InfoTabs() {
         {activeTab === 'info' && (
           <div className="space-y-6">
             <p>
-              Power House Picks is a web application for managing the <strong>Game of the Week (GOTW)</strong> pick system in the <strong>Power House League</strong>. 
+              Power House Picks is a web application for managing the <strong>Game of the Week (GOTW)</strong> pick system in the <strong>Power House League</strong>.
               Players log in using their team name and a 4-digit PIN to make weekly picks, track their scores, and view their pick history.
             </p>
 
@@ -68,7 +66,7 @@ export default function InfoTabs() {
                 <div>
                   <h4 className="mb-2 font-semibold text-indigo-400">Game Locking</h4>
                   <p className="ml-6">
-                    Games are manually locked by the commissioner. Once a game is locked, you cannot change your pick. 
+                    Games are manually locked by the commissioner. Once a game is locked, you cannot change your pick.
                     This ensures fairness and prevents last-minute changes after game results are known.
                   </p>
                 </div>
@@ -90,14 +88,6 @@ export default function InfoTabs() {
               <p className="mb-4">
                 <strong className="text-red-400">Speed or Acceleration points are not permitted</strong>
               </p>
-              
-              <div className="mb-6 rounded-lg border border-slate-700 bg-slate-800/50 p-4">
-                <h4 className="mb-3 font-semibold text-indigo-400">Exceptions:</h4>
-                <ul className="ml-6 list-disc space-y-2">
-                  <li><strong>QB</strong> - (THP, SAC, MAC, and DAC)</li>
-                  <li><strong>LB</strong> - (BSH, PMV, and FMV)</li>
-                </ul>
-              </div>
             </div>
 
             <div className="grid gap-6 md:grid-cols-2">
