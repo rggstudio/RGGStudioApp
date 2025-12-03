@@ -81,7 +81,10 @@ create table if not exists public.phl_player_requests (
   processed_at timestamptz
 );
 
-create or replace view public.phl_team_points as
+-- Use security_invoker to ensure RLS policies are respected
+drop view if exists public.phl_team_points;
+create view public.phl_team_points 
+with (security_invoker = on) as
   select team_id, coalesce(sum(points), 0) as total_points
   from public.phl_points_ledger
   group by team_id;
