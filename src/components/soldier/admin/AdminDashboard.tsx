@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import AdminTable from '@/components/soldier/AdminTable'
 import PointsLedger from '@/components/soldier/admin/PointsLedger'
 import GameCard from '@/components/soldier/admin/GameCard'
+import PlayerRequests from '@/components/soldier/admin/PlayerRequests'
 import SoldierFooter from '@/components/soldier/SoldierFooter'
 
 type Game = {
@@ -43,7 +44,9 @@ type AdminDashboardData = {
 
 const AdminDashboard = ({ dashboard }: { dashboard: AdminDashboardData }) => {
   const router = useRouter()
-  const [activeTab, setActiveTab] = useState<'overview' | 'games' | 'ledger' | 'management'>('overview')
+  const [activeTab, setActiveTab] = useState<'overview' | 'games' | 'ledger' | 'player-requests' | 'management'>(
+    'overview',
+  )
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [editingGame, setEditingGame] = useState<Game | null>(null)
@@ -355,6 +358,7 @@ const AdminDashboard = ({ dashboard }: { dashboard: AdminDashboardData }) => {
     { id: 'overview', label: 'Overview', icon: '📊' },
     { id: 'games', label: 'Games', icon: '🎮' },
     { id: 'ledger', label: 'Points Ledger', icon: '📝' },
+    { id: 'player-requests', label: 'Player Requests', icon: '👤' },
     { id: 'management', label: 'Management', icon: '⚙️' },
   ] as const
 
@@ -598,6 +602,13 @@ const AdminDashboard = ({ dashboard }: { dashboard: AdminDashboardData }) => {
         {activeTab === 'ledger' && (
           <div className="space-y-6">
             <PointsLedger entries={dashboard.ledger} />
+          </div>
+        )}
+
+        {/* Player Requests Tab */}
+        {activeTab === 'player-requests' && (
+          <div className="space-y-6">
+            <PlayerRequests />
           </div>
         )}
 

@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import PlayerLoginForm from '@/components/soldier/PlayerLoginForm'
 import SoldierFooter from '@/components/soldier/SoldierFooter'
+import InfoTabs from '@/components/soldier/InfoTabs'
 import { getTeamSession } from '@/lib/soldier/session'
 
 const SoldierLanding = async () => {
@@ -22,6 +23,7 @@ const SoldierLanding = async () => {
           .
         </p>
       </div>
+      <InfoTabs />
       <SoldierFooter />
     </div>
   )

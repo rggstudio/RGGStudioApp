@@ -3,6 +3,6 @@
 import LeagueInfoTabs from '@/components/shared/LeagueInfoTabs'
 
 export default function InfoTabs() {
-  return <LeagueInfoTabs appName="Power House Picks" leagueName="Power House League" />
+  return <LeagueInfoTabs appName="Soldier Picks" leagueName="Soldier League" />
 }
 
