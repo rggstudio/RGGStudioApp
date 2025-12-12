@@ -43,7 +43,7 @@ const About = () => {
         <h2 className="text-4xl font-bold text-primary mb-8 text-center">About Me</h2>
         <div className="max-w-3xl mx-auto text-center mb-16">
           <p className="text-2xl text-text/100">
-            I'm a passionate front-end developer with a love for creating beautiful, functional, and user-friendly applications. 
+            I&apos;m a passionate front-end developer with a love for creating beautiful, functional, and user-friendly applications. 
             With over 15+ years of experience in front end technologies, I bring ideas to life through clean code and intuitive design.
           </p>
         </div>

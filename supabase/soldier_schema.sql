@@ -68,6 +68,19 @@ create table if not exists public.sl_admins (
   created_by uuid
 );
 
+create table if not exists public.sl_player_requests (
+  id uuid primary key default gen_random_uuid(),
+  team_id uuid not null references public.sl_teams (id) on delete cascade,
+  player_name text not null,
+  attribute text not null,
+  points integer not null,
+  status text not null default 'pending' check (status in ('pending', 'approved', 'denied')),
+  denial_reason text,
+  created_at timestamptz not null default timezone('utc'::text, now()),
+  processed_by uuid references public.sl_admins (id) on delete set null,
+  processed_at timestamptz
+);
+
 -- Use security_invoker to ensure RLS policies are respected
 drop view if exists public.sl_team_points;
 create view public.sl_team_points 
@@ -84,6 +97,7 @@ alter table public.sl_games enable row level security;
 alter table public.sl_picks enable row level security;
 alter table public.sl_points_ledger enable row level security;
 alter table public.sl_admins enable row level security;
+alter table public.sl_player_requests enable row level security;
 
 -- Admin table is managed only by service role via API; no user-based policy needed
 
@@ -108,6 +122,20 @@ begin
     where schemaname = 'public' and tablename = 'sl_admins' and policyname = 'sl_admins_manage'
   ) then
     create policy sl_admins_manage on public.sl_admins
+      for all
+      using (false)
+      with check (false);
+  end if;
+end
+$$;
+
+do $$
+begin
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'public' and tablename = 'sl_player_requests' and policyname = 'sl_player_requests_manage'
+  ) then
+    create policy sl_player_requests_manage on public.sl_player_requests
       for all
       using (false)
       with check (false);

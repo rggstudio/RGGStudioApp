@@ -2,10 +2,15 @@
 
 import { useMemo, useState } from 'react'
 
-export default function InfoTabs() {
+type Props = {
+  appName: string
+  leagueName: string
+}
+
+export default function LeagueInfoTabs({ appName, leagueName }: Props) {
   const [activeTab, setActiveTab] = useState<'info' | 'cap'>('info')
 
-  const infoTitle = useMemo(() => 'What is Power House Picks?', [])
+  const infoTitle = useMemo(() => `What is ${appName}?`, [appName])
 
   return (
     <div className="mx-auto max-w-3xl rounded-xl border border-slate-800 bg-slate-900/60 p-8 shadow-xl backdrop-blur">
@@ -40,8 +45,8 @@ export default function InfoTabs() {
         {activeTab === 'info' && (
           <div className="space-y-6">
             <p>
-              Power House Picks is a web application for managing the <strong>Game of the Week (GOTW)</strong> pick system in the{' '}
-              <strong>Power House League</strong>. Players log in using their team name and a 4-digit PIN to make weekly picks,
+              {appName} is a web application for managing the <strong>Game of the Week (GOTW)</strong> pick system in the{' '}
+              <strong>{leagueName}</strong>. Players log in using their team name and a 4-digit PIN to make weekly picks,
               track their scores, and view their pick history.
             </p>
 

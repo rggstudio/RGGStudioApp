@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react'
 export default function InfoTabs() {
   const [activeTab, setActiveTab] = useState<'info' | 'cap'>('info')
 
-  const infoTitle = useMemo(() => 'What is Power House Picks?', [])
+  const infoTitle = useMemo(() => 'What is Soldier Picks?', [])
 
   return (
     <div className="mx-auto max-w-3xl rounded-xl border border-slate-800 bg-slate-900/60 p-8 shadow-xl backdrop-blur">
@@ -40,8 +40,8 @@ export default function InfoTabs() {
         {activeTab === 'info' && (
           <div className="space-y-6">
             <p>
-              Power House Picks is a web application for managing the <strong>Game of the Week (GOTW)</strong> pick system in the{' '}
-              <strong>Power House League</strong>. Players log in using their team name and a 4-digit PIN to make weekly picks,
+              Soldier Picks is a web application for managing the <strong>Game of the Week (GOTW)</strong> pick system in the{' '}
+              <strong>Soldier League</strong>. Players log in using their team name and a 4-digit PIN to make weekly picks,
               track their scores, and view their pick history.
             </p>
 
@@ -98,7 +98,8 @@ export default function InfoTabs() {
           <div className="space-y-6">
             <div>
               <p className="mb-4">
-                <strong className="text-red-400">Speed or Acceleration points are not permitted</strong>
+                <strong className="text-red-400">Speed or Acceleration points are not permitted<br />
+                Exceptions: QB - (THP, SAC, MAC, and DAC) and LB - (BSH, PMV, and FMV)</strong>
               </p>
             </div>
 

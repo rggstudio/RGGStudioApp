@@ -33,6 +33,58 @@ export interface Database {
         }
         Relationships: []
       }
+      sl_player_requests: {
+        Row: {
+          attribute: string
+          created_at: string
+          denial_reason: string | null
+          id: string
+          player_name: string
+          points: number
+          processed_at: string | null
+          processed_by: string | null
+          status: string
+          team_id: string
+        }
+        Insert: {
+          attribute: string
+          created_at?: string
+          denial_reason?: string | null
+          id?: string
+          player_name: string
+          points: number
+          processed_at?: string | null
+          processed_by?: string | null
+          status?: string
+          team_id: string
+        }
+        Update: {
+          attribute?: string
+          created_at?: string
+          denial_reason?: string | null
+          id?: string
+          player_name?: string
+          points?: number
+          processed_at?: string | null
+          processed_by?: string | null
+          status?: string
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'sl_player_requests_team_id_fkey'
+            columns: ['team_id']
+            referencedRelation: 'sl_teams'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'sl_player_requests_processed_by_fkey'
+            columns: ['processed_by']
+            referencedRelation: 'sl_admins'
+            referencedColumns: ['id']
+          }
+        ]
+      }
       sl_games: {
         Row: {
           away_team: string
