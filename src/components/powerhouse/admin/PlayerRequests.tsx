@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import DenialReason from '@/components/shared/DenialReason'
 
 type PlayerRequest = {
   id: string
@@ -238,12 +239,11 @@ export default function PlayerRequests() {
                           </button>
                         </div>
                       )}
-                      {request.status === 'denied' && request.denial_reason && (
-                        <div className="text-xs text-slate-400 max-w-xs">
-                          <p className="font-semibold text-rose-400 mb-1">Denied:</p>
-                          <p>{request.denial_reason}</p>
-                        </div>
-                      )}
+                      <DenialReason
+                        status={request.status}
+                        denialReason={request.denial_reason}
+                        className="max-w-xs"
+                      />
                     </td>
                   </tr>
                 ))}

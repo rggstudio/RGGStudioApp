@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import DenialReason from '@/components/shared/DenialReason'
 
 type PlayerRequest = {
   id: string
@@ -142,12 +143,7 @@ export default function PlayerRequestsList() {
                       {deletingId === request.id ? 'Deleting...' : 'Delete'}
                     </button>
                   )}
-                  {request.status === 'denied' && request.denial_reason && (
-                    <div className="text-xs text-slate-400">
-                      <p className="font-semibold text-rose-400 mb-1">Denied:</p>
-                      <p>{request.denial_reason}</p>
-                    </div>
-                  )}
+                  <DenialReason status={request.status} denialReason={request.denial_reason} />
                 </td>
               </tr>
             ))}
