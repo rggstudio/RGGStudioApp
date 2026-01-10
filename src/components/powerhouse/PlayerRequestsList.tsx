@@ -113,6 +113,7 @@ export default function PlayerRequestsList() {
               <th className="px-4 py-3 text-left">Points</th>
               <th className="px-4 py-3 text-left">Status</th>
               <th className="px-4 py-3 text-left">Date</th>
+              <th className="px-4 py-3 text-left">Denial Reason</th>
               <th className="px-4 py-3 text-left">Actions</th>
             </tr>
           </thead>
@@ -133,6 +134,16 @@ export default function PlayerRequestsList() {
                   })}
                 </td>
                 <td className="px-4 py-3">
+                  {request.status === 'denied' && request.denial_reason ? (
+                    <div className="max-w-xs rounded-lg border border-rose-400/30 bg-rose-500/10 px-3 py-2">
+                      <p className="text-xs font-semibold text-rose-400 mb-1">Denial Reason:</p>
+                      <p className="text-xs text-rose-200">{request.denial_reason}</p>
+                    </div>
+                  ) : (
+                    <span className="text-slate-500">—</span>
+                  )}
+                </td>
+                <td className="px-4 py-3">
                   {request.status === 'pending' && (
                     <button
                       onClick={() => handleDelete(request.id)}
@@ -141,12 +152,6 @@ export default function PlayerRequestsList() {
                     >
                       {deletingId === request.id ? 'Deleting...' : 'Delete'}
                     </button>
-                  )}
-                  {request.status === 'denied' && request.denial_reason && (
-                    <div className="text-xs text-slate-400">
-                      <p className="font-semibold text-rose-400 mb-1">Denied:</p>
-                      <p>{request.denial_reason}</p>
-                    </div>
                   )}
                 </td>
               </tr>

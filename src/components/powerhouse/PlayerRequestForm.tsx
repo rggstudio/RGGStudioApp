@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { ATTRIBUTES } from '@/lib/powerhouse/validators'
+import CapXpImageModal from './CapXpImageModal'
 
 type Props = {
   onSuccess: () => void
@@ -14,6 +15,7 @@ export default function PlayerRequestForm({ onSuccess, onCancel }: Props) {
   const [points, setPoints] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [showImageModal, setShowImageModal] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -48,20 +50,32 @@ export default function PlayerRequestForm({ onSuccess, onCancel }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label htmlFor="playerName" className="block text-sm font-medium text-slate-300 mb-1">
-          Player Name
-        </label>
-        <input
-          id="playerName"
-          type="text"
-          value={playerName}
-          onChange={(e) => setPlayerName(e.target.value)}
-          required
-          className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-2 text-white placeholder-slate-400 focus:border-indigo-400 focus:outline-none"
-          placeholder="Enter player name"
-        />
+    <>
+      <div className="mb-4 text-sm text-slate-300">
+        Please follow the restrictions set forth{' '}
+        <button
+          type="button"
+          onClick={() => setShowImageModal(true)}
+          className="text-indigo-400 underline hover:text-indigo-300 transition"
+        >
+          here
+        </button>
+        .
+      </div>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label htmlFor="playerName" className="block text-sm font-medium text-slate-300 mb-1">
+            Player Name
+          </label>
+          <input
+            id="playerName"
+            type="text"
+            value={playerName}
+            onChange={(e) => setPlayerName(e.target.value)}
+            required
+            className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-2 text-white placeholder-slate-400 focus:border-indigo-400 focus:outline-none"
+            placeholder="Enter player name"
+          />
       </div>
 
       <div>
@@ -124,6 +138,8 @@ export default function PlayerRequestForm({ onSuccess, onCancel }: Props) {
         </button>
       </div>
     </form>
+    <CapXpImageModal isOpen={showImageModal} onClose={() => setShowImageModal(false)} />
+    </>
   )
 }
 
