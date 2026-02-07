@@ -88,6 +88,14 @@ const projects: Project[] = [
     type: 'work',
   },
   {
+    title: 'ShepherdLink | Personal',
+    description: 'ShepherdLink is a church management system designed to help shepherds care for their members.',
+    images: ['/images/hero-bg-1.png'],
+    tags: ['Next.js', 'React', 'SaaS', 'Responsive UI'],
+    liveUrl: 'https://shepherdlink.io',
+    type: 'personal',
+  },
+  {
     title: 'Web App Coming Soon | Personal',
     description: 'A New App is coming soon!',
     images: ['https://picsum.photos/800/600?random=3'],
