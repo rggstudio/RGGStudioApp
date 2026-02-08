@@ -96,6 +96,14 @@ const projects: Project[] = [
     type: 'personal',
   },
   {
+    title: 'Suitland Road Church of Christ | Personal',
+    description: 'Suitland Road Church of Christ website features a robust custom CMS and a custom Event Management platform specifically tailored to the needs of the church.',
+    images: ['/images/srcoc.png'],
+    tags: ['CMS', 'Event Management', 'React', 'Responsive UI'],
+    liveUrl: 'https://suitlandroadcoc.org',
+    type: 'personal',
+  },
+  {
     title: 'Web App Coming Soon | Personal',
     description: 'A New App is coming soon!',
     images: ['https://picsum.photos/800/600?random=3'],
