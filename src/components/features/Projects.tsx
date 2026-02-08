@@ -89,8 +89,8 @@ const projects: Project[] = [
   },
   {
     title: 'ShepherdLink | Personal',
-    description: 'ShepherdLink is a church management system designed to help shepherds care for their members.',
-    images: ['/images/hero-bg-1.png'],
+    description: 'ShepherdLink replaces scattered texts, lost notebooks, and forgotten follow-ups with one simple dashboard for attendance, calls, visits, and care needs; so no one falls through the cracks and every leader stays on the same page.',
+    images: ['/images/shepherdlink.png'],
     tags: ['Next.js', 'React', 'SaaS', 'Responsive UI'],
     liveUrl: 'https://shepherdlink.io',
     type: 'personal',
