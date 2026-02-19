@@ -1,11 +1,15 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+}
 
 export const metadata: Metadata = {
   title: 'Bible StudyLink — AI-Powered Bible Study Recording & Transcription',
   description: 'Never miss a moment of God\'s Word. Bible StudyLink records your Bible study sessions with AI transcription, automatic scripture detection, and smart note-taking. Perfect for small groups, pastors, and individual study.',
   keywords: ['bible study app', 'bible study recording', 'bible transcription', 'scripture study app', 'small group bible study', 'youth pastor tools', 'bible note taking', 'AI bible study', 'church small groups', 'bible study notes'],
   authors: [{ name: 'Bible StudyLink' }],
-  viewport: 'width=device-width, initial-scale=1.0',
   openGraph: {
     type: 'website',
     title: 'Bible StudyLink — Never Miss a Moment of God\'s Word',

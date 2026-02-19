@@ -38,14 +38,14 @@ export default function BibleStudyLinkPage() {
           
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <button className="inline-flex items-center justify-center gap-2 bg-[#1E3A5F] text-white px-8 py-4 rounded-xl font-semibold hover:bg-[#152a45] transition-colors">
+            <a href="#" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-[#1E3A5F] text-white px-8 py-4 rounded-xl font-semibold hover:bg-[#152a45] transition-colors">
               <Apple className="w-6 h-6" />
               Download for iOS
-            </button>
-            <button className="inline-flex items-center justify-center gap-2 bg-[#D4AF37] text-[#1E3A5F] px-8 py-4 rounded-xl font-semibold hover:bg-[#c4a030] transition-colors">
+            </a>
+            <a href="#" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-[#D4AF37] text-[#1E3A5F] px-8 py-4 rounded-xl font-semibold hover:bg-[#c4a030] transition-colors">
               <Play className="w-6 h-6" />
               Download for Android
-            </button>
+            </a>
           </div>
           
           {/* Supporting Microcopy */}
@@ -71,7 +71,7 @@ export default function BibleStudyLinkPage() {
       </section>
 
       {/* Feature Section 1: Record & Transcribe */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
+      <section id="features" className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -103,7 +103,7 @@ export default function BibleStudyLinkPage() {
             </div>
             <div className="bg-[#1E3A5F] rounded-3xl p-8 aspect-square flex items-center justify-center">
               <div className="text-center text-white">
-                <Mic className="w-24 h-24 mx-auto mb-4 opacity-80" />
+                <Mic className="w-24 h-24 mx-auto mb-4 opacity-80" aria-hidden="true" />
                 <p className="text-lg opacity-80">Recording in progress...</p>
               </div>
             </div>
@@ -117,7 +117,7 @@ export default function BibleStudyLinkPage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1 bg-[#D4AF37]/10 rounded-3xl p-8 aspect-square flex items-center justify-center">
               <div className="text-center">
-                <BookOpen className="w-24 h-24 mx-auto mb-4 text-[#1E3A5F]" />
+                <BookOpen className="w-24 h-24 mx-auto mb-4 text-[#1E3A5F]" aria-hidden="true" />
                 <div className="bg-white rounded-xl p-4 shadow-lg max-w-xs mx-auto">
                   <p className="text-sm text-[#D4AF37] font-semibold mb-1">John 3:16 detected</p>
                   <p className="text-[#2D2D2D] text-sm italic">
@@ -218,7 +218,7 @@ export default function BibleStudyLinkPage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1 bg-gradient-to-br from-[#1E3A5F] to-[#2a4a73] rounded-3xl p-8 aspect-square flex items-center justify-center">
               <div className="text-white text-center">
-                <Sparkles className="w-24 h-24 mx-auto mb-4 text-[#D4AF37]" />
+                <Sparkles className="w-24 h-24 mx-auto mb-4 text-[#D4AF37]" aria-hidden="true" />
                 <h3 className="text-xl font-semibold mb-2">AI Summary</h3>
                 <div className="text-left space-y-2 text-sm opacity-90">
                   <p>• Key theme: God's faithfulness in trials</p>
@@ -392,14 +392,14 @@ export default function BibleStudyLinkPage() {
           
           {/* App Store Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-            <button className="inline-flex items-center justify-center gap-2 bg-[#1E3A5F] text-white px-8 py-4 rounded-xl font-semibold hover:bg-[#152a45] transition-colors">
+            <a href="#" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-[#1E3A5F] text-white px-8 py-4 rounded-xl font-semibold hover:bg-[#152a45] transition-colors">
               <Apple className="w-6 h-6" />
               Download on the App Store
-            </button>
-            <button className="inline-flex items-center justify-center gap-2 bg-[#D4AF37] text-[#1E3A5F] px-8 py-4 rounded-xl font-semibold hover:bg-[#c4a030] transition-colors">
+            </a>
+            <a href="#" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-[#D4AF37] text-[#1E3A5F] px-8 py-4 rounded-xl font-semibold hover:bg-[#c4a030] transition-colors">
               <Play className="w-6 h-6" />
               Get it on Google Play
-            </button>
+            </a>
           </div>
           
           {/* Trust Indicators */}
@@ -449,8 +449,6 @@ export default function BibleStudyLinkPage() {
               <ul className="space-y-2 text-sm text-white/70">
                 <li><a href="#features" className="hover:text-white">Features</a></li>
                 <li><a href="#pricing" className="hover:text-white">Pricing</a></li>
-                <li><a href="#" className="hover:text-white">Bible Versions</a></li>
-                <li><a href="#" className="hover:text-white">Support</a></li>
               </ul>
             </div>
             <div>
@@ -463,10 +461,7 @@ export default function BibleStudyLinkPage() {
             <div>
               <h4 className="font-semibold mb-4">Connect</h4>
               <ul className="space-y-2 text-sm text-white/70">
-                <li><a href="#" className="hover:text-white">Instagram</a></li>
-                <li><a href="#" className="hover:text-white">Facebook</a></li>
-                <li><a href="#" className="hover:text-white">YouTube</a></li>
-                <li><a href="#" className="hover:text-white">Email</a></li>
+                <li><span className="text-white/40">Coming soon...</span></li>
               </ul>
             </div>
           </div>
