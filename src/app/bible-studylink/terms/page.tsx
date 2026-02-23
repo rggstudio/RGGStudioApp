@@ -50,7 +50,7 @@ export default function TermsOfServicePage() {
             Bible StudyLink offers both free and premium subscription plans. Premium subscriptions are processed through:
           </p>
           <ul className="list-disc pl-6 mb-4 space-y-2">
-            <li><strong>Apple App Store:</strong> For iOS users, subscriptions are managed through Apple's In-App Purchase system</li>
+            <li><strong>Apple App Store:</strong> For iOS users, subscriptions are managed through Apple&apos;s In-App Purchase system</li>
             <li><strong>Google Play Store:</strong> For Android users, subscriptions are managed through Google Play Billing</li>
             <li><strong>RevenueCat:</strong> We use RevenueCat as our subscription management platform</li>
           </ul>
@@ -89,7 +89,7 @@ export default function TermsOfServicePage() {
 
           <h3 className="text-xl font-semibold text-[#1E3A5F] mt-6 mb-3">4.2 Scripture Content</h3>
           <p className="mb-4">
-            Bible translations displayed in the Service are licensed from third-party publishers. You may use scripture content in accordance with each publisher's terms. Common versions available include ESV, NIV, KJV, NKJV, NLT, NASB, and CSB.
+            Bible translations displayed in the Service are licensed from third-party publishers. You may use scripture content in accordance with each publisher&apos;s terms. Common versions available include ESV, NIV, KJV, NKJV, NLT, NASB, and CSB.
           </p>
 
           <h3 className="text-xl font-semibold text-[#1E3A5F] mt-6 mb-3">4.3 AI-Generated Content</h3>

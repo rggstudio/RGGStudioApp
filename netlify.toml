@@ -8,13 +8,15 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
-# Static file serving for bible-study-link
+# Static file serving for bible-study-link (force to override Next.js routing)
+[[redirects]]
+  from = "/bible-study-link"
+  to = "/bible-study-link/index.html"
+  status = 200
+  force = true
+
 [[redirects]]
   from = "/bible-study-link/*"
   to = "/bible-study-link/:splat"
   status = 200
-
-[[redirects]]
-  from = "/bible-study-link"
-  to = "/bible-study-link/index.html"
-  status = 200 
+  force = true

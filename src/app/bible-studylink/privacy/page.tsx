@@ -15,10 +15,10 @@ export default function PrivacyPolicyPage() {
           
           <h3 className="text-xl font-semibold text-[#1E3A5F] mt-6 mb-3">1.1 Audio Recordings and Transcriptions</h3>
           <p className="mb-4">
-            When you use Bible StudyLink's recording feature, we collect:
+            When you use Bible StudyLink&apos;s recording feature, we collect:
           </p>
           <ul className="list-disc pl-6 mb-4 space-y-2">
-            <li>Audio recordings of your Bible study sessions captured through your device's microphone</li>
+            <li>Audio recordings of your Bible study sessions captured through your device&apos;s microphone</li>
             <li>Text transcriptions generated from your audio recordings</li>
             <li>Timestamps and metadata associated with recordings</li>
           </ul>
@@ -79,7 +79,7 @@ export default function PrivacyPolicyPage() {
             Bible StudyLink uses Anthropic Claude Sonnet, a third-party artificial intelligence service, to generate summaries of your Bible study transcripts. When you enable AI summarization:
           </p>
           <ul className="list-disc pl-6 mb-4 space-y-2">
-            <li>Your transcribed text is securely transmitted to Anthropic's servers</li>
+            <li>Your transcribed text is securely transmitted to Anthropic&apos;s servers</li>
             <li>AI analyzes the content to generate summaries, key themes, and reflection questions</li>
             <li>Anthropic processes this data in accordance with their privacy policy</li>
           </ul>
@@ -117,7 +117,7 @@ export default function PrivacyPolicyPage() {
             Bible StudyLink records audio during Bible study sessions for the purpose of transcription and note-taking. By using the recording feature, you consent to:
           </p>
           <ul className="list-disc pl-6 mb-4 space-y-2">
-            <li>Collection of audio recordings via your device's microphone</li>
+            <li>Collection of audio recordings via your device&apos;s microphone</li>
             <li>Processing of audio to generate text transcriptions</li>
             <li>Storage of recordings and transcripts on our secure servers</li>
             <li>AI processing of transcriptions to generate study summaries (with your explicit consent)</li>
@@ -136,7 +136,7 @@ export default function PrivacyPolicyPage() {
             <li><strong>Usage data:</strong> Retained for up to 36 months for analytics</li>
           </ul>
           <p className="mb-4">
-            You may request early deletion of specific recordings without deleting your account through the app's library management features. Upon account deletion, all personal data including recordings, transcripts, and AI summaries will be permanently deleted within 30 days.
+            You may request early deletion of specific recordings without deleting your account through the app&apos;s library management features. Upon account deletion, all personal data including recordings, transcripts, and AI summaries will be permanently deleted within 30 days.
           </p>
 
           <h2 className="text-2xl font-bold text-[#1E3A5F] mt-8 mb-4">7. Your Rights and Choices</h2>
@@ -180,7 +180,7 @@ export default function PrivacyPolicyPage() {
             While we strive to use commercially acceptable means to protect your personal information, no method of transmission over the Internet or electronic storage is 100% secure.
           </p>
 
-          <h2 className="text-2xl font-bold text-[#1E3A5F] mt-8 mb-4">9. Children's Privacy</h2>
+          <h2 className="text-2xl font-bold text-[#1E3A5F] mt-8 mb-4">9. Children&apos;s Privacy</h2>
           <p className="mb-4">
             The Service is not intended for children under 13 years of age. We do not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child has provided us with personal information, please contact us immediately.
           </p>

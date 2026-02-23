@@ -30,10 +30,10 @@ export default function BibleStudyLinkPage() {
       <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="max-w-6xl mx-auto text-center">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#1E3A5F] mb-6 leading-tight">
-            Never Miss a Moment of<br />God's Word
+            Never Miss a Moment of<br />God&apos;s Word
           </h1>
           <p className="text-lg sm:text-xl text-[#2D2D2D] mb-8 max-w-3xl mx-auto leading-relaxed">
-            Bible StudyLink transforms how your small group studies Scripture. Record sessions, capture every insight with AI transcription, and keep your notes eternally linked to God's Word.
+            Bible StudyLink transforms how your small group studies Scripture. Record sessions, capture every insight with AI transcription, and keep your notes eternally linked to God&apos;s Word.
           </p>
           
           {/* CTA Buttons */}
@@ -85,7 +85,7 @@ export default function BibleStudyLinkPage() {
                 Focus on the conversation—not on taking notes. Bible StudyLink records your entire Bible study session and transcribes it in real-time with remarkable accuracy.
               </p>
               <p className="text-[#2D2D2D] mb-6 leading-relaxed">
-                Whether you're leading a living room discussion, teaching a youth group, or studying solo with a podcast, every word is preserved. The AI understands biblical language and theological terminology, so nothing gets lost in translation.
+                Whether you&apos;re leading a living room discussion, teaching a youth group, or studying solo with a podcast, every word is preserved. The AI understands biblical language and theological terminology, so nothing gets lost in translation.
               </p>
               <ul className="space-y-3">
                 {[
@@ -169,10 +169,10 @@ export default function BibleStudyLinkPage() {
                 Notes That Stay Connected to Scripture
               </h2>
               <p className="text-[#2D2D2D] mb-6 leading-relaxed">
-                The best insights come in the moment. Tap to bookmark any part of your transcript and add your own notes—they're automatically linked to the verse being discussed.
+                The best insights come in the moment. Tap to bookmark any part of your transcript and add your own notes—they&apos;re automatically linked to the verse being discussed.
               </p>
               <p className="text-[#2D2D2D] mb-6 leading-relaxed">
-                Months later, when you're preparing your next lesson or revisiting a powerful revelation, find exactly what you need. Search by keyword, scripture reference, or date. Your spiritual journey, beautifully organized.
+                Months later, when you&apos;re preparing your next lesson or revisiting a powerful revelation, find exactly what you need. Search by keyword, scripture reference, or date. Your spiritual journey, beautifully organized.
               </p>
               <ul className="space-y-3">
                 {[
@@ -221,7 +221,7 @@ export default function BibleStudyLinkPage() {
                 <Sparkles className="w-24 h-24 mx-auto mb-4 text-[#D4AF37]" aria-hidden="true" />
                 <h3 className="text-xl font-semibold mb-2">AI Summary</h3>
                 <div className="text-left space-y-2 text-sm opacity-90">
-                  <p>• Key theme: God's faithfulness in trials</p>
+                  <p>• Key theme: God&apos;s faithfulness in trials</p>
                   <p>• Main scripture: James 1:2-4</p>
                   <p>• Discussion focused on perseverance</p>
                   <p>• Action items for next week</p>
@@ -267,7 +267,7 @@ export default function BibleStudyLinkPage() {
               Invest in Your Spiritual Growth
             </h2>
             <p className="text-lg text-[#2D2D2D]">
-              Start free. Upgrade when you're ready for unlimited study.
+              Start free. Upgrade when you&apos;re ready for unlimited study.
             </p>
           </div>
 
@@ -384,7 +384,7 @@ export default function BibleStudyLinkPage() {
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1E3A5F] mb-4">
-            Start Recording God's Word Today
+            Start Recording God&apos;s Word Today
           </h2>
           <p className="text-lg text-[#2D2D2D] mb-8">
             Join thousands of Bible study leaders, pastors, and students who never miss a divine moment.
@@ -442,7 +442,7 @@ export default function BibleStudyLinkPage() {
           <div className="grid md:grid-cols-4 gap-8 mb-12">
             <div>
               <h3 className="text-xl font-bold mb-2">Bible StudyLink</h3>
-              <p className="text-white/70 text-sm">Never miss a moment of God's Word.</p>
+              <p className="text-white/70 text-sm">Never miss a moment of God&apos;s Word.</p>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Quick Links</h4>
