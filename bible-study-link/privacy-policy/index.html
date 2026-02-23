@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Bible Study Link</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --accent: #06b6d4;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --light: #f8fafc;
+            --border: #e2e8f0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.7;
+            color: var(--dark);
+            background: white;
+        }
+        
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 24px; }
+        
+        /* Header */
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 40px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
+        
+        /* Typography */
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--dark);
+        }
+        
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-top: 40px;
+            margin-bottom: 16px;
+            color: var(--dark);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 8px;
+        }
+        
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            color: var(--dark);
+        }
+        
+        p {
+            margin-bottom: 16px;
+            color: var(--gray);
+        }
+        
+        ul, ol {
+            margin-bottom: 16px;
+            padding-left: 24px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+            color: var(--gray);
+        }
+        
+        strong {
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+        
+        th, td {
+            border: 1px solid var(--border);
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background: var(--light);
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        td {
+            color: var(--gray);
+        }
+        
+        /* Links */
+        a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        a:hover { text-decoration: underline; }
+        
+        /* Footer */
+        footer {
+            margin-top: 60px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--gray);
+            font-size: 14px;
+        }
+        
+        /* Last Updated */
+        .last-updated {
+            background: var(--light);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        /* Back Link */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .back-link:hover { color: var(--primary); }
+        
+        /* Mobile */
+        @media (max-width: 768px) {
+            h1 { font-size: 28px; }
+            h2 { font-size: 20px; }
+            table { font-size: 12px; }
+            th, td { padding: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/bible-study-link-landing.html" class="logo">
+                <div class="logo-icon">📖</div>
+                Bible Study Link
+            </a>
+        </header>
+        
+        <a href="/bible-study-link-landing.html" class="back-link">← Back to Home</a>
+        
+        <div class="last-updated">
+            <strong>Last Updated:</strong> February 17, 2026
+        </div>
+        
+        <h1>Privacy Policy</h1>
+        
+        <h2>Introduction</h2>
+        <p>Bible Study Link ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, store, and protect your information when you use our mobile application.</p>
+        
+        <h2>Information We Collect</h2>
+        
+        <h3>Audio Recordings</h3>
+        <ul>
+            <li>We temporarily process audio recordings to detect scripture references using on-device pattern matching</li>
+            <li>Full audio files are stored locally on your device unless you choose to enable cloud backup</li>
+            <li>Audio is transmitted to Whisper API for transcription only when you explicitly request transcript generation</li>
+        </ul>
+        
+        <h3>Scripture References</h3>
+        <ul>
+            <li>We collect and store scripture references detected during your Bible studies</li>
+            <li>These include book, chapter, and verse citations (e.g., "John 3:16")</li>
+            <li>Timestamps of when references were detected are stored with your sessions</li>
+        </ul>
+        
+        <h3>Account Information</h3>
+        <ul>
+            <li>Email address (for account creation and authentication)</li>
+            <li>Firebase Authentication UID (anonymous identifier)</li>
+            <li>Subscription status (managed through RevenueCat)</li>
+        </ul>
+        
+        <h3>Usage Data</h3>
+        <ul>
+            <li>App usage analytics (feature usage, session duration)</li>
+            <li>Crash reports and performance data</li>
+            <li>Device information (OS version, app version) for debugging</li>
+        </ul>
+        
+        <h2>How We Use Your Information</h2>
+        <ul>
+            <li><strong>Provide Core Features:</strong> Detect scripture references and organize your Bible studies</li>
+            <li><strong>Improve the App:</strong> Analyze usage patterns to enhance functionality</li>
+            <li><strong>Process Payments:</strong> RevenueCat manages subscription status and billing</li>
+            <li><strong>Support:</strong> Troubleshoot issues and respond to support requests</li>
+            <li><strong>Security:</strong> Protect against fraud and unauthorized access</li>
+        </ul>
+        
+        <h2>Third-Party Services</h2>
+        <p>We use the following third-party services:</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Service</th>
+                    <th>Purpose</th>
+                    <th>Data Shared</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Firebase</strong></td>
+                    <td>Authentication, database, analytics</td>
+                    <td>Email, usage data, anonymous ID</td>
+                </tr>
+                <tr>
+                    <td><strong>RevenueCat</strong></td>
+                    <td>Subscription management</td>
+                    <td>Purchase history, anonymous ID</td>
+                </tr>
+                <tr>
+                    <td><strong>Whisper API (OpenAI)</strong></td>
+                    <td>Audio transcription (optional)</td>
+                    <td>Audio files (only when user requests)</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <p>Each third-party service has its own privacy policy. We recommend reviewing them:</p>
+        <ul>
+            <li><a href="https://firebase.google.com/support/privacy" target="_blank">Firebase Privacy Policy</a></li>
+            <li><a href="https://www.revenuecat.com/privacy" target="_blank">RevenueCat Privacy Policy</a></li>
+            <li><a href="https://openai.com/privacy" target="_blank">OpenAI Privacy Policy</a></li>
+        </ul>
+        
+        <h2>Data Storage & Security</h2>
+        <ul>
+            <li><strong>Local Storage:</strong> Audio recordings and session data are primarily stored on your device</li>
+            <li><strong>Cloud Storage:</strong> Optional Firebase cloud sync for cross-device access</li>
+            <li><strong>Encryption:</strong> Data in transit is encrypted using TLS/SSL</li>
+            <li><strong>Access Controls:</strong> Your data is accessible only to you and authorized support staff</li>
+        </ul>
+        
+        <h2>Your Rights & Choices</h2>
+        
+        <h3>Access & Export</h3>
+        <ul>
+            <li>You can view all your recorded sessions within the app</li>
+            <li>Export your data by contacting support</li>
+        </ul>
+        
+        <h3>Deletion</h3>
+        <ul>
+            <li>Delete individual sessions at any time</li>
+            <li>Request complete account deletion by emailing support</li>
+            <li>Deletion removes data from our servers within 30 days</li>
+        </ul>
+        
+        <h3>Opt-Out</h3>
+        <ul>
+            <li>Disable analytics in app settings</li>
+            <li>Use the app without cloud sync (local-only mode)</li>
+            <li>Cancel subscription through App Store/Play Store settings</li>
+        </ul>
+        
+        <h2>Children's Privacy</h2>
+        <p>Bible Study Link is not intended for children under 13. We do not knowingly collect personal information from children under 13. If you believe we have collected such information, please contact us immediately.</p>
+        
+        <h2>Changes to This Policy</h2>
+        <p>We may update this Privacy Policy from time to time. We will notify you of any changes by:</p>
+        <ul>
+            <li>Posting the new policy in the app</li>
+            <li>Updating the "Last Updated" date at the top</li>
+            <li>Sending an email notification for significant changes</li>
+        </ul>
+        
+        <h2>Contact Us</h2>
+        <p>If you have questions or concerns about this Privacy Policy, please contact us:</p>
+        <p><strong>Email:</strong> <a href="mailto:support@biblestudylink.app">support@biblestudylink.app</a></p>
+        <p>We aim to respond to all privacy-related inquiries within 48 hours.</p>
+        
+        <hr style="border: none; border-top: 1px solid var(--border); margin: 40px 0;">
+        
+        <p><em>By using Bible Study Link, you agree to the collection and use of information in accordance with this Privacy Policy.</em></p>
+        
+        <footer>
+            <p>&copy; 2026 Bible Study Link. All rights reserved.</p>
+            <p><a href="/bible-study-link-landing.html">Home</a> · <a href="#">Terms of Service</a> · <a href="#">Contact</a></p>
+        </footer>
+    </div>
+</body>
+</html>
