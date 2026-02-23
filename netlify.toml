@@ -6,4 +6,15 @@
   NEXT_TELEMETRY_DISABLED = "1"
 
 [[plugins]]
-  package = "@netlify/plugin-nextjs" 
+  package = "@netlify/plugin-nextjs"
+
+# Static file serving for bible-study-link
+[[redirects]]
+  from = "/bible-study-link/*"
+  to = "/bible-study-link/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/bible-study-link"
+  to = "/bible-study-link/index.html"
+  status = 200 
