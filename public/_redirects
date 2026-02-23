@@ -1,0 +1,2 @@
+/bible-study-link /bible-study-link/index.html 200
+/bible-study-link/* /bible-study-link/:splat 200
