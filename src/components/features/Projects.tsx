@@ -88,20 +88,27 @@ const projects: Project[] = [
     type: 'work',
   },
   {
-    title: 'ShepherdLink | Personal',
+    title: 'RouteFlow',
+    description: 'Your rides, finally organized. RouteFlow gives independent drivers a calm mobile-first command center for rides, rider context, navigation, and a weekly picture after the work is done.',
+    images: ['/images/routeflow-hero-mockup.webp'],
+    tags: ['React Native', 'Tailwind CSS', 'Mobile App'],
+    type: 'work',
+  },
+  {
+    title: 'ShepherdLink',
     description: 'ShepherdLink replaces scattered texts, lost notebooks, and forgotten follow-ups with one simple dashboard for attendance, calls, visits, and care needs; so no one falls through the cracks and every leader stays on the same page.',
     images: ['/images/shepherdlink.png'],
     tags: ['Next.js', 'React', 'SaaS', 'Responsive UI'],
     liveUrl: 'https://shepherdlink.io',
-    type: 'personal',
+    type: 'work',
   },
   {
-    title: 'Suitland Road Church of Christ | Personal',
+    title: 'Suitland Road Church of Christ',
     description: 'Suitland Road Church of Christ website features a robust custom CMS and a custom Event Management platform specifically tailored to the needs of the church.',
     images: ['/images/srcoc.png'],
     tags: ['CMS', 'Event Management', 'React', 'Responsive UI'],
     liveUrl: 'https://suitlandroadcoc.org',
-    type: 'personal',
+    type: 'work',
   },
   {
     title: 'Web App Coming Soon | Personal',
@@ -249,3 +256,5 @@ const Projects = () => {
 }
 
 export default Projects 
+
+
