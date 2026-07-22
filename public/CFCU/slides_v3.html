@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Modernizing the Member Journey: Census FCU Board Presentation</title>
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%235199af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M24 6l18 10v16L24 42 6 32V16Z'/%3E%3Cpath d='M24 6v16l18 10' opacity='0.5'/%3E%3Cpath d='M24 22L6 32' opacity='0.5'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" />
+
+<style>
+/* ================================================================
+   THEME TOKENS · Census FCU
+   ================================================================ */
+:root {
+  --bg: #edf4f6;
+  --bg-elev: rgba(255,255,255,0.78);
+  --surface: #e4eef2;
+  --border: #c8d9df;
+  --text: #42565d;
+  --text-paper: #14272d;
+  --text-dim: #6c7c82;
+  --muted: #8a9ea6;
+  --accent: #5199af;
+  --accent-hl: rgba(81,153,175,0.18);
+  --accent-hl-strong: rgba(81,153,175,0.42);
+  --accent-glow: rgba(81,153,175,0.25);
+  --teal: #f47621;
+  --violet: #8b5cf6;
+  --cyan: #0891b2;
+  --red: #ef4444;
+  --font-display: 'Instrument Serif', serif;
+  --font-body: 'Outfit', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --title-size: clamp(2.6rem, 8vw, 7rem);
+  --h2-size: clamp(1.3rem, 2.8vw, 2.4rem);
+  --h3-size: clamp(0.7rem, 1.1vw, 0.95rem);
+  --slide-padding: clamp(2rem, 6vw, 6rem);
+  --ease: cubic-bezier(0.16,1,0.3,1);
+  --duration: 0.9s;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html,body { height:100%; overflow-x:hidden; background:var(--bg); color:var(--text); font-family:var(--font-body); font-weight:300; -webkit-font-smoothing:antialiased; }
+html { scroll-snap-type:y mandatory; scroll-behavior:smooth; }
+
+.slide {
+  width:100vw;
+  height:100vh;
+  height:100dvh;
+  overflow:hidden;
+  scroll-snap-align:start;
+  scroll-snap-stop:always;
+  display:flex;
+  flex-direction:column;
+  position:relative;
+  background:
+    radial-gradient(ellipse at 82% 8%, rgba(81,153,175,0.18), transparent 42%),
+    radial-gradient(ellipse at 9% 92%, rgba(244,118,33,0.09), transparent 42%),
+    linear-gradient(135deg, rgba(255,255,255,0.64), rgba(237,244,246,0.92));
+}
+.slide-content { flex:1; display:flex; flex-direction:column; justify-content:center; max-height:100%; overflow:hidden; padding:var(--slide-padding); }
+
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background:
+    linear-gradient(rgba(20,39,45,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20,39,45,0.03) 1px, transparent 1px),
+    radial-gradient(circle at 22% 18%, rgba(81,153,175,0.11), transparent 32%),
+    radial-gradient(circle at 86% 78%, rgba(244,118,33,0.07), transparent 36%),
+    linear-gradient(135deg, #edf4f6, #f8fbfc 58%, #e5eff3);
+  background-size:
+    42px 42px,
+    42px 42px,
+    auto,
+    auto,
+    auto;
+}
+
+body::after {
+  content:'';
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  opacity:0.42;
+  background-image:
+    radial-gradient(circle, rgba(23,51,61,0.12) 0.7px, transparent 0.8px);
+  background-size:18px 18px;
+  mask-image:linear-gradient(115deg, transparent 0%, #000 18%, #000 78%, transparent 100%);
+}
+
+#hexBg { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
+.cursor-glow { position:fixed; width:500px; height:500px; border-radius:50%; background:radial-gradient(circle, rgba(81,153,175,0.08) 0%, transparent 70%); pointer-events:none; z-index:0; transform:translate(-50%,-50%); }
+.slide > * { position:relative; z-index:1; }
+.slide::after { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at var(--spot-x,25%) var(--spot-y,30%), rgba(81,153,175,0.12), transparent 48%); pointer-events:none; opacity:0; transition:opacity 1.5s var(--ease); z-index:0; }
+.slide.visible::after { opacity:1; }
+.slide:nth-child(2n)::after { --spot-x:75%; --spot-y:70%; }
+.slide:nth-child(3n)::after { --spot-x:50%; --spot-y:85%; }
+
+/* ================================================================
+   TYPOGRAPHY
+   ================================================================ */
+h1.display { font-family:var(--font-display); font-weight:400; font-size:var(--title-size); line-height:1.02; letter-spacing:-0.018em; color:var(--text-paper); max-width:14ch; }
+h1.display em { font-style:italic; color:var(--accent); }
+h1.display .hl { background:linear-gradient(90deg,var(--accent-hl) 0%,var(--accent-hl-strong) 100%); background-size:0% 70%; background-repeat:no-repeat; background-position:0 82%; padding:0 8px; animation:hlSweep 5s ease infinite; animation-play-state:paused; }
+.slide.visible .hl { animation-play-state:running; }
+@keyframes hlSweep { 0%{background-size:0% 70%} 40%,80%{background-size:100% 70%} 100%{background-size:0% 70%} }
+h1.display .orange { font-style:italic; color:var(--teal); }
+
+h2 { font-family:var(--font-display); font-style:italic; font-weight:400; font-size:var(--h2-size); line-height:1.4; color:var(--text-dim); max-width:40ch; margin-inline:auto; }
+
+h3.kicker { font-family:var(--font-mono); font-weight:500; font-size:var(--h3-size); color:var(--accent); text-transform:uppercase; letter-spacing:0.24em; margin-bottom:clamp(1.2rem,2vw,2rem); display:inline-flex; align-items:center; gap:12px; }
+h3.kicker::before { content:''; display:inline-block; width:28px; height:1px; background:var(--accent); }
+h3.kicker.orange { color:var(--teal); }
+h3.kicker.orange::before { background:var(--teal); }
+
+h3.section-label { font-family:var(--font-mono); font-weight:500; font-size:var(--h3-size); color:var(--muted); text-transform:uppercase; letter-spacing:0.22em; margin-bottom:clamp(1rem,1.6vw,1.5rem); }
+
+strong, .accent { color:var(--accent); font-weight:inherit; }
+
+/* ================================================================
+   SLIDE VARIANTS
+   ================================================================ */
+.lead .slide-content { justify-content:center; align-items:center; text-align:center; }
+.lead h1.display { max-width:18ch; }
+.lead h2 { margin-top:clamp(1.2rem,2.4vw,2rem); }
+
+.iso-slide .slide-content { display:grid; grid-template-columns:1fr 1.1fr; gap:clamp(24px,4vw,80px); align-items:center; padding:clamp(2rem,5vw,5rem) var(--slide-padding); }
+
+.iso-text h2.scene-title { font-family:var(--font-display); font-style:normal; font-weight:400; font-size:clamp(2rem,4.6vw,4.2rem); line-height:1.05; letter-spacing:-0.015em; color:var(--text-paper); max-width:18ch; margin:0 0 clamp(1rem,1.8vw,1.4rem); }
+.iso-text h2.scene-title em { font-style:italic; color:var(--accent); }
+.iso-text .body-text { font-family:var(--font-body); font-weight:300; font-size:clamp(0.88rem,1.2vw,1.05rem); color:var(--text-dim); line-height:1.65; max-width:42ch; }
+.iso-text .fine-list { list-style:none; margin-top:clamp(1.2rem,2vw,1.8rem); border-top:1px solid var(--border); }
+.iso-text .fine-list li { font-family:var(--font-mono); font-size:11px; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; padding:11px 0; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; color:var(--text-dim); }
+.iso-text .fine-list li .k { color:var(--muted); }
+.iso-text .fine-list li .v { color:var(--accent); font-weight:600; }
+.iso-text .fine-list li.orange .v { color:var(--teal); }
+
+.iso-stage { position:relative; width:100%; aspect-ratio:1/1; max-width:560px; max-height:60vh; margin:0 auto; display:flex; align-items:center; justify-content:center; }
+
+/* ================================================================
+   ICON BADGE SYSTEM (replaces emojis)
+   ================================================================ */
+.icon-badge {
+  width: clamp(38px,4.5vw,52px);
+  height: clamp(38px,4.5vw,52px);
+  border-radius: 12px;
+  background: rgba(81,153,175,0.1);
+  border: 1px solid rgba(81,153,175,0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.icon-badge svg {
+  width: clamp(18px,2.2vw,24px);
+  height: clamp(18px,2.2vw,24px);
+  stroke: var(--accent);
+  fill: none;
+}
+.icon-badge.red { background:rgba(239,68,68,0.08); border-color:rgba(239,68,68,0.2); }
+.icon-badge.red svg { stroke:var(--red); }
+.icon-badge.orange { background:rgba(244,118,33,0.08); border-color:rgba(244,118,33,0.22); }
+.icon-badge.orange svg { stroke:var(--teal); }
+.icon-badge.violet { background:rgba(139,92,246,0.08); border-color:rgba(139,92,246,0.22); }
+.icon-badge.violet svg { stroke:var(--violet); }
+.icon-badge.cyan { background:rgba(34,211,238,0.08); border-color:rgba(34,211,238,0.22); }
+.icon-badge.cyan svg { stroke:var(--cyan); }
+
+/* Pillar step icon badge (larger, centered) */
+.ps-icon-badge {
+  width: clamp(44px,5vw,56px);
+  height: clamp(44px,5vw,56px);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 6px auto 10px;
+}
+.ps-icon-badge svg {
+  width: clamp(22px,2.6vw,28px);
+  height: clamp(22px,2.6vw,28px);
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+}
+.p1 .ps-icon-badge { background:rgba(81,153,175,0.12); border:1px solid rgba(81,153,175,0.25); }
+.p1 .ps-icon-badge svg { stroke:var(--accent); }
+.p2 .ps-icon-badge { background:rgba(244,118,33,0.1); border:1px solid rgba(244,118,33,0.25); }
+.p2 .ps-icon-badge svg { stroke:var(--teal); }
+.p3 .ps-icon-badge { background:rgba(139,92,246,0.1); border:1px solid rgba(139,92,246,0.25); }
+.p3 .ps-icon-badge svg { stroke:var(--violet); }
+.p4 .ps-icon-badge { background:rgba(34,211,238,0.1); border:1px solid rgba(34,211,238,0.25); }
+.p4 .ps-icon-badge svg { stroke:var(--cyan); }
+
+/* ================================================================
+   COMPONENTS
+   ================================================================ */
+.logos-row { display:flex; gap:clamp(0.7rem,1.4vw,1.2rem); justify-content:center; flex-wrap:wrap; margin-top:clamp(1.8rem,3.5vw,2.8rem); max-width:90vw; }
+.logo-pill { padding:clamp(0.65rem,1.1vw,0.9rem) clamp(1.1rem,1.8vw,1.5rem); border:1px solid var(--border); border-radius:100px; font-family:var(--font-mono); font-weight:500; font-size:clamp(0.72rem,0.9vw,0.88rem); color:var(--text-dim); background:var(--bg-elev); letter-spacing:0.04em; }
+
+.brand-block { display:flex; align-items:center; gap:clamp(10px,1.2vw,16px); margin-top:clamp(1.8rem,3vw,2.6rem); padding-top:clamp(1.4rem,2.4vw,2rem); border-top:1px solid var(--border); opacity:0; transform:translateY(12px); transition:opacity 0.8s var(--ease) 0.9s, transform 0.8s var(--ease) 0.9s; }
+.slide.visible .brand-block { opacity:1; transform:translateY(0); }
+.brand-block .mark { color:var(--accent); flex-shrink:0; }
+.brand-block img.logo { height:48px; width:auto; object-fit:contain; flex-shrink:0; }
+.brand-block .text { text-align:left; line-height:1.3; }
+.brand-block .title-line { font-family:var(--font-body); font-size:clamp(0.88rem,1.1vw,1.05rem); color:var(--text-paper); letter-spacing:0.22em; text-transform:uppercase; }
+.brand-block .title-line strong { font-weight:800; }
+.brand-block .title-line .thin { font-weight:300; }
+.brand-block .tag-line { font-family:var(--font-display); font-style:italic; font-size:clamp(0.75rem,0.9vw,0.84rem); color:var(--muted); margin-top:3px; }
+
+/* ================================================================
+   REVEAL ANIMATIONS
+   ================================================================ */
+.reveal { opacity:0; transform:translateY(30px) scale(0.98); filter:blur(4px); transition:opacity var(--duration) var(--ease), transform var(--duration) var(--ease), filter var(--duration) var(--ease); }
+.slide.visible .reveal { opacity:1; transform:translateY(0) scale(1); filter:blur(0); }
+.slide.visible .reveal:nth-child(1) { transition-delay:0.1s; }
+.slide.visible .reveal:nth-child(2) { transition-delay:0.25s; }
+.slide.visible .reveal:nth-child(3) { transition-delay:0.4s; }
+.slide.visible .reveal:nth-child(4) { transition-delay:0.55s; }
+.slide.visible .reveal:nth-child(5) { transition-delay:0.7s; }
+.slide.visible h1.reveal { transition-duration:1.2s; }
+
+.logos-row .logo-pill { opacity:0; transform:translateY(16px); transition:all 0.55s var(--ease); }
+.slide.visible .logos-row .logo-pill { opacity:1; transform:translateY(0); }
+.slide.visible .logos-row .logo-pill:nth-child(1) { transition-delay:0.3s; }
+.slide.visible .logos-row .logo-pill:nth-child(2) { transition-delay:0.39s; }
+.slide.visible .logos-row .logo-pill:nth-child(3) { transition-delay:0.48s; }
+.slide.visible .logos-row .logo-pill:nth-child(4) { transition-delay:0.57s; }
+.slide.visible .logos-row .logo-pill:nth-child(5) { transition-delay:0.66s; }
+
+/* ================================================================
+   FIXED UI
+   ================================================================ */
+.progress-bar { position:fixed; top:0; left:0; height:2px; width:0%; background:linear-gradient(90deg,var(--accent),#84c4d5); z-index:1000; transition:width 0.3s var(--ease); box-shadow:0 0 12px var(--accent-glow); }
+
+.nav-dots { position:fixed; right:clamp(12px,1.8vw,28px); top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:clamp(7px,0.8vw,12px); z-index:1000; }
+.nav-dots button { width:8px; height:8px; border-radius:50%; border:1px solid var(--text-dim); background:transparent; cursor:pointer; padding:0; transition:all 0.3s var(--ease); }
+.nav-dots button.active { background:var(--accent); border-color:var(--accent); box-shadow:0 0 8px var(--accent-glow); }
+
+.slide-number { position:fixed; bottom:clamp(14px,2vw,26px); right:clamp(18px,2.4vw,32px); z-index:1000; font-family:var(--font-mono); font-size:0.72rem; color:var(--muted); letter-spacing:0.15em; }
+.slide-number .curr { color:var(--text-paper); }
+
+.watermark { position:fixed; bottom:clamp(14px,2vw,26px); left:clamp(18px,2.4vw,32px); z-index:1000; display:flex; align-items:center; gap:10px; font-family:var(--font-mono); font-weight:500; font-size:0.7rem; color:var(--muted); letter-spacing:0.22em; text-transform:uppercase; }
+.watermark svg { color:var(--accent); }
+.watermark .bar { width:14px; height:1px; background:var(--muted); }
+
+.nav-arrows { position:fixed; bottom:clamp(14px,2vw,26px); left:50%; transform:translateX(-50%); display:flex; gap:10px; z-index:1000; }
+.nav-arrow { width:42px; height:42px; border:1px solid var(--border); background:rgba(255,255,255,0.85); backdrop-filter:blur(8px); border-radius:100px; color:var(--text-dim); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.3s var(--ease); padding:0; }
+.nav-arrow:hover { border-color:var(--accent); color:var(--accent); box-shadow:0 0 16px var(--accent-glow); transform:scale(1.08); }
+.nav-arrow svg { width:18px; height:18px; }
+.nav-arrow:disabled { opacity:0.25; cursor:not-allowed; }
+.nav-arrow:disabled:hover { border-color:var(--border); color:var(--text-dim); box-shadow:none; transform:none; }
+
+/* ================================================================
+   ISO SCENE PRIMITIVES
+   ================================================================ */
+.iso-cube { position:absolute; width:50px; height:50px; transform-style:preserve-3d; transform:rotateX(54.7deg) rotateZ(45deg); }
+.iso-cube .face { position:absolute; width:50px; height:50px; }
+.iso-cube .face.top { transform:translateZ(25px); }
+.iso-cube .face.left { transform:rotateX(90deg) translateZ(25px); }
+.iso-cube .face.right { transform:rotateX(-90deg) translateZ(25px); }
+.iso-cube.cfcu-teal .face.top { background:#6ab4c8; }
+.iso-cube.cfcu-teal .face.left { background:#3d7f9a; }
+.iso-cube.cfcu-teal .face.right { background:#2a5a72; }
+.iso-cube.cfcu-deep .face.top { background:#4a8fa5; }
+.iso-cube.cfcu-deep .face.left { background:#2c6a82; }
+.iso-cube.cfcu-deep .face.right { background:#17455a; }
+
+.scene-hub { position:relative; width:100%; height:100%; display:flex; align-items:center; justify-content:center; border:1px solid var(--border); border-radius:14px; overflow:hidden; background:radial-gradient(ellipse at 50% 50%, #121e28 0%, #080e16 70%); }
+.scene-hub svg.lines { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+.scene-hub .hub-line { stroke:rgba(81,153,175,0.2); stroke-width:1; stroke-dasharray:3 4; fill:none; animation:hubFlowCFCU 2.8s linear infinite; }
+.scene-hub .hub-line:nth-child(1){animation-delay:0s}.scene-hub .hub-line:nth-child(2){animation-delay:0.4s}.scene-hub .hub-line:nth-child(3){animation-delay:0.8s}.scene-hub .hub-line:nth-child(4){animation-delay:1.2s}.scene-hub .hub-line:nth-child(5){animation-delay:1.6s}.scene-hub .hub-line:nth-child(6){animation-delay:2.0s}
+@keyframes hubFlowCFCU { 0%,100%{stroke-dashoffset:14;stroke:rgba(81,153,175,0.2);opacity:0.5} 50%{stroke-dashoffset:0;stroke:rgba(81,153,175,0.75);opacity:1} }
+.scene-hub .hub-center { position:relative; width:54px; height:54px; border-radius:12px; background:linear-gradient(135deg,var(--accent),#3d7f9a); display:flex; align-items:center; justify-content:center; z-index:3; box-shadow:0 0 0 6px rgba(81,153,175,0.14),0 0 40px rgba(81,153,175,0.45); animation:hubPulseCFCU 2.8s ease infinite; font-family:var(--font-mono); font-size:9px; font-weight:700; letter-spacing:0.14em; color:#fff; text-align:center; line-height:1.3; }
+@keyframes hubPulseCFCU { 0%,100%{box-shadow:0 0 0 6px rgba(81,153,175,0.14),0 0 40px rgba(81,153,175,0.45)} 50%{box-shadow:0 0 0 10px rgba(81,153,175,0.2),0 0 56px rgba(81,153,175,0.6)} }
+.scene-hub .hub-node { position:absolute; padding:7px 10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; z-index:2; font-family:var(--font-mono); font-size:9px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.4); white-space:nowrap; }
+.scene-hub .hub-node.lit { border-color:rgba(81,153,175,0.55); background:rgba(81,153,175,0.1); color:rgba(81,153,175,0.95); box-shadow:0 0 14px rgba(81,153,175,0.25); }
+.scene-hub .hub-node.p1{left:10%;top:18%}.scene-hub .hub-node.p2{right:10%;top:18%}.scene-hub .hub-node.p3{left:3%;top:50%;transform:translateY(-50%)}.scene-hub .hub-node.p4{right:3%;top:50%;transform:translateY(-50%)}.scene-hub .hub-node.p5{left:10%;bottom:18%}.scene-hub .hub-node.p6{right:10%;bottom:18%}
+
+.scene-orbit { position:relative; width:100%; height:100%; display:flex; align-items:center; justify-content:center; border:1px solid var(--border); border-radius:14px; overflow:hidden; background:radial-gradient(ellipse at 50% 50%, #0e1e2a 0%, #080e14 70%); perspective:600px; transform-style:preserve-3d; }
+.scene-orbit .orb-core { position:relative; width:28px; height:28px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #84c4d5, #2a5a72); box-shadow:0 0 24px var(--accent-glow); z-index:4; animation:coreBreatheCFCU 2s ease-in-out infinite; }
+@keyframes coreBreatheCFCU { 0%,100%{transform:scale(1);box-shadow:0 0 24px var(--accent-glow)} 50%{transform:scale(1.15);box-shadow:0 0 40px rgba(81,153,175,0.55)} }
+.scene-orbit .ring { position:absolute; left:50%; top:50%; border-radius:50%; transform-style:preserve-3d; }
+.scene-orbit .ring.r1 { width:100px; height:100px; margin:-50px 0 0 -50px; border:1px solid rgba(81,153,175,0.55); transform:rotateX(70deg); animation:ringSpin1 8s linear infinite; }
+.scene-orbit .ring.r2 { width:150px; height:150px; margin:-75px 0 0 -75px; border:1px solid rgba(81,153,175,0.35); transform:rotateX(70deg) rotateY(45deg); animation:ringSpin2 12s linear infinite; }
+.scene-orbit .ring.r3 { width:200px; height:200px; margin:-100px 0 0 -100px; border:1px solid rgba(81,153,175,0.2); transform:rotateX(70deg) rotateY(-45deg); animation:ringSpin1 16s linear infinite; }
+@keyframes ringSpin1 { to{transform:rotateX(70deg) rotateZ(360deg)} }
+@keyframes ringSpin2 { to{transform:rotateX(70deg) rotateY(45deg) rotateZ(360deg)} }
+.scene-orbit .sat { position:absolute; width:10px; height:10px; border-radius:50%; background:var(--accent); box-shadow:0 0 8px var(--accent); top:-5px; left:calc(50% - 5px); }
+.scene-orbit .ring-label { position:absolute; font-family:var(--font-mono); font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(255,255,255,0.4); }
+.scene-orbit .rl-observe{top:12%;left:50%;transform:translateX(-50%);color:rgba(81,153,175,0.9)}.scene-orbit .rl-think{top:50%;right:8%;transform:translateY(-50%)}.scene-orbit .rl-act{bottom:12%;left:50%;transform:translateX(-50%)}.scene-orbit .rl-repeat{top:50%;left:8%;transform:translateY(-50%)}
+
+/* ================================================================
+   MOTION
+   ================================================================ */
+.brand-block .mark { animation:brandFloat 4s ease-in-out infinite; }
+@keyframes brandFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
+.slide.lead.visible h1.display em { animation:accentGlow 3.5s ease-in-out infinite; }
+@keyframes accentGlow { 0%,100%{text-shadow:0 0 0 transparent} 50%{text-shadow:0 0 22px var(--accent-glow)} }
+@keyframes phoneRock { 0%,100%{transform:rotateY(-18deg) rotateX(2deg)} 50%{transform:rotateY(18deg) rotateX(-2deg)} }
+
+/* ================================================================
+   CONVERT STAGE · Slide 07
+   ================================================================ */
+.cv-stage {
+  position:relative; width:100%; height:100%;
+  background:radial-gradient(ellipse at 50% 20%, #1e0a38 0%, #090510 75%);
+  border:1px solid rgba(139,92,246,0.22); border-radius:14px; overflow:hidden;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:clamp(1rem,2.5vw,2rem);
+}
+.cv-stage::before {
+  content:''; position:absolute; top:-10%; left:50%; transform:translateX(-50%);
+  width:80%; height:55%;
+  background:radial-gradient(ellipse, rgba(139,92,246,0.14), transparent 70%);
+  pointer-events:none;
+}
+.cv-node {
+  display:flex; align-items:center; gap:clamp(8px,1vw,12px);
+  background:rgba(139,92,246,0.07); border:1px solid rgba(139,92,246,0.22);
+  border-radius:10px; padding:clamp(7px,1vw,12px) clamp(10px,1.4vw,16px);
+  width:min(82%,310px); position:relative; z-index:2;
+  opacity:0; transform:translateY(8px);
+  transition:opacity 0.5s var(--ease), transform 0.5s var(--ease);
+}
+.cv-line {
+  width:2px; height:0;
+  background:linear-gradient(to bottom, rgba(139,92,246,0.8), rgba(139,92,246,0.12));
+  border-radius:2px; z-index:1; transition:height 0.35s var(--ease);
+}
+.cv-icon {
+  width:clamp(28px,3.2vw,36px); height:clamp(28px,3.2vw,36px);
+  border-radius:8px; background:rgba(139,92,246,0.15);
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.cv-icon svg {
+  width:clamp(13px,1.6vw,17px); height:clamp(13px,1.6vw,17px);
+  stroke:#a78bfa; fill:none; stroke-linecap:round; stroke-linejoin:round; stroke-width:1.5;
+}
+.cv-label {
+  font-family:var(--font-body); font-size:clamp(0.64rem,0.82vw,0.8rem);
+  font-weight:500; color:rgba(255,255,255,0.65); flex:1; line-height:1.3;
+}
+.cv-check {
+  width:clamp(16px,1.8vw,20px); height:clamp(16px,1.8vw,20px);
+  border-radius:50%; background:#7c3aed;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  opacity:0; transform:scale(0);
+  transition:opacity 0.35s var(--ease), transform 0.35s var(--ease);
+}
+.cv-check svg {
+  width:9px; height:9px; stroke:#fff; fill:none;
+  stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
+}
+.cv-cursor {
+  position:absolute; right:15%; top:11%;
+  z-index:10; opacity:0; pointer-events:none;
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,0.8));
+}
+.cv-cursor svg { width:clamp(13px,1.6vw,17px); height:clamp(13px,1.6vw,17px); fill:#fff; }
+
+.slide.visible .cv-n1 { opacity:1; transform:translateY(0); transition-delay:0.3s; }
+.slide.visible .cv-n2 { opacity:1; transform:translateY(0); transition-delay:0.78s; }
+.slide.visible .cv-n3 { opacity:1; transform:translateY(0); transition-delay:1.26s; }
+.slide.visible .cv-n4 { opacity:1; transform:translateY(0); transition-delay:1.74s; border-color:rgba(139,92,246,0.65); background:rgba(139,92,246,0.16); }
+.slide.visible .cv-l1 { height:clamp(14px,2vw,22px); transition-delay:0.6s; }
+.slide.visible .cv-l2 { height:clamp(14px,2vw,22px); transition-delay:1.08s; }
+.slide.visible .cv-l3 { height:clamp(14px,2vw,22px); transition-delay:1.56s; }
+.slide.visible .cv-check { opacity:1; transform:scale(1); transition-delay:2.2s; }
+.slide.visible .cv-cursor { animation:cvCursorMove 3.4s var(--ease) 0.35s forwards; }
+.slide.visible .cv-n4 { animation:cvFinalPulse 2.5s ease-in-out 2.4s infinite; }
+
+@keyframes cvCursorMove {
+  0%   { opacity:0; top:11%; }
+  6%   { opacity:1; top:11%; }
+  26%  { opacity:1; top:30%; }
+  42%  { opacity:1; top:30%; }
+  60%  { opacity:1; top:52%; }
+  76%  { opacity:1; top:52%; }
+  92%  { opacity:1; top:73%; }
+  100% { opacity:0.7; top:73%; }
+}
+@keyframes cvFinalPulse {
+  0%,100% { box-shadow:0 0 12px rgba(139,92,246,0.25); }
+  50%      { box-shadow:0 0 30px rgba(139,92,246,0.55), 0 0 0 4px rgba(139,92,246,0.1); }
+}
+
+/* ================================================================
+   STAT CARDS
+   ================================================================ */
+.stat-row { display:flex; gap:clamp(1rem,1.8vw,1.6rem); justify-content:center; flex-wrap:wrap; margin-top:clamp(2rem,3.8vw,3rem); max-width:860px; margin-inline:auto; }
+.stat-card { flex:1; min-width:200px; max-width:260px; padding:clamp(1.2rem,2vw,1.8rem); background:var(--bg-elev); border:1px solid var(--border); border-top:3px solid var(--accent); border-radius:10px; text-align:center; opacity:0; transform:translateY(20px); transition:opacity 0.65s var(--ease),transform 0.65s var(--ease); }
+.slide.visible .stat-card{opacity:1;transform:translateY(0)}.slide.visible .stat-card:nth-child(1){transition-delay:0.35s}.slide.visible .stat-card:nth-child(2){transition-delay:0.5s}.slide.visible .stat-card:nth-child(3){transition-delay:0.65s}
+.stat-card.warm{border-top-color:var(--teal)}.stat-card.violet{border-top-color:var(--violet)}
+.stat-card .stat-word { font-family:var(--font-display); font-weight:400; font-style:italic; font-size:clamp(1.8rem,3.5vw,2.8rem); color:var(--accent); line-height:1; display:block; margin-bottom:8px; }
+.stat-card.warm .stat-word{color:var(--teal)}.stat-card.violet .stat-word{color:var(--violet)}
+.stat-card .stat-label { font-family:var(--font-body); font-weight:300; font-size:clamp(0.72rem,0.88vw,0.84rem); color:var(--text-dim); line-height:1.45; }
+
+/* ================================================================
+   PROBLEM CARDS · Slide 2
+   ================================================================ */
+.problem-grid { display:grid; grid-template-columns:1fr 1fr; gap:clamp(0.8rem,1.4vw,1.2rem); max-width:min(88vw,820px); margin:clamp(1.6rem,2.8vw,2.4rem) auto 0; }
+.problem-card { background:var(--bg-elev); border:1px solid var(--border); border-left:3px solid var(--red); border-radius:10px; padding:clamp(1rem,1.6vw,1.4rem) clamp(1.2rem,1.8vw,1.6rem); display:flex; gap:clamp(0.8rem,1.2vw,1rem); align-items:flex-start; opacity:0; transform:translateY(18px); transition:opacity 0.6s var(--ease),transform 0.6s var(--ease); }
+.slide.visible .problem-card{opacity:1;transform:translateY(0)}.slide.visible .problem-card:nth-child(1){transition-delay:0.3s}.slide.visible .problem-card:nth-child(2){transition-delay:0.44s}.slide.visible .problem-card:nth-child(3){transition-delay:0.58s}.slide.visible .problem-card:nth-child(4){transition-delay:0.72s}
+.problem-card .p-title { font-family:var(--font-body); font-weight:600; font-size:clamp(0.82rem,1.1vw,1rem); color:var(--text-paper); margin-bottom:4px; }
+.problem-card .p-body { font-family:var(--font-body); font-weight:300; font-size:clamp(0.72rem,0.92vw,0.86rem); color:var(--text-dim); line-height:1.5; }
+
+/* ================================================================
+   DESKTOP BROWSER MOCKUP · Slide 3
+   ================================================================ */
+.mockup-slide-layout { display:grid; grid-template-columns:1fr 1.2fr; gap:clamp(2rem,4vw,5rem); align-items:center; max-width:min(95vw,1100px); margin:0 auto; height:100%; padding:clamp(1.5rem,3vw,3rem) var(--slide-padding); }
+.mockup-text h2.scene-title { font-family:var(--font-display); font-style:normal; font-weight:400; font-size:clamp(2rem,4vw,3.6rem); line-height:1.05; letter-spacing:-0.015em; color:var(--text-paper); max-width:20ch; margin-bottom:clamp(0.8rem,1.4vw,1.2rem); }
+.mockup-text h2.scene-title em { font-style:italic; color:var(--accent); }
+.mockup-text .body-text { font-family:var(--font-body); font-weight:300; font-size:clamp(0.84rem,1.1vw,1rem); color:var(--text-dim); line-height:1.65; max-width:42ch; }
+.mockup-wrap { width:100%; display:flex; align-items:center; justify-content:center; }
+
+.site-mockup { width:100%; max-width:480px; background:white; border:1px solid #ccc; border-radius:10px; overflow:hidden; box-shadow:0 28px 72px rgba(20,39,45,0.22),0 0 0 1px rgba(0,0,0,0.06); }
+.mock-browser-bar { background:#f0f0f0; padding:8px 12px; display:flex; align-items:center; gap:5px; border-bottom:1px solid #ddd; }
+.mock-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+.mock-dot.r{background:#ff5f57}.mock-dot.y{background:#febc2e}.mock-dot.g{background:#28c840}
+.mock-addr { flex:1; margin-left:10px; background:white; border:1px solid #ddd; border-radius:5px; padding:3px 10px; font-family:var(--font-mono); font-size:clamp(0.5rem,0.65vw,0.64rem); color:#666; }
+.mock-nav-bar { background:#14272d; padding:clamp(7px,1vw,11px) clamp(12px,1.5vw,17px); display:flex; align-items:center; justify-content:space-between; }
+.mock-brand { font-family:var(--font-body); font-weight:800; font-size:clamp(0.58rem,0.82vw,0.8rem); color:white; letter-spacing:0.1em; text-transform:uppercase; }
+.mock-links { display:flex; gap:clamp(8px,1.1vw,13px); align-items:center; }
+.mock-links span { font-family:var(--font-body); font-size:clamp(0.46rem,0.6vw,0.58rem); color:rgba(255,255,255,0.65); }
+.mock-links .mock-login { background:var(--accent); color:white; padding:3px 10px; border-radius:20px; font-weight:600; font-size:clamp(0.44rem,0.58vw,0.56rem); }
+.mock-hero-section { background:linear-gradient(135deg,#dff0f7 0%,#c2e4f2 100%); padding:clamp(12px,1.8vw,20px) clamp(13px,1.7vw,18px); }
+.mock-tag { font-family:var(--font-mono); font-size:clamp(0.4rem,0.54vw,0.52rem); color:var(--accent); letter-spacing:0.16em; text-transform:uppercase; margin-bottom:4px; }
+.mock-hero-section h3 { font-family:var(--font-body); font-weight:700; font-size:clamp(0.8rem,1.1vw,1.08rem); color:#14272d; line-height:1.2; margin-bottom:4px; }
+.mock-hero-section h3 .rate { color:var(--teal); }
+.mock-hero-section p { font-family:var(--font-body); font-size:clamp(0.46rem,0.62vw,0.6rem); color:#5a7480; margin-bottom:10px; line-height:1.5; }
+.mock-btns { display:flex; gap:6px; }
+.mock-btn-primary { background:var(--teal); color:white; padding:5px 12px; border-radius:20px; font-family:var(--font-body); font-size:clamp(0.44rem,0.6vw,0.58rem); font-weight:700; }
+.mock-btn-secondary { border:1px solid var(--accent); color:var(--accent); padding:5px 12px; border-radius:20px; font-family:var(--font-body); font-size:clamp(0.44rem,0.6vw,0.58rem); }
+
+/* Quick Find Bar */
+.mock-quick-find { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:white; }
+.mock-qf-item { padding:clamp(6px,0.9vw,10px) clamp(6px,0.8vw,9px); display:flex; flex-direction:column; align-items:center; gap:3px; border-right:1px solid var(--border); cursor:default; }
+.mock-qf-item:last-child { border-right:none; }
+.mock-qf-item svg { width:clamp(10px,1.3vw,14px); height:clamp(10px,1.3vw,14px); stroke:var(--accent); fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+.mock-qf-label { font-family:var(--font-body); font-size:clamp(0.38rem,0.5vw,0.48rem); color:var(--text-dim); text-align:center; font-weight:500; line-height:1.2; }
+
+.mock-cards-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; padding:clamp(8px,1.2vw,13px); background:white; }
+.mock-c { background:var(--bg-elev); border:1px solid var(--border); border-radius:7px; padding:clamp(7px,0.9vw,10px); text-align:center; }
+.mock-c-name { font-family:var(--font-body); font-size:clamp(0.42rem,0.56vw,0.54rem); color:var(--text-dim); font-weight:600; display:block; margin-bottom:2px; }
+.mock-c-rate { font-family:var(--font-mono); font-size:clamp(0.52rem,0.68vw,0.66rem); color:var(--teal); font-weight:700; display:block; }
+.mock-c-sub { font-family:var(--font-body); font-size:clamp(0.36rem,0.48vw,0.46rem); color:var(--muted); display:block; margin-top:2px; }
+.mock-footer-bar { background:#f7fafb; border-top:1px solid var(--border); padding:clamp(5px,0.7vw,8px) clamp(12px,1.5vw,16px); display:flex; justify-content:space-between; align-items:center; }
+.mock-footer-txt { font-family:var(--font-mono); font-size:clamp(0.36rem,0.46vw,0.44rem); color:var(--muted); letter-spacing:0.08em; }
+.mock-footer-ncua { font-family:var(--font-mono); font-size:clamp(0.36rem,0.46vw,0.44rem); color:var(--accent); letter-spacing:0.06em; }
+
+/* ================================================================
+   FOUR PILLARS FLOW · Slide 4
+   ================================================================ */
+.pillars-flow { display:flex; align-items:stretch; max-width:min(92vw,940px); margin:clamp(1.6rem,2.8vw,2.4rem) auto 0; }
+.pillar-step { flex:1; background:var(--bg-elev); border:1px solid var(--border); padding:clamp(1rem,1.5vw,1.4rem) clamp(0.9rem,1.3vw,1.1rem); text-align:center; position:relative; opacity:0; transform:translateX(-12px); transition:opacity 0.6s var(--ease),transform 0.6s var(--ease); }
+.pillar-step:first-child{border-radius:10px 0 0 10px}.pillar-step:last-child{border-radius:0 10px 10px 0}
+.pillar-step+.pillar-step{border-left:none}
+.slide.visible .pillar-step{opacity:1;transform:translateX(0)}.slide.visible .pillar-step:nth-child(1){transition-delay:0.25s}.slide.visible .pillar-step:nth-child(2){transition-delay:0.4s}.slide.visible .pillar-step:nth-child(3){transition-delay:0.55s}.slide.visible .pillar-step:nth-child(4){transition-delay:0.7s}
+.pillar-step::before { content:''; position:absolute; top:0; left:0; width:100%; height:4px; }
+.pillar-step:first-child::before{border-radius:10px 0 0 0}.pillar-step:last-child::before{border-radius:0 10px 0 0}
+.p1::before{background:var(--accent)}.p2::before{background:var(--teal)}.p3::before{background:var(--violet)}.p4::before{background:var(--cyan)}
+.pillar-arrow { position:absolute; right:-10px; top:50%; transform:translateY(-50%); width:20px; height:20px; background:white; border:1px solid var(--border); border-radius:50%; display:flex; align-items:center; justify-content:center; z-index:2; font-size:0.5rem; color:var(--muted); }
+.ps-num { font-family:var(--font-mono); font-size:clamp(0.5rem,0.65vw,0.62rem); font-weight:600; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:4px; }
+.p1 .ps-num{color:var(--accent)}.p2 .ps-num{color:var(--teal)}.p3 .ps-num{color:var(--violet)}.p4 .ps-num{color:var(--cyan)}
+.ps-title { font-family:var(--font-display); font-weight:400; font-size:clamp(0.9rem,1.25vw,1.15rem); color:var(--text-paper); margin-bottom:5px; line-height:1.2; }
+.ps-body { font-family:var(--font-body); font-weight:300; font-size:clamp(0.62rem,0.8vw,0.76rem); color:var(--text-dim); line-height:1.5; }
+
+/* ================================================================
+   IPHONE MOCKUP · Slide 5
+   ================================================================ */
+.iphone-scene {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.iphone-outer {
+  position: relative;
+  width: clamp(170px, 20vw, 230px);
+  filter: drop-shadow(0 40px 70px rgba(0,0,0,0.38)) drop-shadow(0 0 0 1px rgba(0,0,0,0.5));
+}
+
+/* Side volume buttons */
+.iphone-vol-up, .iphone-vol-down, .iphone-mute, .iphone-power {
+  position: absolute;
+  background: #2a2a2e;
+  border-radius: 3px;
+}
+.iphone-mute { left:-3.5px; top:14%; width:3.5px; height:5%; border-radius:3px 0 0 3px; }
+.iphone-vol-up { left:-3.5px; top:24%; width:3.5px; height:9%; border-radius:3px 0 0 3px; }
+.iphone-vol-down { left:-3.5px; top:35%; width:3.5px; height:9%; border-radius:3px 0 0 3px; }
+.iphone-power { right:-3.5px; top:24%; width:3.5px; height:14%; border-radius:0 3px 3px 0; }
+
+.iphone-frame {
+  background: linear-gradient(145deg, #2c2c2e, #1c1c1e);
+  border-radius: clamp(36px, 5vw, 48px);
+  padding: clamp(10px, 1.4vw, 14px);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.1),
+    0 0 0 1px rgba(0,0,0,0.9);
+  position: relative;
+}
+
+.iphone-screen-wrap {
+  background: white;
+  border-radius: clamp(26px, 3.6vw, 36px);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Dynamic Island */
+.iphone-island {
+  position: absolute;
+  top: clamp(8px,1.2vw,12px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(70px,9.5vw,110px);
+  height: clamp(20px,2.8vw,28px);
+  background: #1c1c1e;
+  border-radius: 20px;
+  z-index: 10;
+}
+
+/* Home indicator */
+.iphone-home-bar {
+  background: #f7f7f7;
+  padding: 5px 0 8px;
+  display: flex;
+  justify-content: center;
+}
+.iphone-home-bar-line {
+  width: 32%;
+  height: 4px;
+  background: #1c1c1e;
+  border-radius: 2px;
+  opacity: 0.25;
+}
+
+/* Mobile site content inside iPhone */
+.mobile-status-bar {
+  padding: clamp(28px,4vw,40px) clamp(12px,1.6vw,16px) clamp(4px,0.6vw,7px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #14272d;
+}
+.mobile-time {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: clamp(0.52rem,0.72vw,0.7rem);
+  color: white;
+  letter-spacing: 0.02em;
+}
+.mobile-sig {
+  display: flex;
+  gap: 3px;
+  align-items: flex-end;
+}
+.mobile-sig-bar {
+  background: rgba(255,255,255,0.8);
+  border-radius: 1px;
+  width: clamp(2px,0.3vw,3px);
+}
+.mobile-nav-strip {
+  background: #14272d;
+  padding: clamp(5px,0.7vw,8px) clamp(10px,1.4vw,14px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.mobile-logo {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: clamp(0.5rem,0.7vw,0.68rem);
+  color: white;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.mobile-hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2px,0.3vw,3px);
+}
+.mobile-hamburger span {
+  width: clamp(12px,1.6vw,16px);
+  height: 1.5px;
+  background: rgba(255,255,255,0.65);
+  border-radius: 1px;
+  display: block;
+}
+.mobile-hero-strip {
+  background: linear-gradient(160deg, #e0eff6 0%, #c6e3f0 100%);
+  padding: clamp(10px,1.4vw,14px) clamp(10px,1.4vw,14px);
+}
+.mobile-rate-tag {
+  font-family: var(--font-mono);
+  font-size: clamp(0.38rem,0.52vw,0.5rem);
+  color: var(--accent);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.mobile-rate-big {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: clamp(0.9rem,1.3vw,1.2rem);
+  color: var(--teal);
+  line-height: 1;
+  margin-bottom: 2px;
+}
+.mobile-rate-label {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: clamp(0.52rem,0.72vw,0.68rem);
+  color: #14272d;
+  margin-bottom: 3px;
+}
+.mobile-rate-sub {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: clamp(0.4rem,0.54vw,0.52rem);
+  color: #5a7480;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+.mobile-cta-btn {
+  background: var(--teal);
+  color: white;
+  display: inline-block;
+  padding: clamp(4px,0.6vw,6px) clamp(12px,1.6vw,16px);
+  border-radius: 20px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: clamp(0.44rem,0.6vw,0.58rem);
+}
+.mobile-quick-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0;
+  background: white;
+  border-bottom: 1px solid var(--border);
+}
+.mobile-quick-item {
+  padding: clamp(6px,0.9vw,9px) clamp(4px,0.6vw,6px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  border-right: 1px solid var(--border);
+}
+.mobile-quick-item:last-child { border-right: none; }
+.mobile-quick-item svg {
+  width: clamp(11px,1.4vw,14px);
+  height: clamp(11px,1.4vw,14px);
+  stroke: var(--accent);
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.mobile-quick-txt {
+  font-family: var(--font-body);
+  font-size: clamp(0.34rem,0.46vw,0.44rem);
+  color: var(--text-dim);
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.2;
+}
+.mobile-products-strip {
+  background: white;
+  padding: clamp(6px,0.8vw,10px) clamp(8px,1.1vw,11px);
+}
+.mobile-sec-label {
+  font-family: var(--font-mono);
+  font-size: clamp(0.34rem,0.46vw,0.44rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+.mobile-prod-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: clamp(5px,0.7vw,8px) 0;
+  border-bottom: 1px solid var(--border);
+}
+.mobile-prod-item:last-child { border-bottom: none; }
+.mobile-prod-name {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: clamp(0.46rem,0.62vw,0.6rem);
+  color: var(--text-paper);
+}
+.mobile-prod-rate {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: clamp(0.46rem,0.62vw,0.6rem);
+  color: var(--teal);
+}
+.mobile-apply-strip {
+  margin: clamp(5px,0.7vw,8px) clamp(8px,1.1vw,11px);
+  background: var(--accent);
+  color: white;
+  text-align: center;
+  padding: clamp(5px,0.7vw,8px);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: clamp(0.44rem,0.6vw,0.58rem);
+}
+.mobile-bottom-nav {
+  background: white;
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.mobile-bnav-item {
+  padding: clamp(4px,0.6vw,7px) 0 clamp(3px,0.5vw,5px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.mobile-bnav-item svg {
+  width: clamp(11px,1.4vw,14px);
+  height: clamp(11px,1.4vw,14px);
+  stroke: var(--muted);
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.mobile-bnav-item.active svg { stroke: var(--accent); }
+.mobile-bnav-label {
+  font-family: var(--font-body);
+  font-size: clamp(0.32rem,0.43vw,0.41rem);
+  color: var(--muted);
+  font-weight: 500;
+}
+.mobile-bnav-item.active .mobile-bnav-label { color: var(--accent); }
+
+/* ================================================================
+   OUTCOMES · Slide 9
+   ================================================================ */
+.outcome-grid { display:grid; grid-template-columns:1fr 1fr; gap:clamp(0.7rem,1.1vw,1rem); max-width:min(88vw,840px); margin:clamp(1.4rem,2.4vw,2rem) auto 0; }
+.outcome-card { background:var(--bg-elev); border:1px solid var(--border); border-radius:10px; padding:clamp(1rem,1.5vw,1.4rem); display:flex; gap:clamp(0.7rem,1vw,0.9rem); align-items:flex-start; opacity:0; transform:translateY(14px); transition:opacity 0.6s var(--ease),transform 0.6s var(--ease); }
+.slide.visible .outcome-card{opacity:1;transform:translateY(0)}.slide.visible .outcome-card:nth-child(1){transition-delay:0.28s}.slide.visible .outcome-card:nth-child(2){transition-delay:0.4s}.slide.visible .outcome-card:nth-child(3){transition-delay:0.52s}.slide.visible .outcome-card:nth-child(4){transition-delay:0.64s}.slide.visible .outcome-card:nth-child(5){transition-delay:0.76s}.slide.visible .outcome-card:nth-child(6){transition-delay:0.88s}
+.outcome-card .oc-title { font-family:var(--font-body); font-weight:600; font-size:clamp(0.78rem,1vw,0.94rem); color:var(--text-paper); margin-bottom:3px; }
+.outcome-card .oc-body { font-family:var(--font-body); font-weight:300; font-size:clamp(0.66rem,0.84vw,0.8rem); color:var(--text-dim); line-height:1.45; }
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-width:900px) {
+  .mockup-slide-layout{grid-template-columns:1fr}.mockup-wrap{display:none}
+  .iso-slide .slide-content{grid-template-columns:1fr;gap:32px}
+  .problem-grid{grid-template-columns:1fr}.pillars-flow{flex-direction:column}
+  .pillar-step{border-radius:10px!important;border:1px solid var(--border)!important}.pillar-step+.pillar-step{border-top:none!important}
+  .outcome-grid{grid-template-columns:1fr}.nav-dots{display:none}
+}
+@media (max-height:700px) { :root{--slide-padding:clamp(1rem,4vw,3rem);--title-size:clamp(1.9rem,6vw,4.4rem)} }
+@media (max-height:600px) { :root{--title-size:clamp(1.6rem,5vw,3.2rem)} .nav-dots{display:none} }
+@media (max-width:800px) { .nav-dots{display:none} }
+@media (prefers-reduced-motion:reduce) { *,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.2ms!important} html{scroll-behavior:auto} }
+
+/* ================================================================
+   AGENDA SLIDE · Slide 02
+   ================================================================ */
+.agenda-list { display:flex; flex-direction:column; gap:clamp(0.45rem,0.7vw,0.75rem); margin-top:clamp(1.4rem,2.2vw,2.2rem); width:100%; max-width:min(88vw,700px); }
+.agenda-item { display:flex; align-items:center; gap:clamp(0.9rem,1.6vw,1.6rem); padding:clamp(0.7rem,1.1vw,1.1rem) clamp(1.1rem,1.8vw,1.8rem); border:1px solid var(--border); border-radius:10px; background:var(--bg-elev); opacity:0; transform:translateX(-20px); transition:opacity 0.5s var(--ease), transform 0.5s var(--ease); }
+.slide.visible .agenda-item:nth-child(1){opacity:1;transform:translateX(0);transition-delay:0.28s}
+.slide.visible .agenda-item:nth-child(2){opacity:1;transform:translateX(0);transition-delay:0.42s}
+.slide.visible .agenda-item:nth-child(3){opacity:1;transform:translateX(0);transition-delay:0.56s}
+.slide.visible .agenda-item:nth-child(4){opacity:1;transform:translateX(0);transition-delay:0.70s}
+.slide.visible .agenda-item:nth-child(5){opacity:1;transform:translateX(0);transition-delay:0.84s}
+.agenda-num { font-family:var(--font-mono); font-size:clamp(0.72rem,0.9vw,0.9rem); font-weight:600; color:var(--accent); min-width:2rem; letter-spacing:0.06em; }
+.agenda-divider { width:1px; height:clamp(22px,2.8vw,34px); background:var(--border); flex-shrink:0; }
+.agenda-title { font-family:var(--font-body); font-weight:600; font-size:clamp(0.8rem,1vw,0.98rem); color:var(--text-paper); margin-bottom:2px; }
+.agenda-sub { font-family:var(--font-body); font-weight:300; font-size:clamp(0.66rem,0.82vw,0.8rem); color:var(--text-dim); }
+
+/* Opportunity cards (positive reframe of problem cards) */
+.opp-cards .problem-card { border-left-color:var(--accent); }
+
+/* ================================================================
+   BROWSER MOCKUP · Slide 03
+   ================================================================ */
+.browser-wrap { width:100%; max-width:min(88vw,1020px); margin:0 auto; border-radius:14px; overflow:hidden; box-shadow:0 32px 80px rgba(0,0,0,0.22), 0 0 0 1px rgba(0,0,0,0.12); background:#fff; }
+.browser-chrome { display:flex; align-items:center; gap:12px; padding:0 16px; height:40px; background:#e8ecef; border-bottom:1px solid #cdd4d9; flex-shrink:0; }
+.browser-dots { display:flex; gap:6px; flex-shrink:0; }
+.browser-dots span { width:12px; height:12px; border-radius:50%; }
+.browser-dots .dot-r { background:#ff5f57; }
+.browser-dots .dot-y { background:#febc2e; }
+.browser-dots .dot-g { background:#28c840; }
+.browser-url { flex:1; display:flex; align-items:center; gap:6px; background:#fff; border-radius:6px; padding:0 10px; height:26px; font-family:var(--font-mono); font-size:0.72rem; color:#6c7c82; border:1px solid #d0d8dd; max-width:340px; margin:0 auto; }
+.browser-url svg { width:13px; height:13px; color:#28c840; flex-shrink:0; }
+.browser-nav-icons { display:flex; gap:8px; flex-shrink:0; }
+.browser-nav-icons svg { width:15px; height:15px; color:#9aabb2; }
+
+/* Site nav inside browser */
+.site-preview { display:flex; flex-direction:column; }
+.site-nav { display:flex; align-items:center; gap:clamp(0.8rem,1.6vw,1.6rem); padding:0 clamp(1rem,2.5vw,2.4rem); height:clamp(44px,5.5vw,60px); background:#fff; border-bottom:1px solid #edf1f3; flex-shrink:0; }
+.site-logo { height:clamp(24px,3vw,36px); width:auto; object-fit:contain; flex-shrink:0; }
+.site-nav-links { display:flex; gap:clamp(0.6rem,1.4vw,1.5rem); flex:1; }
+.site-nav-links a { font-family:var(--font-body); font-size:clamp(0.62rem,0.85vw,0.8rem); font-weight:500; color:#2c4a5a; text-decoration:none; cursor:default; white-space:nowrap; }
+.site-nav-links a.active { border-bottom:2px solid #5199af; padding-bottom:1px; color:#5199af; }
+.site-nav-actions { display:flex; gap:8px; flex-shrink:0; }
+.btn-apply { background:transparent; border:1.5px solid #14344a; color:#14344a; padding:0 clamp(8px,1vw,14px); height:clamp(24px,2.8vw,30px); border-radius:5px; font-family:var(--font-body); font-size:clamp(0.58rem,0.75vw,0.74rem); font-weight:600; cursor:default; }
+.btn-login { background:#14344a; border:1.5px solid #14344a; color:#fff; padding:0 clamp(8px,1vw,14px); height:clamp(24px,2.8vw,30px); border-radius:5px; font-family:var(--font-body); font-size:clamp(0.58rem,0.75vw,0.74rem); font-weight:600; cursor:default; }
+
+/* Hero section */
+.site-hero { position:relative; height:clamp(180px,26vw,340px); background:linear-gradient(120deg, #0d1e2d 0%, #0f2a3d 40%, #152d40 100%); overflow:hidden; display:flex; align-items:flex-end; }
+.site-hero::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 70% 50%, rgba(20,52,74,0.5) 0%, transparent 70%), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%230d1e2d' width='400' height='300'/%3E%3Ccircle cx='280' cy='150' r='90' fill='rgba(30,60,85,0.6)'/%3E%3Ccircle cx='320' cy='120' r='60' fill='rgba(22,50,72,0.7)'/%3E%3Crect x='180' y='80' width='200' height='140' rx='8' fill='rgba(18,40,60,0.5)'/%3E%3C/svg%3E") center/cover; opacity:0.85; }
+.site-hero-people { position:absolute; right:0; top:0; bottom:0; width:55%; background:linear-gradient(to right, #0d1e2d 0%, transparent 30%), linear-gradient(to bottom, transparent 10%, rgba(13,30,45,0.3) 90%); }
+.hero-content { position:relative; z-index:2; padding:clamp(1rem,2vw,2.2rem) clamp(1rem,2.5vw,2.6rem); padding-bottom:clamp(1.2rem,2.5vw,2.8rem); }
+.hero-eyebrow { font-family:var(--font-body); font-size:clamp(0.58rem,0.7vw,0.7rem); font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:rgba(255,255,255,0.55); margin-bottom:0.5em; }
+.hero-title { font-family:var(--font-body); font-weight:700; font-size:clamp(1.1rem,3.2vw,2.8rem); color:#ffffff; line-height:1.1; margin-bottom:clamp(0.4rem,0.8vw,0.8rem); max-width:16ch; }
+.hero-sub { font-family:var(--font-body); font-size:clamp(0.58rem,0.88vw,0.82rem); color:rgba(255,255,255,0.72); line-height:1.55; max-width:34ch; margin-bottom:clamp(0.7rem,1.4vw,1.4rem); font-weight:300; }
+.hero-cta { background:#f47621; border:none; color:#fff; padding:clamp(0.35rem,0.7vw,0.6rem) clamp(0.8rem,1.4vw,1.4rem); border-radius:6px; font-family:var(--font-body); font-size:clamp(0.6rem,0.85vw,0.82rem); font-weight:600; cursor:default; display:inline-flex; align-items:center; gap:6px; }
+
+/* Slide 01 layout overrides */
+.slide.lead .slide-content { justify-content:center; align-items:center; gap:clamp(0.6rem,1.2vw,1.2rem); text-align:center; }
+.slide-01-label { font-family:var(--font-display); font-style:italic; color:var(--text-dim); font-size:clamp(0.82rem,0.95vw,0.96rem); }
+</style>
+</head>
+
+<body>
+<canvas id="hexBg"></canvas>
+<div class="cursor-glow" id="cursorGlow"></div>
+<div class="progress-bar" id="progressBar"></div>
+<nav class="nav-dots" id="navDots"></nav>
+<div class="slide-number"><span class="curr" id="slideCurr">01</span> / <span id="slideTotal">10</span></div>
+
+<div class="nav-arrows">
+  <button class="nav-arrow" id="navPrev" aria-label="Previous">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <button class="nav-arrow" id="navNext" aria-label="Next">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+</div>
+
+<div class="watermark">
+  <svg width="14" height="14" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M24 6l18 10v16L24 42 6 32V16Z"/><path d="M24 6v16l18 10" opacity="0.5"/><path d="M24 22L6 32" opacity="0.5"/>
+  </svg>
+  <span class="bar"></span>
+  <span>Census FCU</span>
+</div>
+
+
+<!-- ============================================================ SLIDE 01 · TITLE ============================================================ -->
+<section class="slide lead" data-title="Title">
+  <div class="slide-content">
+    <h1 class="display reveal">Modernizing the <em>Member Journey</em></h1>
+    <h2 class="reveal">Your website is your front door. Let's make sure it's worth walking through.</h2>
+    <div class="brand-block">
+      <img src="pitch-deck/assets/census-fcu-logo.png" alt="Census FCU" class="logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <svg class="mark" style="display:none;" width="44" height="44" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M24 6l18 10v16L24 42 6 32V16Z"/><path d="M24 6v16l18 10" opacity="0.5"/><path d="M24 22L6 32" opacity="0.5"/>
+      </svg>
+      <div class="text">
+        <div class="title-line"><strong>CENSUS</strong><span class="thin"> FEDERAL CREDIT UNION</span></div>
+        <div class="tag-line">Digital Strategy Presentation · 2026</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================ SLIDE 02 · AGENDA ============================================================ -->
+<section class="slide" data-title="Agenda">
+  <div class="slide-content" style="justify-content:center; max-width:min(90vw,780px); margin:0 auto;">
+    <h3 class="kicker reveal">Today's Agenda</h3>
+    <h1 class="display reveal" style="font-size:clamp(1.9rem,4.8vw,4.2rem); max-width:22ch;">
+      Here's what we'll <em>walk through.</em>
+    </h1>
+    <div class="agenda-list">
+      <div class="agenda-item">
+        <span class="agenda-num">01</span>
+        <div class="agenda-divider"></div>
+        <div>
+          <div class="agenda-title">The Opportunity</div>
+          <div class="agenda-sub">What we found during our review of your site</div>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <span class="agenda-num">02</span>
+        <div class="agenda-divider"></div>
+        <div>
+          <div class="agenda-title">The Vision</div>
+          <div class="agenda-sub">What a modernized Census FCU site looks like</div>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <span class="agenda-num">03</span>
+        <div class="agenda-divider"></div>
+        <div>
+          <div class="agenda-title">The Plan</div>
+          <div class="agenda-sub">Four steps to attract, connect, convert, and measure</div>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <span class="agenda-num">04</span>
+        <div class="agenda-divider"></div>
+        <div>
+          <div class="agenda-title">The Outcomes</div>
+          <div class="agenda-sub">What this means for your membership and growth</div>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <span class="agenda-num">05</span>
+        <div class="agenda-divider"></div>
+        <div>
+          <div class="agenda-title">The Ask</div>
+          <div class="agenda-sub">What we're proposing to build together</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- About Us card -->
+    <div class="reveal" style="margin-top:clamp(1rem,1.8vw,1.5rem); padding:clamp(0.75rem,1.25vw,1rem) clamp(1.1rem,2vw,1.8rem); background:rgba(16,185,129,0.06); border-left:3px solid var(--accent); border-radius:8px; display:flex; gap:clamp(0.9rem,1.8vw,1.6rem); align-items:flex-start; max-width:100%;">
+      <svg style="flex:0 0 auto; margin-top:2px;" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+      </svg>
+      <div>
+        <div style="font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.13em;text-transform:uppercase;color:var(--accent);margin-bottom:0.35em;">About Me</div>
+        <div style="font-weight:600;font-size:clamp(0.88rem,1.25vw,1rem);margin-bottom:0.3em;">RGG Studio LLC</div>
+        <div style="font-size:clamp(0.76rem,1.05vw,0.88rem);color:#6b7280;line-height:1.55;">Raymond has created digital experiences for a number of clients through his 20+ years of web development, working with businesses such as OPM, IMF, World Bank, EA Sports, and even here at the U.S. Census Bureau for 14 years.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ============================================================ SLIDE 03 · THE OPPORTUNITY ============================================================ -->
+<section class="slide" data-title="The Opportunity">
+  <div class="slide-content" style="justify-content:center; max-width:min(90vw,960px); margin:0 auto;">
+    <h3 class="section-label reveal">What We Found</h3>
+    <h1 class="display reveal" style="font-size:clamp(1.8rem,4.5vw,3.8rem); max-width:28ch;">
+      We reviewed your site and found <em>real opportunities to grow.</em>
+    </h1>
+
+    <div class="problem-grid opp-cards">
+      <!-- Card 1 -->
+      <div class="problem-card">
+        <div class="icon-badge">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+            <rect x="5" y="2" width="14" height="20" rx="2"/>
+            <path d="M12 8v4"/><path d="M12 16h.01"/>
+          </svg>
+        </div>
+        <div>
+          <div class="p-title">A mobile experience ready to be great</div>
+          <div class="p-body">Most members browse from their phones. A mobile-first redesign removes friction from the very first click and puts Census FCU ahead of the curve.</div>
+        </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="problem-card">
+        <div class="icon-badge">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+          </svg>
+        </div>
+        <div>
+          <div class="p-title">One unified message, everywhere</div>
+          <div class="p-body">Connecting branch promotions to the website means members see the same offer whether they walk in or log on. Consistent messaging builds trust and drives action.</div>
+        </div>
+      </div>
+      <!-- Card 3 -->
+      <div class="problem-card">
+        <div class="icon-badge">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+        </div>
+        <div>
+          <div class="p-title">Content that builds credibility</div>
+          <div class="p-body">A well-managed blog improves search visibility and gives members a reason to return. The foundation is already there, it just needs an active hand guiding it.</div>
+        </div>
+      </div>
+      <!-- Card 4 -->
+      <div class="problem-card">
+        <div class="icon-badge">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+            <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+          </svg>
+        </div>
+        <div>
+          <div class="p-title">A clearer path to membership</div>
+          <div class="p-body">Streamlining navigation turns curious visitors into applicants. Fewer clicks and clearer next steps mean more members completing what they came to do.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================ SLIDE 03 · DESKTOP MOCKUP ============================================================ -->
+<section class="slide" data-title="The Picture" style="overflow:hidden;">
+  <div class="slide-content mockup-slide-layout">
+
+    <div class="mockup-text">
+      <h3 class="kicker reveal">The New Site</h3>
+      <h2 class="scene-title reveal">Here's what <em>it could look like.</em></h2>
+      <p class="body-text reveal">
+        One clean navigation. Your best loan rate front and center. Rates, services, and applications a single click away, with no outdated banners and no confusion about where to start.
+      </p>
+      <p class="body-text reveal" style="margin-top:0.8rem;">
+        This is what a member sees the moment they land on your site.
+      </p>
+    </div>
+
+    <div class="mockup-wrap reveal">
+      <div class="browser-wrap">
+        <!-- Browser chrome -->
+        <div class="browser-chrome">
+          <div class="browser-dots">
+            <span class="dot-r"></span>
+            <span class="dot-y"></span>
+            <span class="dot-g"></span>
+          </div>
+          <div class="browser-url">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 2c0 0-2 2-2 6s2 6 2 6M8 2c0 0 2 2 2 6s-2 6-2 6M2 8h12"/></svg>
+            censusfcu.org
+          </div>
+          <div class="browser-nav-icons">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </div>
+        <!-- Site preview,actual homepage screenshot, top portion only -->
+        <div class="site-preview">
+          <img src="homepage.png" alt="Census FCU homepage" style="width:100%; display:block; object-fit:cover; object-position:top; max-height:clamp(220px,30vw,400px);">
+        </div>
+      </div>
+    </div>
+    <p style="font-size:0.7rem; color:#9ca3af; font-style:italic; text-align:center; margin-top:0.6rem; letter-spacing:0.02em;">Conceptual mockup only. Final design will be determined during the project.</p>
+
+  </div>
+</section>
+
+
+<!-- ============================================================ SLIDE 04 · FOUR PILLARS ============================================================ -->
+<section class="slide lead" data-title="Four Pillars">
+  <div class="slide-content">
+    <h3 class="section-label reveal">Our Plan</h3>
+    <h1 class="display reveal" style="max-width:18ch; font-size:clamp(2rem,5.5vw,4.8rem);">
+      Four steps. Each one <em>builds on the last.</em>
+    </h1>
+
+    <div class="pillars-flow">
+      <div class="pillar-step p1">
+        <div class="pillar-arrow">›</div>
+        <div class="ps-num">Step 01</div>
+        <div class="ps-icon-badge">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        </div>
+        <div class="ps-title">Attract</div>
+        <div class="ps-body">A clean, mobile-first site that's easy to find, easy to read, and easy to trust.</div>
+      </div>
+      <div class="pillar-step p2">
+        <div class="pillar-arrow">›</div>
+        <div class="ps-num">Step 02</div>
+        <div class="ps-icon-badge">
+          <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="ps-title">Connect</div>
+        <div class="ps-body">In-building screens, website, and promotions all carry the same message.</div>
+      </div>
+      <div class="pillar-step p3">
+        <div class="pillar-arrow">›</div>
+        <div class="ps-num">Step 03</div>
+        <div class="ps-icon-badge">
+          <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <div class="ps-title">Convert</div>
+        <div class="ps-body">Fewer clicks to find what matters. Members who get there quickly keep coming back.</div>
+      </div>
+      <div class="pillar-step p4">
+        <div class="ps-num">Step 04</div>
+        <div class="ps-icon-badge">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
+        </div>
+        <div class="ps-title">Measure</div>
+        <div class="ps-body">Monthly reports show what's driving member action,no more guesswork.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================ SLIDE 05 · ATTRACT + iPHONE MOCKUP ============================================================ -->
+<section class="slide iso-slide" data-title="Attract">
+  <div class="slide-content">
+    <div class="iso-text">
+      <h3 class="kicker reveal">Step 01 · Attract</h3>
+      <h2 class="scene-title reveal">Built for the phone<br>in your <em>member's pocket.</em></h2>
+      <p class="body-text reveal">
+        Most members will visit on their phone. The new site is designed mobile-first,fast to load, easy to tap, and organized so the most important things (rates, promotions, services, and apply) are right at the top.
+      </p>
+      <ul class="fine-list reveal">
+        <li><span class="k">Mobile Navigation</span><span class="v">Single menu, thumb-friendly</span></li>
+        <li><span class="k">Featured Rate</span><span class="v">Visible in under 3 seconds</span></li>
+        <li><span class="k">Quick Actions</span><span class="v accent">Apply · Search · Contact</span></li>
+      </ul>
+      <div class="reveal" style="margin-top:clamp(1rem,1.6vw,1.3rem); padding:clamp(0.75rem,1.3vw,1rem) clamp(0.9rem,1.6vw,1.3rem); background:rgba(16,185,129,0.06); border-left:3px solid var(--accent); border-radius:6px;">
+        <div style="font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.13em;text-transform:uppercase;color:var(--accent);margin-bottom:0.35em;">Real-World Scenario</div>
+        <p style="font-size:clamp(0.76rem,1.05vw,0.88rem);line-height:1.6;font-style:italic;margin:0;color:#374151;">A busy member steps out of a meeting, spots a branch promotion, and pulls up Census FCU on their phone. They find exactly what they need in seconds. Fast, convenient, and fits right into their day.</p>
+      </div>
+    </div>
+
+    <!-- iPhone mockup -->
+    <div class="iso-stage reveal">
+      <div style="perspective:1200px; display:flex; justify-content:center;">
+        <img src="iphonev3.png" alt="Census FCU mobile site" style="height:clamp(320px,48vh,600px); width:auto; object-fit:contain; display:block; filter:drop-shadow(0 24px 48px rgba(0,0,0,0.22)); animation:phoneRock 4s ease-in-out infinite; transform-style:preserve-3d;">
+      </div>
+      <p style="font-size:0.65rem; color:#9ca3af; font-style:italic; text-align:center; margin-top:0.75rem; letter-spacing:0.02em;">Conceptual mockup only. Final design will be determined during the project.</p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ============================================================ SLIDE 06 · CONNECT ============================================================ -->
+<section class="slide iso-slide" data-title="Connect">
+  <div class="slide-content">
+    <div class="iso-text">
+      <h3 class="kicker reveal orange">Step 02 · Connect</h3>
+      <h2 class="scene-title reveal">The same <em style="color:var(--teal);">message, everywhere a member looks.</em></h2>
+      <p class="body-text reveal">
+        When someone sees your auto loan promotion on a screen at work, it should be waiting for them on the website with an "Apply Now" button. And with your member list connected, you can send that same offer straight to their inbox,and see who clicked.
+      </p>
+      <ul class="fine-list reveal">
+        <li><span class="k">In-Building Screens</span><span class="v orange">Match what's on the website</span></li>
+        <li><span class="k">Email Campaigns</span><span class="v orange">Send direct from the site</span></li>
+        <li><span class="k">Track It</span><span class="v orange">See who opened, who clicked</span></li>
+      </ul>
+      <div class="reveal" style="margin-top:clamp(1rem,1.6vw,1.3rem); padding:clamp(0.75rem,1.3vw,1rem) clamp(0.9rem,1.6vw,1.3rem); background:rgba(249,115,22,0.06); border-left:3px solid var(--teal); border-radius:6px;">
+        <div style="font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.13em;text-transform:uppercase;color:var(--teal);margin-bottom:0.35em;">Real-World Scenario</div>
+        <p style="font-size:clamp(0.76rem,1.05vw,0.88rem);line-height:1.6;font-style:italic;margin:0;color:#374151;">A member gets a promotional email, clicks the link, and lands on the exact same offer on the website. One consistent experience that builds confidence and makes it easy to take action.</p>
+      </div>
+    </div>
+    <div class="iso-stage reveal">
+      <div class="scene-hub">
+        <svg class="lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <path class="hub-line" d="M50,50 L18,22"/><path class="hub-line" d="M50,50 L82,22"/>
+          <path class="hub-line" d="M50,50 L8,50"/><path class="hub-line" d="M50,50 L92,50"/>
+          <path class="hub-line" d="M50,50 L18,78"/><path class="hub-line" d="M50,50 L82,78"/>
+        </svg>
+        <div class="hub-center">CFCU</div>
+        <div class="hub-node lit p1">Screens</div>
+        <div class="hub-node lit p2">Website</div>
+        <div class="hub-node lit p3">Email</div>
+        <div class="hub-node p4">Forms</div>
+        <div class="hub-node lit p5">Campaigns</div>
+        <div class="hub-node p6">Staff</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================ SLIDE 07 · CONVERT ============================================================ -->
+<section class="slide iso-slide" data-title="Convert">
+  <div class="slide-content">
+    <div class="iso-text">
+      <h3 class="kicker reveal" style="color:var(--violet);">Step 03 · Convert</h3>
+      <h2 class="scene-title reveal">Make it easy to say <em style="color:var(--violet);">yes.</em></h2>
+      <p class="body-text reveal">
+        Right now, someone interested in joining, applying for a loan, or finding that promotion you have in the office has to work too hard to do it. We'll clear that path: fewer clicks, clear next steps, and a process that feels like the credit union is on their side. It's all about reducing the friction for your members.
+      </p>
+      <p class="body-text reveal" style="margin-top:0.8rem;">
+        The new website will be just as good as Navy Federal Credit Union, Pen Fed Credit Union, Labor Credit Union, and PG Education Credit Union.
+      </p>
+      <ul class="fine-list reveal">
+        <li><span class="k">Join CFCU</span><span class="v" style="color:var(--violet)">Simple, obvious path to membership</span></li>
+        <li><span class="k">Apply for a Loan</span><span class="v" style="color:var(--violet)">Start an application in minutes</span></li>
+        <li><span class="k">No Lost Leads</span><span class="v" style="color:var(--violet)">Automatic follow-up after first contact</span></li>
+      </ul>
+    </div>
+    <div class="iso-stage reveal">
+      <div class="cv-stage">
+        <!-- Step 1 -->
+        <div class="cv-node cv-n1">
+          <div class="cv-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+          </div>
+          <span class="cv-label">Member lands on the site</span>
+        </div>
+        <div class="cv-line cv-l1"></div>
+        <!-- Step 2 -->
+        <div class="cv-node cv-n2">
+          <div class="cv-icon">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </div>
+          <span class="cv-label">Finds what they need in seconds</span>
+        </div>
+        <div class="cv-line cv-l2"></div>
+        <!-- Step 3 -->
+        <div class="cv-node cv-n3">
+          <div class="cv-icon">
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </div>
+          <span class="cv-label">Clicks Apply or Join</span>
+        </div>
+        <div class="cv-line cv-l3"></div>
+        <!-- Step 4 - final -->
+        <div class="cv-node cv-n4">
+          <div class="cv-icon">
+            <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>
+          </div>
+          <span class="cv-label" style="color:rgba(255,255,255,0.92);font-weight:600;">Becomes a Member</span>
+          <div class="cv-check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+        </div>
+        <!-- Animated cursor -->
+        <div class="cv-cursor">
+          <svg viewBox="0 0 20 22"><path d="M4 1l14 9.5-8 1.5-3.5 7z"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================ SLIDE 08 · MEASURE ============================================================ -->
+<section class="slide lead" data-title="Measure">
+  <div class="slide-content">
+    <h3 class="kicker reveal" style="color:var(--cyan);">Step 04 · Measure</h3>
+    <h1 class="display reveal" style="max-width:22ch; font-size:clamp(2rem,5.5vw,4.8rem);">
+      You can't improve what you <em style="color:var(--cyan);">can't see.</em>
+    </h1>
+    <h2 class="reveal" style="max-width:46ch; margin-top:clamp(1rem,1.8vw,1.6rem);">
+      Simple monthly reporting so leadership sees exactly what's driving member activity.
+    </h2>
+    <div class="logos-row" style="margin-top:clamp(1.4rem,2.6vw,2rem);">
+      <div class="logo-pill" style="border-color:rgba(8,145,178,0.4);color:var(--cyan);">Who's visiting the site</div>
+      <div class="logo-pill" style="border-color:rgba(8,145,178,0.4);color:var(--cyan);">What they click on</div>
+      <div class="logo-pill" style="border-color:rgba(8,145,178,0.4);color:var(--cyan);">How many applications start</div>
+      <div class="logo-pill" style="border-color:rgba(8,145,178,0.4);color:var(--cyan);">Email open &amp; click rates</div>
+      <div class="logo-pill" style="border-color:rgba(8,145,178,0.4);color:var(--cyan);">Which promotions are working</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================ SLIDE 09 · PRACTICAL OUTCOMES ============================================================ -->
+<section class="slide" data-title="Outcomes">
+  <div class="slide-content" style="justify-content:center; max-width:min(90vw,960px); margin:0 auto;">
+    <h3 class="section-label reveal">The Payoff</h3>
+    <h1 class="display reveal" style="font-size:clamp(1.8rem,4.2vw,3.6rem); max-width:30ch;">
+      Practical outcomes we can <em>see and measure.</em>
+    </h1>
+
+    <div class="outcome-grid">
+      <div class="outcome-card">
+        <div class="icon-badge">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+            <line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/>
+          </svg>
+        </div>
+        <div>
+          <div class="oc-title">More memberships</div>
+          <div class="oc-body">Fewer people drop off before finishing the join process. Application starts go up.</div>
+        </div>
+      </div>
+      <div class="outcome-card">
+        <div class="icon-badge orange">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+        </div>
+        <div>
+          <div class="oc-title">More loan applications</div>
+          <div class="oc-body">When applying is easy, more people do. Staff spends less time chasing incomplete applications.</div>
+        </div>
+      </div>
+      <div class="outcome-card">
+        <div class="icon-badge violet">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </div>
+        <div>
+          <div class="oc-title">Email campaigns that work</div>
+          <div class="oc-body">Send promotions directly to members and see who opened it and who took action.</div>
+        </div>
+      </div>
+      <div class="outcome-card">
+        <div class="icon-badge">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.38 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6.18 6.18l.9-.9a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="oc-title">Fewer "where do I find…" calls</div>
+          <div class="oc-body">Routing number, rates, and forms are easy to find,members don't need to call to ask.</div>
+        </div>
+      </div>
+      <div class="outcome-card">
+        <div class="icon-badge cyan">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+            <polyline points="17 6 23 6 23 12"/>
+          </svg>
+        </div>
+        <div>
+          <div class="oc-title">Monthly visibility for leadership</div>
+          <div class="oc-body">A simple dashboard showing what's driving member activity,no guesswork required.</div>
+        </div>
+      </div>
+      <div class="outcome-card">
+        <div class="icon-badge orange">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <polyline points="9 12 11 14 15 10"/>
+          </svg>
+        </div>
+        <div>
+          <div class="oc-title">A more connected experience</div>
+          <div class="oc-body">A digital presence that is cohesive and is connected no matter what platform you are visiting from.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================ SLIDE 10 · THE ASK ============================================================ -->
+<section class="slide lead" data-title="The Ask">
+  <div class="slide-content" style="align-items:flex-start; text-align:left; max-width:min(88vw,820px); margin:0 auto;">
+    <h3 class="kicker reveal">The Full Proposal</h3>
+    <h1 class="display reveal" style="max-width:22ch; font-size:clamp(2rem,5.5vw,4.8rem);">
+      Three phases. One vision. <em>Let's start building.</em>
+    </h1>
+    <h2 class="reveal" style="margin-inline:0; text-align:left; max-width:52ch; margin-top:clamp(1rem,1.8vw,1.6rem);">
+      This proposal covers the entire journey. We'll deliver it in three phases so you see real results at every step, starting with the foundation.
+    </h2>
+    <div class="stat-row" style="justify-content:flex-start; margin-top:clamp(1.8rem,3vw,2.6rem); align-items:stretch;">
+      <div class="stat-card" style="min-width:160px;max-width:210px; border-color:var(--accent); position:relative;">
+        <span style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-family:var(--font-mono);font-size:0.6rem;font-weight:600;letter-spacing:0.12em;padding:2px 8px;border-radius:20px;white-space:nowrap;">START HERE</span>
+        <span class="stat-word" style="font-size:clamp(1.3rem,2.2vw,2rem);">Phase 1</span>
+        <span class="stat-label">Current website audit, website redesign &amp; mobile-first experience</span>
+      </div>
+      <div class="stat-card warm" style="min-width:160px;max-width:210px;">
+        <span class="stat-word" style="font-size:clamp(1.3rem,2.2vw,2rem);">Phase 2</span>
+        <span class="stat-label">Unified promotions &amp; email campaigns</span>
+      </div>
+      <div class="stat-card violet" style="min-width:160px;max-width:210px;">
+        <span class="stat-word" style="font-size:clamp(1.3rem,2.2vw,2rem);">Phase 3</span>
+        <span class="stat-label">Measurement tools, refinement &amp; growth</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+const BG_CONFIG = { hexAlphaMax:0.09, hexCellSize:28, hexLineWidth:0.55, hexFadeExponent:2, hexRotationSpeed:0.00007 };
+
+class SlidePresentation {
+  constructor() {
+    this.slides = Array.from(document.querySelectorAll('.slide'));
+    this.navDots = document.getElementById('navDots');
+    this.progressBar = document.getElementById('progressBar');
+    this.currSpan = document.getElementById('slideCurr');
+    this.totalSpan = document.getElementById('slideTotal');
+    this.navPrev = document.getElementById('navPrev');
+    this.navNext = document.getElementById('navNext');
+    this.current = 0;
+    this.totalSpan.textContent = String(this.slides.length).padStart(2,'0');
+    this.buildNavDots(); this.attachObserver(); this.attachKeyboard(); this.attachTouch(); this.attachScroll(); this.attachArrows();
+  }
+  attachArrows() {
+    if(this.navPrev) this.navPrev.addEventListener('click',()=>this.goTo(this.current-1));
+    if(this.navNext) this.navNext.addEventListener('click',()=>this.goTo(this.current+1));
+  }
+  updateArrowState() {
+    if(this.navPrev) this.navPrev.disabled = this.current<=0;
+    if(this.navNext) this.navNext.disabled = this.current>=this.slides.length-1;
+  }
+  buildNavDots() {
+    this.navDots.innerHTML='';
+    this.slides.forEach((slide,i)=>{ const btn=document.createElement('button'); btn.setAttribute('aria-label',`Slide ${i+1}: ${slide.dataset.title||''}`); btn.addEventListener('click',()=>this.goTo(i)); this.navDots.appendChild(btn); });
+  }
+  attachObserver() {
+    const io=new IntersectionObserver((entries)=>{ entries.forEach((entry)=>{ if(entry.intersectionRatio<0.55)return; entry.target.classList.add('visible'); const i=this.slides.indexOf(entry.target); if(i!==-1)this.setCurrent(i); }); },{threshold:[0,0.55,0.9]});
+    this.slides.forEach((s)=>io.observe(s));
+  }
+  setCurrent(i) {
+    this.current=i;
+    [...this.navDots.children].forEach((b,j)=>b.classList.toggle('active',j===i));
+    this.currSpan.textContent=String(i+1).padStart(2,'0');
+    this.progressBar.style.width=((i+1)/this.slides.length*100)+'%';
+    this.updateArrowState();
+  }
+  goTo(i) { if(i<0||i>=this.slides.length)return; this.slides[i].scrollIntoView({behavior:'smooth',block:'start'}); }
+  attachKeyboard() {
+    document.addEventListener('keydown',(e)=>{
+      if(e.target.matches('input,textarea'))return;
+      const keys={'ArrowDown':1,'ArrowRight':1,'PageDown':1,' ':1,'j':1,'ArrowUp':-1,'ArrowLeft':-1,'PageUp':-1,'k':-1,'Home':-Infinity,'End':Infinity};
+      if(e.key in keys){ e.preventDefault(); const delta=keys[e.key]; if(delta===-Infinity)this.goTo(0); else if(delta===Infinity)this.goTo(this.slides.length-1); else this.goTo(this.current+delta); }
+    });
+  }
+  attachTouch() {
+    let startY=0;
+    document.addEventListener('touchstart',(e)=>{startY=e.touches[0].clientY;},{passive:true});
+    document.addEventListener('touchend',(e)=>{ const diff=startY-e.changedTouches[0].clientY; if(Math.abs(diff)<50)return; this.goTo(this.current+(diff>0?1:-1)); },{passive:true});
+  }
+  attachScroll() {
+    let raf=null;
+    document.addEventListener('scroll',()=>{ if(raf)return; raf=requestAnimationFrame(()=>{ raf=null; const sh=document.documentElement.scrollHeight-window.innerHeight; const pct=Math.max(0,Math.min(100,(window.scrollY/sh)*100)); this.progressBar.style.width=pct+'%'; }); },{passive:true});
+  }
+}
+
+function initHexBg() {
+  const hexCanvas=document.getElementById('hexBg'); if(!hexCanvas)return;
+  const hexCtx=hexCanvas.getContext('2d'); let hexAngle=0;
+  function drawHexGrid() {
+    const W=hexCanvas.width=window.innerWidth, H=hexCanvas.height=window.innerHeight;
+    hexCtx.clearRect(0,0,W,H); hexCtx.save(); hexCtx.translate(W/2,H/2); hexCtx.rotate(hexAngle); hexCtx.translate(-W/2,-H/2);
+    const hexSize=BG_CONFIG.hexCellSize, hSpacing=hexSize*Math.sqrt(3), vSpacing=hexSize*1.5;
+    const cx0=W/2, cy0=H/2, maxDist=Math.sqrt(cx0*cx0+cy0*cy0), fadeExp=BG_CONFIG.hexFadeExponent, alphaMax=BG_CONFIG.hexAlphaMax;
+    for(let row=-1;row<H/vSpacing+2;row++){for(let col=-1;col<W/hSpacing+2;col++){
+      const hx=col*hSpacing+(row%2?hSpacing/2:0), hy=row*vSpacing;
+      const dist=Math.sqrt((hx-cx0)**2+(hy-cy0)**2);
+      let fade=Math.max(0,1-(dist/maxDist)*0.6); for(let f=1;f<fadeExp;f++)fade*=fade;
+      const alpha=alphaMax*fade; if(alpha<0.004)continue;
+      hexCtx.beginPath();
+      for(let i=0;i<6;i++){const a=Math.PI/3*i-Math.PI/6; const px=hx+hexSize*Math.cos(a),py=hy+hexSize*Math.sin(a); i===0?hexCtx.moveTo(px,py):hexCtx.lineTo(px,py);}
+      hexCtx.closePath(); hexCtx.strokeStyle='rgba(81,153,175,'+alpha+')'; hexCtx.lineWidth=BG_CONFIG.hexLineWidth; hexCtx.stroke();
+    }}
+    hexCtx.restore();
+  }
+  function animate(){hexAngle+=BG_CONFIG.hexRotationSpeed;drawHexGrid();requestAnimationFrame(animate);}
+  drawHexGrid(); requestAnimationFrame(animate); window.addEventListener('resize',drawHexGrid);
+}
+
+function initCursorGlow() {
+  const glow=document.getElementById('cursorGlow'); if(!glow)return;
+  let mx=window.innerWidth/2,my=window.innerHeight/2,gx=mx,gy=my;
+  document.addEventListener('mousemove',(e)=>{mx=e.clientX;my=e.clientY;});
+  (function tick(){gx+=(mx-gx)*0.12;gy+=(my-gy)*0.12;glow.style.left=gx+'px';glow.style.top=gy+'px';requestAnimationFrame(tick);})();
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  new SlidePresentation();
+  document.querySelector('.slide')?.classList.add('visible');
+  initHexBg();
+  initCursorGlow();
+});
+</script>
+
+<script>
+/* Remove checker background from iphone.png (transparency indicator baked into pixels) */
+(function () {
+  function removeCheckerBg(img) {
+    const c = document.createElement('canvas');
+    const ctx = c.getContext('2d');
+    c.width = img.naturalWidth;
+    c.height = img.naturalHeight;
+    ctx.drawImage(img, 0, 0);
+
+    const w = c.width, h = c.height;
+    const d = ctx.getImageData(0, 0, w, h);
+    const px = d.data;
+
+    /* Sample top-left region to detect the two checker colors */
+    const sampleRegion = Math.min(60, w, h);
+    let col1 = null, col2 = null;
+    for (let y = 0; y < sampleRegion && !col2; y++) {
+      for (let x = 0; x < sampleRegion && !col2; x++) {
+        const i = (y * w + x) * 4;
+        const c = [px[i], px[i+1], px[i+2]];
+        if (!col1) { col1 = c; continue; }
+        if (Math.abs(c[0]-col1[0]) > 18 || Math.abs(c[1]-col1[1]) > 18 || Math.abs(c[2]-col1[2]) > 18) col2 = c;
+      }
+    }
+    if (!col1) return;
+    if (!col2) col2 = [255 - col1[0], 255 - col1[1], 255 - col1[2]];
+
+    const TOL = 28;
+    const near = (i, ref) =>
+      Math.abs(px[i]-ref[0]) < TOL && Math.abs(px[i+1]-ref[1]) < TOL && Math.abs(px[i+2]-ref[2]) < TOL;
+
+    /* 8-connected BFS flood-fill from all four corners */
+    const vis = new Uint8Array(w * h);
+    const queue = [];
+    const seed = (x, y) => { const p = y*w+x; if (!vis[p]) { vis[p] = 1; queue.push(p); } };
+    [[0,0],[w-1,0],[0,h-1],[w-1,h-1]].forEach(([x,y]) => seed(x,y));
+
+    let qi = 0;
+    while (qi < queue.length) {
+      const pos = queue[qi++];
+      const x = pos % w, y = (pos / w) | 0;
+      const pi = pos * 4;
+      if (near(pi, col1) || near(pi, col2)) {
+        px[pi+3] = 0; /* transparent */
+        for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+          if (!dx && !dy) continue;
+          const nx = x+dx, ny = y+dy;
+          if (nx >= 0 && nx < w && ny >= 0 && ny < h) seed(nx, ny);
+        }
+      }
+    }
+
+    ctx.putImageData(d, 0, 0);
+    img.src = c.toDataURL('image/png');
+  }
+
+  function tryProcess() {
+    const img = document.querySelector('.iso-slide[data-title="Attract"] img[src="iphonev3.png"]');
+    if (!img) return;
+    if (img.complete && img.naturalWidth) removeCheckerBg(img);
+    else img.addEventListener('load', () => removeCheckerBg(img));
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tryProcess);
+  else tryProcess();
+})();
+</script>
+
+</body>
+</html>
