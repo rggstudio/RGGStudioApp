@@ -246,15 +246,16 @@ strong, .accent { color:var(--accent); font-weight:inherit; }
 .nav-dots button { width:8px; height:8px; border-radius:50%; border:1px solid var(--text-dim); background:transparent; cursor:pointer; padding:0; transition:all 0.3s var(--ease); }
 .nav-dots button.active { background:var(--accent); border-color:var(--accent); box-shadow:0 0 8px var(--accent-glow); }
 
-.slide-number { position:fixed; bottom:clamp(14px,2vw,26px); right:clamp(18px,2.4vw,32px); z-index:1000; font-family:var(--font-mono); font-size:0.72rem; color:var(--muted); letter-spacing:0.15em; }
+.slide-controls { position:fixed; bottom:clamp(14px,2vw,26px); right:clamp(18px,2.4vw,32px); z-index:1000; display:flex; align-items:center; gap:12px; }
+.slide-number { font-family:var(--font-mono); font-size:0.72rem; color:var(--muted); letter-spacing:0.15em; white-space:nowrap; }
 .slide-number .curr { color:var(--text-paper); }
 
 .watermark { position:fixed; bottom:clamp(14px,2vw,26px); left:clamp(18px,2.4vw,32px); z-index:1000; display:flex; align-items:center; gap:10px; font-family:var(--font-mono); font-weight:500; font-size:0.7rem; color:var(--muted); letter-spacing:0.22em; text-transform:uppercase; }
 .watermark svg { color:var(--accent); }
 .watermark .bar { width:14px; height:1px; background:var(--muted); }
 
-.nav-arrows { position:fixed; bottom:clamp(14px,2vw,26px); left:50%; transform:translateX(-50%); display:flex; gap:10px; z-index:1000; }
-.nav-arrow { width:42px; height:42px; border:1px solid var(--border); background:rgba(255,255,255,0.85); backdrop-filter:blur(8px); border-radius:100px; color:var(--text-dim); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.3s var(--ease); padding:0; }
+.nav-arrows { display:flex; gap:8px; }
+.nav-arrow { width:36px; height:36px; border:1px solid var(--border); background:rgba(255,255,255,0.85); backdrop-filter:blur(8px); border-radius:100px; color:var(--text-dim); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.3s var(--ease); padding:0; }
 .nav-arrow:hover { border-color:var(--accent); color:var(--accent); box-shadow:0 0 16px var(--accent-glow); transform:scale(1.08); }
 .nav-arrow svg { width:18px; height:18px; }
 .nav-arrow:disabled { opacity:0.25; cursor:not-allowed; }
@@ -843,15 +844,16 @@ strong, .accent { color:var(--accent); font-weight:inherit; }
 <div class="cursor-glow" id="cursorGlow"></div>
 <div class="progress-bar" id="progressBar"></div>
 <nav class="nav-dots" id="navDots"></nav>
-<div class="slide-number"><span class="curr" id="slideCurr">01</span> / <span id="slideTotal">10</span></div>
-
-<div class="nav-arrows">
-  <button class="nav-arrow" id="navPrev" aria-label="Previous">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-  </button>
-  <button class="nav-arrow" id="navNext" aria-label="Next">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-  </button>
+<div class="slide-controls">
+  <div class="nav-arrows">
+    <button class="nav-arrow" id="navPrev" aria-label="Previous">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="nav-arrow" id="navNext" aria-label="Next">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+  <div class="slide-number"><span class="curr" id="slideCurr">01</span> / <span id="slideTotal">10</span></div>
 </div>
 
 <div class="watermark">
@@ -911,7 +913,7 @@ strong, .accent { color:var(--accent); font-weight:inherit; }
         <div class="agenda-divider"></div>
         <div>
           <div class="agenda-title">The Plan</div>
-          <div class="agenda-sub">Four steps to attract, connect, convert, and measure</div>
+          <div class="agenda-sub">Four steps to attract, connect personally, convert, and measure</div>
         </div>
       </div>
       <div class="agenda-item">
@@ -1132,7 +1134,7 @@ strong, .accent { color:var(--accent); font-weight:inherit; }
     <!-- iPhone mockup -->
     <div class="iso-stage reveal">
       <div style="perspective:1200px; display:flex; justify-content:center;">
-        <img src="iphonev3.png" alt="Census FCU mobile site" style="height:clamp(320px,48vh,600px); width:auto; object-fit:contain; display:block; filter:drop-shadow(0 24px 48px rgba(0,0,0,0.22)); animation:phoneRock 4s ease-in-out infinite; transform-style:preserve-3d;">
+        <img src="iphonev3-transparent.png" alt="Census FCU mobile site" style="height:clamp(320px,48vh,600px); width:auto; object-fit:contain; display:block; filter:drop-shadow(0 24px 48px rgba(0,0,0,0.22)); animation:phoneRock 4s ease-in-out infinite; transform-style:preserve-3d;">
       </div>
       <p style="font-size:0.65rem; color:#9ca3af; font-style:italic; text-align:center; margin-top:0.75rem; letter-spacing:0.02em;">Conceptual mockup only. Final design will be determined during the project.</p>
     </div>
@@ -1142,22 +1144,22 @@ strong, .accent { color:var(--accent); font-weight:inherit; }
 
 
 <!-- ============================================================ SLIDE 06 · CONNECT ============================================================ -->
-<section class="slide iso-slide" data-title="Connect">
+<section class="slide iso-slide" data-title="Connect + Email">
   <div class="slide-content">
     <div class="iso-text">
       <h3 class="kicker reveal orange">Step 02 · Connect</h3>
-      <h2 class="scene-title reveal">The same <em style="color:var(--teal);">message, everywhere a member looks.</em></h2>
+      <h2 class="scene-title reveal">Regular email keeps Census FCU <em style="color:var(--teal);">present between visits.</em></h2>
       <p class="body-text reveal">
-        When someone sees your auto loan promotion on a screen at work, it should be waiting for them on the website with an "Apply Now" button. And with your member list connected, you can send that same offer straight to their inbox,and see who clicked.
+        Email campaigns should be a regular member-service channel, not just a promotional tool. Pair the website with useful updates, rate news, reminders, financial guidance, and timely offers so members consistently know Census FCU is here for them.
       </p>
       <ul class="fine-list reveal">
-        <li><span class="k">In-Building Screens</span><span class="v orange">Match what's on the website</span></li>
-        <li><span class="k">Email Campaigns</span><span class="v orange">Send direct from the site</span></li>
-        <li><span class="k">Track It</span><span class="v orange">See who opened, who clicked</span></li>
+        <li><span class="k">Connected Channels</span><span class="v orange">Align screens, website, and inbox</span></li>
+        <li><span class="k">Recurring Email Campaigns</span><span class="v orange">Helpful contact on a regular cadence</span></li>
+        <li><span class="k">Measure &amp; Improve</span><span class="v orange">See opens, clicks, and actions</span></li>
       </ul>
       <div class="reveal" style="margin-top:clamp(1rem,1.6vw,1.3rem); padding:clamp(0.75rem,1.3vw,1rem) clamp(0.9rem,1.6vw,1.3rem); background:rgba(249,115,22,0.06); border-left:3px solid var(--teal); border-radius:6px;">
         <div style="font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.13em;text-transform:uppercase;color:var(--teal);margin-bottom:0.35em;">Real-World Scenario</div>
-        <p style="font-size:clamp(0.76rem,1.05vw,0.88rem);line-height:1.6;font-style:italic;margin:0;color:#374151;">A member gets a promotional email, clicks the link, and lands on the exact same offer on the website. One consistent experience that builds confidence and makes it easy to take action.</p>
+        <p style="font-size:clamp(0.76rem,1.05vw,0.88rem);line-height:1.6;font-style:italic;margin:0;color:#374151;">A member receives a helpful monthly email with a rate update, a financial tip, and one relevant offer. The message feels timely and personal, then leads directly to the right next step on the website.</p>
       </div>
     </div>
     <div class="iso-stage reveal">
@@ -1190,12 +1192,12 @@ strong, .accent { color:var(--accent); font-weight:inherit; }
         Right now, someone interested in joining, applying for a loan, or finding that promotion you have in the office has to work too hard to do it. We'll clear that path: fewer clicks, clear next steps, and a process that feels like the credit union is on their side. It's all about reducing the friction for your members.
       </p>
       <p class="body-text reveal" style="margin-top:0.8rem;">
-        The new website will be just as good as Navy Federal Credit Union, Pen Fed Credit Union, Labor Credit Union, and PG Education Credit Union.
+        To compete with Navy Federal, PenFed, Labor Credit Union, and PG Education Credit Union, Census FCU must match their digital convenience—and stand out through personal, responsive service that makes every member feel known.
       </p>
       <ul class="fine-list reveal">
         <li><span class="k">Join CFCU</span><span class="v" style="color:var(--violet)">Simple, obvious path to membership</span></li>
         <li><span class="k">Apply for a Loan</span><span class="v" style="color:var(--violet)">Start an application in minutes</span></li>
-        <li><span class="k">No Lost Leads</span><span class="v" style="color:var(--violet)">Automatic follow-up after first contact</span></li>
+        <li><span class="k">Personal Follow-Up</span><span class="v" style="color:var(--violet)">Respond while member interest is high</span></li>
       </ul>
     </div>
     <div class="iso-stage reveal">
@@ -1304,8 +1306,8 @@ strong, .accent { color:var(--accent); font-weight:inherit; }
           </svg>
         </div>
         <div>
-          <div class="oc-title">Email campaigns that work</div>
-          <div class="oc-body">Send promotions directly to members and see who opened it and who took action.</div>
+          <div class="oc-title">Members hear from us regularly</div>
+          <div class="oc-body">Useful email campaigns keep Census FCU visible, helpful, and personal between visits.</div>
         </div>
       </div>
       <div class="outcome-card">
@@ -1366,7 +1368,7 @@ strong, .accent { color:var(--accent); font-weight:inherit; }
       </div>
       <div class="stat-card warm" style="min-width:160px;max-width:210px;">
         <span class="stat-word" style="font-size:clamp(1.3rem,2.2vw,2rem);">Phase 2</span>
-        <span class="stat-label">Unified promotions &amp; email campaigns</span>
+        <span class="stat-label">Unified promotions &amp; recurring member email campaigns</span>
       </div>
       <div class="stat-card violet" style="min-width:160px;max-width:210px;">
         <span class="stat-word" style="font-size:clamp(1.3rem,2.2vw,2rem);">Phase 3</span>
@@ -1471,75 +1473,6 @@ document.addEventListener('DOMContentLoaded',()=>{
   initHexBg();
   initCursorGlow();
 });
-</script>
-
-<script>
-/* Remove checker background from iphone.png (transparency indicator baked into pixels) */
-(function () {
-  function removeCheckerBg(img) {
-    const c = document.createElement('canvas');
-    const ctx = c.getContext('2d');
-    c.width = img.naturalWidth;
-    c.height = img.naturalHeight;
-    ctx.drawImage(img, 0, 0);
-
-    const w = c.width, h = c.height;
-    const d = ctx.getImageData(0, 0, w, h);
-    const px = d.data;
-
-    /* Sample top-left region to detect the two checker colors */
-    const sampleRegion = Math.min(60, w, h);
-    let col1 = null, col2 = null;
-    for (let y = 0; y < sampleRegion && !col2; y++) {
-      for (let x = 0; x < sampleRegion && !col2; x++) {
-        const i = (y * w + x) * 4;
-        const c = [px[i], px[i+1], px[i+2]];
-        if (!col1) { col1 = c; continue; }
-        if (Math.abs(c[0]-col1[0]) > 18 || Math.abs(c[1]-col1[1]) > 18 || Math.abs(c[2]-col1[2]) > 18) col2 = c;
-      }
-    }
-    if (!col1) return;
-    if (!col2) col2 = [255 - col1[0], 255 - col1[1], 255 - col1[2]];
-
-    const TOL = 28;
-    const near = (i, ref) =>
-      Math.abs(px[i]-ref[0]) < TOL && Math.abs(px[i+1]-ref[1]) < TOL && Math.abs(px[i+2]-ref[2]) < TOL;
-
-    /* 8-connected BFS flood-fill from all four corners */
-    const vis = new Uint8Array(w * h);
-    const queue = [];
-    const seed = (x, y) => { const p = y*w+x; if (!vis[p]) { vis[p] = 1; queue.push(p); } };
-    [[0,0],[w-1,0],[0,h-1],[w-1,h-1]].forEach(([x,y]) => seed(x,y));
-
-    let qi = 0;
-    while (qi < queue.length) {
-      const pos = queue[qi++];
-      const x = pos % w, y = (pos / w) | 0;
-      const pi = pos * 4;
-      if (near(pi, col1) || near(pi, col2)) {
-        px[pi+3] = 0; /* transparent */
-        for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
-          if (!dx && !dy) continue;
-          const nx = x+dx, ny = y+dy;
-          if (nx >= 0 && nx < w && ny >= 0 && ny < h) seed(nx, ny);
-        }
-      }
-    }
-
-    ctx.putImageData(d, 0, 0);
-    img.src = c.toDataURL('image/png');
-  }
-
-  function tryProcess() {
-    const img = document.querySelector('.iso-slide[data-title="Attract"] img[src="iphonev3.png"]');
-    if (!img) return;
-    if (img.complete && img.naturalWidth) removeCheckerBg(img);
-    else img.addEventListener('load', () => removeCheckerBg(img));
-  }
-
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tryProcess);
-  else tryProcess();
-})();
 </script>
 
 </body>
