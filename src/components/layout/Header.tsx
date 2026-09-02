@@ -152,10 +152,10 @@ const Header = ({ currentBg, onBgToggle, isStarsEnabled, onStarsToggle }: Header
 
             {/* Resume Button */}
             <a
-              href="/RGG-APR-RESUME-2025.pdf"
+              href="/Raymond_Goode_Technology_Leadership_Resume.docx"
               target="_blank"
               rel="noopener noreferrer"
-              download="RGG-APR-RESUME-2025.pdf"
+              download="Raymond_Goode_Technology_Leadership_Resume.docx"
               className="bg-primary text-[#1a1f36] px-4 py-2 rounded-md flex items-center hover:bg-primary/90 transition-all duration-300 text-sm font-medium"
             >
               <span>Resume</span>
@@ -238,10 +238,10 @@ const Header = ({ currentBg, onBgToggle, isStarsEnabled, onStarsToggle }: Header
                 </button>
               </div>
               <a
-                href="/RGG-RESUME-2P.pdf"
+                href="/Raymond_Goode_Technology_Leadership_Resume.docx"
                 target="_blank"
                 rel="noopener noreferrer"
-                download="RGG-RESUME-2P.pdf"
+                download="Raymond_Goode_Technology_Leadership_Resume.docx"
                 className="bg-primary text-[#1a1f36] px-4 py-2 rounded-md flex items-center hover:bg-primary/90 transition-all duration-300 text-sm font-medium"
               >
                 <span>Resume</span>
@@ -255,4 +255,4 @@ const Header = ({ currentBg, onBgToggle, isStarsEnabled, onStarsToggle }: Header
   )
 }
 
-export default Header 
+export default Header
