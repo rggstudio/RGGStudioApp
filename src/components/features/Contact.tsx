@@ -3,6 +3,7 @@
 import React, { useState, useRef } from 'react'
 import { Send } from 'lucide-react'
 import emailjs from '@emailjs/browser'
+import ContactCaptcha from './ContactCaptcha'
 
 const Contact = () => {
   const formRef = useRef<HTMLFormElement>(null)
@@ -16,9 +17,19 @@ const Contact = () => {
     message: string;
   }>({ type: null, message: '' })
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const submitting = useRef(false)
+  const [captchaToken, setCaptchaToken] = useState('')
+  const [captchaResetCount, setCaptchaResetCount] = useState(0)
+  const captchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (submitting.current) return
+    if (!captchaSiteKey || !captchaToken) {
+      setStatus({ type: 'error', message: 'Please complete the spam verification before sending. If it is unavailable, email raymond@rggstudio.com.' })
+      return
+    }
+    submitting.current = true
     setIsSubmitting(true)
     setStatus({ type: null, message: '' })
 
@@ -39,9 +50,12 @@ const Contact = () => {
       console.error('Email error:', error)
       setStatus({
         type: 'error',
-        message: 'Oops! Something went wrong. Please try again later.',
+        message: 'Your message could not be sent. Please complete verification again and retry, or email raymond@rggstudio.com. Your message is still here.',
       })
     } finally {
+      submitting.current = false
+      setCaptchaToken('')
+      setCaptchaResetCount((count) => count + 1)
       setIsSubmitting(false)
     }
   }
@@ -60,6 +74,7 @@ const Contact = () => {
         <div className="max-w-2xl mx-auto">
           {status.type && (
             <div
+              role={status.type === 'error' ? 'alert' : 'status'}
               className={`mb-6 p-4 rounded-lg ${
                 status.type === 'success'
                   ? 'bg-green-500/10 text-green-500 border border-green-500/20'
@@ -122,8 +137,22 @@ const Contact = () => {
               />
             </div>
 
+            <div className="space-y-3">
+              <p id="captcha-help" className="text-text">Complete the spam verification before sending.</p>
+              {captchaSiteKey ? (
+                <ContactCaptcha
+                  siteKey={captchaSiteKey}
+                  resetCount={captchaResetCount}
+                  onToken={(token) => { setCaptchaToken(token); if (token) setStatus({ type: null, message: '' }) }}
+                  onError={(message) => { setCaptchaToken(''); setStatus({ type: 'error', message }) }}
+                />
+              ) : <p role="alert" className="text-text">Verification is temporarily unavailable.</p>}
+              <p className="text-text text-sm">Having trouble? <a href="mailto:raymond@rggstudio.com" className="underline">Email Raymond directly</a>. Your message stays here if sending fails.</p>
+            </div>
+
             <button
               type="submit"
+              aria-describedby="captcha-help"
               disabled={isSubmitting}
               className={`w-full py-3 px-6 rounded-lg bg-primary text-background font-semibold flex items-center justify-center space-x-2 transition-all ${
                 isSubmitting
@@ -141,4 +170,4 @@ const Contact = () => {
   )
 }
 
-export default Contact 
+export default Contact
